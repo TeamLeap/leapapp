@@ -2,6 +2,8 @@
 
 add an issue, e.g. #123 
 
+assign it a milestone
+
 put the issue under "In Progress"
 
 git checkout -b nameofyourbranch off master
