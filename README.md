@@ -13,3 +13,6 @@ git push
 put the issue under **ready for testing**
 
 once the testing pass then put under **ready for production**
+
+
+check out the wiki for more info
