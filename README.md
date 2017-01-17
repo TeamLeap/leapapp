@@ -1,6 +1,6 @@
 ## Development Workflow
 
-add an issue, e.g. #123 
+add an issue, e.g. **listing of meters from SUPREMA**  
 
 assign it a **milestone**
 
