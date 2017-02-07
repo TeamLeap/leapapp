@@ -14,5 +14,26 @@ put the issue under **ready for testing**
 
 once the testing pass then put under **ready for production**
 
+## Technology Stack
+
+Mongo
+
+Angular
+
+NodeJS
+
+Ionic/Onsen
+
+CSS
+
+Phonegap
+
+Brackets/Atom
+
+Git and Github
+
+SAG Webmethods
+
+SAG Designer 9.10
 
 check out the wiki for more info
