@@ -1,0 +1,56 @@
+<ons-page ng-controller="branchesController" ng-init="showPOIDetails()">
+  <ons-toolbar>
+    <div class="left">
+      <ons-back-button>Back</ons-back-button>
+    </div>
+    <div class="center">{{result.name}}</div>
+  </ons-toolbar>
+
+  <div class="app-page">
+    <div class="app-page-photo">   
+      <ons-row class="app-photo">   
+        <ons-col>
+          <img class="app-photo-main" src="{{result.icon}}" height="200px" weight="200px">
+        </ons-col>
+      </ons-row>
+      <ons-list class="app-photo-buttons">
+        <ons-list-item modifier="action-buttons">
+            <ons-row class="action">
+              <ons-col class="action-col"> 
+                <div class="action-icon"><ons-icon icon="ion-ios-star-half"></ons-icon></div>
+                <div class="action-label">{{result.rating}}</div>
+              </ons-col>
+
+              <ons-col class="action-col" data-phone="{{ result.formatted_phone_number }}">
+                <div class="action-icon"><ons-icon icon="ion-android-call"></ons-icon></div>
+                <div class="call-phone" data-phone="{{ result.formatted_phone_number }}">Call</div>
+              </ons-col>
+
+            </ons-row>
+        </ons-list-item>
+      </ons-list>
+
+      <ons-list class="app-comments" modifier="inset">
+        <ons-list-item class="app-comments-li" ng-repeat="i in result.reviews">
+          <ons-row>
+            <ons-col width="50px">
+              <img src="images/profiles/profile.png" class="app-comments-image">
+            </ons-col>
+            <ons-col>
+              <div class="app-comments-date">{{i.time*1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}</div>
+              <div class="app-comments-from">
+                <span class="app-comments-name">{{i.author_name}}</span>
+                
+              </div>
+              <div class="app-comments-message">
+                {{i.text}}
+              </div>
+            </ons-col>
+          </ons-row>
+        </ons-list-item>
+      </ons-list>
+
+    </div>
+  </div>
+
+</ons-page>

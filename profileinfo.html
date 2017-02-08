@@ -1,0 +1,40 @@
+<ons-page ng-controller="branchesController" ng-init="profileInfo()">
+    <ons-toolbar>
+
+        <div class="center">Additional Info</div>
+    </ons-toolbar>
+
+    <form name="profileForm">
+        <div class="login-form">
+
+            <form name="profileInfo" class="elegant-aero" ng-submit="Additional Info()">
+                <ons-list modifier="inset" style="margin-top: 10px">
+                    
+                    <ons-list-item>
+                        <input type="number" class="text-input--underbar" ng-model="idNumber" placeholder="ID Number" value=""> (OPTIONAL)
+                    </ons-list-item>
+
+                    <ons-list-item>
+                        <input type="number" class="text-input--underbar" ng-model="phoneNumber" placeholder="Phone Number" value="" required>
+                    </ons-list-item>
+                    
+                    <ons-list-item>
+                        <input type="password" class="text-input--underbar" ng-model="password" placeholder="Password" value="" required>
+
+                        <br>
+                        <br>
+                    </ons-list-item>
+
+
+                </ons-list>
+
+                <ons-row class="profile-wrapper" style="padding: 10px;">
+                    <button class="login-button" type="registerCustomer()">Sign Up</button>
+                </ons-row>
+
+            </form>
+
+        </div>
+    </form>
+
+</ons-page>

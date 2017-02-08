@@ -1,0 +1,70 @@
+<ons-page ng-controller="vehicleController">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Cancel</ons-back-button>
+        </div>
+        <div class="center">Fleet Listing ({{vehicleList.length}})</div>
+    </ons-toolbar>
+
+    <ons-list modifier="inset" style="margin-top: 10px">
+        
+        <div style="margin: 0 0 0 10px;"> Start Date</div>
+        <ons-list-item>
+            <input type="date" ng-model="vehicle.startDate" placeholder="yyyy-mm-dd" ng-click="getStartDate()"/>
+            <ons-button class="btn-distance" ng-click="getStartDate()">
+                Choose Start Date
+            </ons-button>
+        </ons-list-item>
+
+        <div style="margin: 0 0 0 10px;"> End Date</div>
+        <ons-list-item>
+           <input type="date" id="endDate" ng-model="vehicle.endDate" placeholder="yyyy-mm-dd" ng-click="getEndDate()"/>
+            <ons-button class="btn-distance" ng-click="getEndDate()">
+                Choose End Date
+            </ons-button>
+        </ons-list-item>
+
+    </ons-list>
+    <ons-button class="btn-distance" ng-click="getVehicleRegistration()">
+        Submit
+    </ons-button>
+    <br/>
+
+    <ons-list modifier="meterlist">
+
+        <ons-list-item class="list-location-container" ng-repeat="(id, vehicle) in vehicleList" id="{{ id }}" ng-click="loadVehicleDetails($index, vehicle)">
+            <ons-row>
+                <ons-col>
+                   
+                    <div class="name"><b>Fleet No</b>: {{vehicle.FLEET_NO}}</div>
+
+                    <div class="map">
+                        <i class="ion-map"></i> {{ vehicle.LOCATION }}
+                    </div>
+                    
+                    <div class="map">
+                        <b>Updated on</b>: {{ vehicle.POSITION_DATE }}
+                    </div>
+                    
+                     <div class="name"><b>Registration</b>: {{vehicle.REG_NO}}</div>
+
+                    <div class="odometer">
+                        <i class="ion-model-s"></i> {{ vehicle.ODOMETER }} km
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                </ons-col>
+            </ons-row>
+           
+        </ons-list-item>
+
+    </ons-list>
+
+    <ons-list-item ng-show="vehicleList.length == 0">
+        <ons-row>
+            No data available.
+        </ons-row>
+    </ons-list-item>
+
+
+</ons-page>

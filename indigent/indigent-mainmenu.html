@@ -1,0 +1,20 @@
+<!--<ons-navigator animation="slide" var="gallery">-->
+<ons-page ng-controller="branchesController" ng-init="checkIfLoggedIn()">
+
+    <ons-tabbar>
+        <ons-tab page="assigments.html">
+            <ons-icon icon="ion-home"></ons-icon>
+            <span style="font-size: 14px">Assignments</span>
+        </ons-tab>
+        <ons-tab page="closed.html"  active="true">
+            <ons-icon icon="ion-star"></ons-icon>
+            <span style="font-size: 14px">Accepted</span>
+        </ons-tab>
+        <ons-tab page="settings.html">
+            <ons-icon icon="ion-gear-a"></ons-icon>
+            <span style="font-size: 14px">Declined</span>
+        </ons-tab>
+    </ons-tabbar>
+
+</ons-page>
+<!--</ons-navigator>-->

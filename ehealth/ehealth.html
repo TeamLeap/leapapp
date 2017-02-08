@@ -1,0 +1,66 @@
+<style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        #chart1, svg {
+            margin: 0px;
+            padding: 10px;
+            height: 1200px;
+            width: 100%;
+        }
+    </style>
+<ons-page ng-controller="ehealthController" ng-init="initEHealthInfo()">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">E-health Information</div>
+    </ons-toolbar>
+
+    <ons-scroller style="height: 100%; width: 100%">
+        
+    <ons-list modifier="inset" style="margin-top: 10px">
+        <div style="margin: 0 0 0 10px;"> Department</div>
+        <ons-list-item>
+            <select ng-model="selectedDepartment" ng-options="department as department for department in departmentList"><option value=''>Select</option></select>
+        </ons-list-item>
+
+        <div style="margin: 0 0 0 10px;"> Division</div>
+        <ons-list-item>
+            <select ng-model="selectedDivision" ng-options="division as division for division in divisionList"><option value=''>Select</option></select>
+        </ons-list-item>
+        
+        <div style="margin: 0 0 0 10px;"> Equipment</div>
+        <ons-list-item>
+            <select ng-model="selectedMedicalType" ng-options="medicalType as medicalType for medicalType in typeList"><option value=''>Select</option></select>
+        </ons-list-item>
+
+    </ons-list>
+    <ons-button class="btn-distance" ng-click="getEHealthInfo()">
+        Submit
+    </ons-button>
+    <br/>    
+        
+   <ons-list modifier="aggregatedList">
+
+        <ons-list-item class="list-location-container" ng-repeat="(_id, ehealthinfo) in aggregatedList">
+            <ons-row>
+                <ons-col>
+
+                    <div class="name">
+                        {{ehealthinfo.device}} was purchased on {{ehealthinfo.datepurchased | date:'dd MMM yyyy'}} for R{{ehealthinfo.amount}}</div>
+
+                    <div class="clearfix"></div>
+                </ons-col>
+            </ons-row>
+
+        </ons-list-item>
+
+    </ons-list>
+   
+    </ons-scroller>
+
+</ons-page>

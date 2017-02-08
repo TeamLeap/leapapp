@@ -1,0 +1,70 @@
+<ons-page ng-controller="supremaController">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Cancel</ons-back-button>
+        </div>
+        <div class="center">View Meters</div>
+    </ons-toolbar>
+
+    <ons-list modifier="inset" style="margin-top: 10px">
+        <div style="margin: 0 0 0 10px;"> Tarrif Type</div>
+        <ons-list-item>
+            <select ng-model="suprema.tarrifType" ng-options="tariff.id as tariff.name for tariff in tarrifTypeList"></select>
+        </ons-list-item>
+
+        <div style="margin: 0 0 0 10px;"> Start Date</div>
+        <ons-list-item>
+            <input type="text" ng-model="suprema.startdate" class="text-input text-input--transparent" placeholder="Start Date">
+        </ons-list-item>
+
+        <div style="margin: 0 0 0 10px;"> End Date</div>
+        <ons-list-item>
+            <input type="text" ng-model="suprema.enddate" class="text-input text-input--transparent" placeholder="End Date">
+        </ons-list-item>
+
+        <div style="margin: 0 0 0 10px;"> Meter Status</div>
+        <ons-list-item>
+            <select ng-model="suprema.meterstatus" ng-options="meterStatus.id as meterStatus.name for meterStatus in meterStatusList"></select>
+        </ons-list-item>
+
+    </ons-list>
+    <ons-button class="btn-distance" ng-click="getMeterRegistration()">
+        Submit
+    </ons-button>
+    <br/>
+
+    <ons-list modifier="meterlist">
+
+        <ons-list-item class="list-location-container" ng-repeat="(id, meter) in meters" id="{{ id }}">
+            <ons-row>
+                <ons-col>
+                    <div class="km">
+                       
+                        {{ meter.cashTendered }}
+                    </div>
+                    <div class="name">{{meter.status}}</div>
+
+                    <div class="location">
+                        <i class="ion-social-usd"></i> {{ meter.paymentMethod }}
+                    </div>
+                    <div class="desc">{{marker.receiptNumber}}</div>
+                    <div class="clearfix"></div>
+                </ons-col>
+            </ons-row>
+           
+        </ons-list-item>
+
+    </ons-list>
+
+    <ons-list-item class="list-location-container" ng-show="meters.length == 0">
+        <ons-row>
+            No data available.
+        </ons-row>
+    </ons-list-item>
+
+    <ons-button id="moreButton" modifier="large" ng-show="meters.length > 20" should-spin="{{isFetching}}" ng-click="nextPage()">
+        <ons-icon icon="ion-ios-download"></ons-icon>
+        Load More
+    </ons-button>
+
+</ons-page>

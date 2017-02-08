@@ -1,0 +1,49 @@
+
+<ons-page ng-controller="poiController" ng-init="init('lodging')">
+
+  <ons-toolbar>
+    <div class="left">
+      <ons-back-button>Back</ons-back-button>
+    </div>
+    <div class="center">Accommodation Near You</div>
+    <div class="right">
+            <ons-toolbar-button ng-click="poiBar()">
+              <ons-icon icon="ion-plus" size="28px" fixed-width="false"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+  </ons-toolbar>
+     
+ <div  class="map-fullscreen-container">
+      
+    <map zoom="13" center="{{ centerMap }}" class="fullscreen" zoom-control-options="{position:'RIGHT_TOP'}">
+           
+     <info-window id="marker-info">
+        <div>
+          <strong class="markerTitle">{{ infoWindow.title }}</strong>
+          <div class="markerContent">
+            <p>{{ infoWindow.content }}</p>
+            <ul>
+              <img width="64" src="images/icons/hotel.png"/><br/>
+            
+              <!--<li><span class="ion-ios7-location"></span><p>{{ infoWindow.address }}</p></li>
+              <li><span class="ion-android-clock"></span><p>{{ infoWindow.hours }}</p></li>
+              <li><span class="ion-ios7-telephone"></span><p>{{ infoWindow.phone }}</p></li>-->
+              <li><span class="ion-model-s"></span><p>{{ infoWindow.distance }} km away</p></li>
+            </ul>
+            <a class="button get-directions" data-marker="{{ infoWindow.id }}" ng-click="showMap(marker.location[0],marker.location[1])">Get Directions</a><br><br>
+            </div>
+        </div>
+    </info-window>
+     
+    <marker ng-repeat="(id, marker) in markers" 
+            id="{{ id }}" 
+            position="{{marker.location}}"
+            on-click="showMarker(event, $index)" 
+            icon="images/icons/hotel.png" >
+    </marker>
+       
+    </map>
+       
+</div>
+
+</ons-page>

@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    
+    <title>LEAP</title>
+
+    <!-- All our CSS -->
+    <link rel="stylesheet" href="css/signature-pad.css">
+    <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+    <link rel="stylesheet" href="css/onsen-css-components.css">
+    <link rel="stylesheet" href="css/plugins.css" />
+    <link rel="stylesheet" href="css/roots.css" />
+    <link rel="stylesheet" href="css/map-icons.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/ionicons.css">
+    <link rel="stylesheet" href="fonts/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/nv.d3.css">
+    <link rel="stylesheet" href="css/app.css" />
+    
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        
+        .par-buttons {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            bottom: 10px;
+        }
+        
+        .map-buttons {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            top: 10px;
+            right: 15%;
+            z-index: 5;
+        }
+        
+        .map-icons {
+            position: absolute;
+            top: 45px;
+            vertical-align: middle;
+            margin: 5px;
+            width: 10%;
+        }
+        
+        .btn-delete {
+            z-index: 1
+        }
+        
+        .btn-distance {
+            z-index: 1;
+            padding: 0px;
+            margin: 5px;
+        }
+        
+        .settings-header {
+            font-weight: 500;
+            font-size: 14px;
+            opacity: 0.4;
+            padding: 10px 0 0px 10px;
+            margin-bottom: -4px;
+        }
+        
+        .settings-list {
+            margin-top: 10px;
+        }
+      
+    </style>
+                 
+    <script src="http://maps.google.com/maps/api/js?key=AIzaSyDEvah36S2nPuX5wanvLT_rBsEve0ikZ3k"></script>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEvah36S2nPuX5wanvLT_rBsEve0ikZ3k">
+        </script>
+    <script src="js/map-icons.js"></script>
+    <script src="lib/onsen/js/angular/angular.js"></script>
+    <script src="lib/onsen/js/jquery-3.1.0.min.js"></script>
+    
+    <script src="lib/onsen/js/angular/angular-touch.js"></script>
+    <script src="lib/angular-messages.min.js"></script>
+    
+    <script src="lib/soapclient.js"></script>
+    <script src="lib/angular.soap.js"></script>
+    <script src="lib/signature_pad.js"></script>
+    
+    <script src="lib/onsen/js/onsenui.js"></script>
+    <script src="lib/swiper.js"></script>
+    <script src="lib/d3.js"></script>
+    <script src="lib/nv.d3.js"></script>
+    <script src="lib/angular-nvd3.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/oauth.js"></script>
+    <script src="js/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
+    <script src="js/app.js"></script>
+    <script src="cemetery/cemetery.controller.js"></script>
+    <script src="hr/hr.controller.js"></script>
+    <script src="indigent/indigent.controller.js"></script>
+    <script src="js/config.js"></script>
+
+</head>
+
+<body ng-controller="networkController">
+
+    <ons-navigator var="appNavigator" page="main-menu.html"></ons-navigator>
+
+    <!-- <ons-navigator var="appNavigator" page="signinsocial.html"></ons-navigator>-->
+
+    <!-- Insert the modal in your index.html -->
+    <!-- Change the message to anything you want, this message will be if the user doesn't have any network connection -->
+    <ons-modal var="offlineMessage">
+        Unable to connect to the Internet.
+        <br> Possibly due to a network error.
+        <br> Please verify your connection.
+    </ons-modal>
+
+    <ons-modal var="modal">
+        <ons-icon icon="ion-load-c" spin="true"></ons-icon>
+
+
+        <div class="center">
+            <img src="images/menu/didyouknow.png" />
+        </div>
+
+
+        <p></p>
+        Did you know?
+        <br>
+        <br> {{didYouKnowMessage}}
+        <br>
+        <br> Brought to you by Ekurhuleni Metropolitan Municipality
+    </ons-modal>
+
+    <ons-dialog var="dialog" ng-controller="votingController" cancelable>
+
+        <ons-toolbar inline>
+            <div class="center">
+                Enter your ID/Passport Number
+            </div>
+        </ons-toolbar>
+
+        <p>
+            <input type="number" placeholder="ID/Passport Number" ng-model="idnumber" id="idnumber" class="text-input" required>
+        </p>
+
+        <p>
+            <ons-button modifier="large" ng-click="dialog.hide();appNavigator.pushPage('profile.html',{'id':idnumber});">Submit</ons-button>
+        </p>
+
+    </ons-dialog>
+
+    <ons-dialog var="poiDialog" ng-controller="poiController" cancelable>
+
+        <ons-list>
+            <ons-list-item ng-click="appNavigator.pushPage('poibars.html',{'type':'night_club'});" modifier="tappable">
+                Bar
+            </ons-list-item>
+            <ons-list-item ng-click="appNavigator.pushPage('poihospital.html',{'type':'hospital'});" modifier="tappable">
+                Hospital
+            </ons-list-item>
+            <ons-list-item ng-click="appNavigator.pushPage('poi.html',{'type':'lodging'});" modifier="tappable">
+                Accommodation
+            </ons-list-item>
+        </ons-list>
+
+    </ons-dialog>
+
+    <ons-dialog var="profileUpdateDialog" ng-controller="userProfileController" cancelable>
+
+        <ons-toolbar inline>
+            <div class="center">
+                Update Your Profile
+            </div>
+        </ons-toolbar>
+
+        <p>
+            <input placeholder="Username" id="email" ng-model="email" class="text-input" ng-minlength="5" ng-maxlength="40" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required>
+        </p>
+
+        <p>
+            <input placeholder="ID Number" id="idnumber" ng-model="idnumber" class="text-input">
+        </p>
+
+        <p>
+            <input placeholder="First Name" id="firstname" ng-model="firstname" class="text-input">
+        </p>
+
+        <p>
+            <input placeholder="Last Name" id="lastname" ng-model="lastname" class="text-input">
+        </p>
+
+        <p>
+            <ons-button modifier="large" ng-click="updateProfile()">Update</ons-button>
+        </p>
+
+    </ons-dialog>
+    
+    <ons-alert-dialog animation="default" var="declineApplicationDialog" ng-controller="indigentController" cancelable>
+    <div class="alert-dialog-title">Decline this application</div>
+    <div class="alert-dialog-content">
+      <ons-list-item>
+            <select ng-model="declineReason" ng-options="reason.id as reason.name for reason in declineReasonList">
+            </select>
+        </ons-list-item>
+    </div>
+    <div class="alert-dialog-footer">
+      <button class="alert-dialog-button" ng-click="declineButtonDialog()">Decline</button>
+    </div>
+  </ons-alert-dialog>
+    
+    <ons-dialog var="meterInfoDialog" ng-controller="userProfileController" cancelable>
+
+        <ons-toolbar inline>
+            <div class="center">
+                Meter Information
+            </div>
+        </ons-toolbar>
+
+        <p>
+            <input placeholder="meternumber" id="meternumber" ng-model="meternumber" class="text-input" ng-minlength="5" ng-maxlength="40" required>
+        </p>
+
+        <p>
+            <ons-button modifier="large" ng-click="updateMeterNumber()">Save</ons-button>
+        </p>
+
+    </ons-dialog>
+
+
+</body>
+
+</html>

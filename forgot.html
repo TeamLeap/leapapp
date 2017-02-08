@@ -1,0 +1,19 @@
+<ons-page ng-controller="loginController">
+      <ons-toolbar>
+          
+           <div class="left"> 
+      <ons-back-button>Back</ons-back-button>
+    </div>
+        <div class="center">Forgot Password</div>
+        
+      </ons-toolbar>
+
+      <div class="login-form">
+
+        <input type="email" class="text-input--underbar" ng-model="email" placeholder="Email" value="">
+        
+        <br><br>
+        <ons-button modifier="large" class="forgot-password" ng-click="pushForgotPassword()">Forgot password?</ons-button>
+      </div>
+
+    </ons-page>

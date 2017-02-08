@@ -1,0 +1,97 @@
+<ons-page ng-controller="indigentController" ng-init="loadHouseholdDetails()">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Cancel</ons-back-button>
+        </div>
+        <div class="center">Household Members</div>
+    </ons-toolbar>
+
+
+
+    <ul class="list">
+        <li class="list__item">
+            <div class="list__item__center">
+                Verified
+            </div>
+            <div class="list__item__right">
+                <label class="switch">
+                    <input type="checkbox" class="switch__input" checked>
+                    <div class="switch__toggle">
+                        <div class="switch__handle"></div>
+                    </div>
+                </label>
+            </div>
+        </li>
+        <li class="list__item">
+            <div class="list__item__center">
+                Comments
+            </div>
+            <textarea rows="3" placeholder="Comments"></textarea>
+        </li>
+        <li class="list__item">
+            <div class="list__item__center">
+                Relationship
+            </div>
+            <div class="list__item__right">
+                <label class="switch">
+                    {{household.personDetail.relationship}}
+                    
+                </label>
+            </div>
+        </li>
+        <li class="list__item">
+            <div class="list__item__center">
+                Initials
+            </div>
+            <div class="list__item__right">
+                <label class="switch">
+                    {{household.personDetail.initials}}
+                </label>
+            </div>
+        </li>
+        <li class="list__item">
+            <div class="list__item__center">
+                Surname
+            </div>
+            <div class="list__item__right">
+                <label class="switch">
+                    {{household.personDetail.surname}}
+                </label>
+            </div>
+        </li>
+        <li class="list__item">
+            <div class="list__item__center">
+                First Names
+            </div>
+            <div class="list__item__right">
+                
+                    {{household.personDetail.firstNames}}
+               
+            </div>
+        </li>
+        
+        <li class="list__item">
+            <div class="list__item__center">
+                Gender
+            </div>
+            <div class="list__item__right">
+                <label class="switch">
+                    {{household.personDetail.gender}}
+                </label>
+            </div>
+        </li>
+        
+        <li class="list__item">
+            <div class="list__item__center">
+                Birth Date
+            </div>
+            <div>
+                
+                    {{household.personDetail.birthDate | date:'dd/MM/yyyy'}}
+                
+            </div>
+        </li>
+        
+    </ul>
+
+</ons-page>

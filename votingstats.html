@@ -1,0 +1,25 @@
+
+  <ons-page ng-controller="statsController" ng-init="showVoterLatestResults()">
+    <ons-toolbar>
+      <div class="left"> 
+      <ons-back-button>Back</ons-back-button>
+    </div>
+      <div class="center">Voting Latest Stats</div>
+    </ons-toolbar>
+
+    <p align="center">
+      Local Government Election 2016
+      </p>
+       <p align="center">
+      Click on the graph to see the figures.
+      </p>
+    <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+
+      <p align="center">
+      Registered Voters: <b>{{resultsDetails.RegisteredVoters}}</b>
+      Total Votes Cast: <b>{{resultsDetails.TotalVotesCast}}</b>
+      Spoilt Votes:<b>{{resultsDetails.SpoiltVotes}}</b>
+      Total Valid Votes: <b>{{resultsDetails.TotalValidVotes}}</b>
+      </p>
+     
+  </ons-page>

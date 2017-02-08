@@ -1,0 +1,89 @@
+<ons-page ng-controller="profileController" ng-init="pullContent()">
+  <ons-toolbar>
+    <div class="left">
+      <ons-back-button>Back</ons-back-button>
+    </div>
+    <div class="center">Profile</div>
+    
+  </ons-toolbar>
+<ons-scroller style="height: 100%; width: 100%">
+  <div class="app-page">
+    <div class="app-page-photo" >   
+      <ons-row class="app-map">   
+        <ons-col>
+          <map center="[{{votingdetails.Voter.VotingStation.Location.Latitude}}, {{votingdetails.Voter.VotingStation.Location.Longitude}}]">
+            <marker
+                position="[{{votingdetails.Voter.VotingStation.Location.Latitude}}, {{votingdetails.Voter.VotingStation.Location.Longitude}}]"
+                title="Your voting station"
+                animation="Animation.BOUNCE" 
+                visible="true" ></marker>
+          </map>
+        </ons-col>
+      </ons-row>
+      <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 5;">
+          <ons-row class="action">
+
+            <ons-col class="action-col" ng-click="getShare()">
+              <div class="action-icon"><ons-icon icon="ion-share"></ons-icon></div>
+              <div class="action-label">Share</div>
+            </ons-col>
+
+            <ons-col class="action-col" ng-click="getDirections()">
+              <div class="action-icon"><ons-icon icon="ion-map"></ons-icon></div>
+              <div class="action-label">Directions</div>
+            </ons-col>
+
+          </ons-row>
+        </ons-list-item></ons-list>
+      
+    
+      <ons-list modifier="inset" style="margin-top: 10px" class="scrollme" ng-scrollbar is-bar-shown="true">
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Registered <span class="label label-danger">{{votingdetails.Voter.bRegistered}}</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Voting Station <span class="label label-default">{{votingdetails.Voter.VotingStation.Name}}</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Province <span class="label label-default">{{votingdetails.Voter.VotingStation.Delimitation.Province}}</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Municipality <span class="label label-default">{{votingdetails.Voter.VotingStation.Delimitation.Municipality}}</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Town <span class="label label-default">{{votingdetails.Voter.VotingStation.Location.Town}}</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Surburb <span class="label label-default">{{votingdetails.Voter.VotingStation.Location.Suburb}}</span>
+          </div>
+        </ons-list-item>
+          
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Street <span class="label label-default">{{votingdetails.Voter.VotingStation.Location.Street}}</span>
+          </div>
+        </ons-list-item>
+      </ons-list>
+        </ons-scroller>
+    </div>
+  </div>
+
+</ons-page>

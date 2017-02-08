@@ -1,0 +1,19 @@
+<ons-page ng-controller="speachSearchController">
+      <ons-toolbar>
+          
+        <div class="left"><ons-back-button>Back</ons-back-button></div>
+        <div class="center">Voice Search</div>
+        
+      </ons-toolbar>
+
+    <ons-row class="profile-wrapper" style="padding: 10px;">
+        <button class="button button--large--cta" ng-click="recognizeSpeech()">Speak!</button>
+    </ons-row>
+    
+    <div class="card">
+          <div class="item item-text-wrap">
+            {{recognizedText}}
+          </div>
+    </div>
+
+</ons-page>

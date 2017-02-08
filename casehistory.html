@@ -1,0 +1,43 @@
+<ons-page ng-controller="caseHistoryController" ng-init="init()">
+    <ons-toolbar>
+      <div class="left">
+      <ons-back-button>Back</ons-back-button>
+    </div>
+      <div class="center">CRM Incidents</div>
+    </ons-toolbar>
+
+    <div class="app-page">
+        
+        <div class="navigation-bar">
+          <div class="navigation-bar__center">
+
+            <input type="search" ng-model="query" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Search">
+
+          </div>
+        </div>
+        
+
+      <ons-list modifier="locations">
+        <ons-list-item modifier="chevron" ng-repeat="(id, case) in cases | filter:query | orderBy: 'lastStatusChange' "  class="list-item-container">
+          <ons-row>
+            
+            <ons-col>
+              <div class="name">
+                Status : {{case.lastStatusChange}}
+              </div>
+              <div class="location">
+                <i class="fa fa-exclamation-circle"></i> {{case.faultType}}
+              </div>
+              <div class="desc">
+                {{case.caseNumber}}
+              </div>
+            </ons-col>
+            <ons-col width="40px"></ons-col>
+          </ons-row>
+        </ons-list-item>
+
+      </ons-list>
+
+    </div>
+
+  </ons-page>

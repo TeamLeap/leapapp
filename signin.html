@@ -1,0 +1,21 @@
+<ons-page ng-controller="loginController" ng-init="init()">
+    <ons-toolbar>
+        <div class="center">Sign In</div>
+        <div class="right">
+            <ons-toolbar-button ng-click="signUp()"><i class="fa fa-user" aria-hidden="true"></i>Sign Up</ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <div class="login-form">
+
+        <input type="email" class="text-input--underbar" ng-model="username" placeholder="Email" value="">
+        <input type="password" class="text-input--underbar" ng-model="password" placeholder="Password" value="">
+        <br>
+        <br>
+        <ons-button modifier="large" class="login-button" ng-click="login()">Log In</ons-button>
+        <br>
+        <br>
+        <ons-button modifier="large" class="forgot-password" ng-click="forgot()">Forgot password?</ons-button>
+    </div>
+
+</ons-page>

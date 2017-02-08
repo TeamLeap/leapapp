@@ -1,0 +1,52 @@
+<ons-page ng-controller="mapController" ng-init="start()">
+        <ons-toolbar fixed-style>
+           <div class="left">
+                <!--<ons-toolbar-button ng-click="signOut()">
+                    <ons-icon icon="ion-log-out" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>-->
+            </div>
+            <div class="center"><img src="icon.png" height="45"/></div>
+        
+            <div class="right"><ons-toolbar-button ng-click="appNavigator.pushPage('mymenu.html')"><ons-icon icon="ion-navicon-round" size="28px"></ons-icon></ons-toolbar-button></div>
+        </ons-toolbar>
+
+    <div id="map_canvas"></div>
+
+    <p class="map-icons">
+        <!--<ons-button  class="btn-delete" ng-click="deleteAllMarkers()">
+                School        
+            </ons-button>
+            <ons-button class="btn-distance" ng-click="calculateDistance()">
+                Distance      
+            </ons-button><ons-button class="btn-distance" ng-click="showMarkers()">
+                Show      
+            </ons-button>-->
+
+        <ons-button class="btn-distance" ng-click="showMarkers('votingstations')">
+<!--            <ons-icon icon="ion-close-round" size="40px" fixed-width="true" style="color: #FF9800"></ons-icon>-->
+            <ons-icon icon="ion-checkmark-round" size="20px" fixed-width="true"></ons-icon>
+        </ons-button>
+        <ons-button class="btn-distance" ng-click="showMarkers('schools')">
+            <ons-icon icon="ion-university" size="20px" fixed-width="true"></ons-icon>
+            
+        </ons-button>
+        <ons-button class="btn-distance" ng-click="showMarkers('parks')">
+<!--            <ons-icon icon="ons-icon park-icon" fixed-width="true"></ons-icon>-->
+            <ons-icon icon="fa fa-tree" size="20px" fixed-width="true"></ons-icon>
+        </ons-button>
+        <ons-button class="btn-distance" ng-click="showMarkers('artcentres')">
+            <ons-icon icon="ion-android-color-palette" size="20px" fixed-width="true"></ons-icon>
+            
+        </ons-button>
+        <ons-button class="btn-distance" ng-click="showMarkers('poi')">
+            <ons-icon icon="ion-flag" size="20px" fixed-width="true"></ons-icon>
+            
+        </ons-button>
+        <ons-button class="btn-distance" ng-click="showMarkers('clinics')">
+            <ons-icon icon="fa fa-ambulance" size="20px" fixed-width="true"></ons-icon>
+            
+        </ons-button>
+
+
+    </p>
+</ons-page>

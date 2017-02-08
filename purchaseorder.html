@@ -1,0 +1,55 @@
+<ons-page ng-controller="purchaseOrderController">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Cancel</ons-back-button>
+        </div>
+        <div class="center">Purchase Order</div>
+    </ons-toolbar>
+
+    <ons-list modifier="inset" style="margin-top: 10px">
+        
+        <div style="margin: 0 0 0 10px;"> Enter Purchase Order</div>
+        <ons-list-item>
+            <input type="text" ng-model="purchaseorder.ordernumber">
+        </ons-list-item>
+        
+         <ons-button class="btn-distance" ng-click="getPurchaseOrder()">
+        Search
+    </ons-button>
+
+    </ons-list>
+   
+    <br/>
+
+    <div ng-show="isShowing">
+    <ons-list modifier="inset" style="margin-top: 10px" class="scrollme" ng-scrollbar is-bar-shown="true" >
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-money"></ons-icon>
+                            Order Amount <span class="label label-danger">{{purchaseOrderDetails.orderAmount}}</span>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                            Order Date <span class="label label-default">{{purchaseOrderDetails.orderDate}}</span>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                            Order Number <span class="label label-default">{{purchaseOrderDetails.orderNumber}}</span>
+                        </div>
+                    </ons-list-item>
+                   
+    </ons-list>
+    </div>
+
+    <ons-list-item ng-show="purchaseOrderDetails === undefined">
+        <ons-row>
+            No data available.
+        </ons-row>
+    </ons-list-item>
+
+
+</ons-page>

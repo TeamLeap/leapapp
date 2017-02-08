@@ -1,0 +1,159 @@
+{
+	"regions": [{
+			"section": "Benoni",
+			"geometry": {
+				"location": {
+					"lng": "28.292566666666666",
+					"lat": "-26.226616666666665"
+				}
+			}
+		},
+
+		{
+
+			"section": "Brakpan",
+			"geometry": {
+				"location": {
+					"lng": "28.377133333333333",
+					"lat": "-26.264633333333332"
+				}
+			}
+		},
+
+
+		{
+			"section": "Boksburg",
+			"geometry": {
+				"location": {
+					"lng": "28.275333333333332",
+					"lat": "-26.190883333333332"
+				}
+			}
+		},
+
+		{
+			"section": "Germiston",
+			"geometry": {
+				"location": {
+					"lng": "28.16477394104004",
+					"lat": "-26.190832138061523"
+				}
+			}
+		},
+
+
+
+		{
+			"section": " Kempton Park",
+			"geometry": {
+				"location": {
+					"lng": "28.224433333333334",
+					"lat": "-26.111283333333333"
+				}
+			}
+		},
+
+		{
+			"section": "Vosloorus",
+			"geometry": {
+				"location": {
+					"lng": "28.212121963500977",
+					"lat": "-26.34172821044922"
+				}
+			}
+		},
+
+		{
+			"section": "Alberton",
+			"geometry": {
+				"location": {
+					"lng": "28.122400283813477",
+					"lat": "-26.285890579223633"
+				}
+			}
+		},
+
+		{
+			"section": "Edenvale",
+			"geometry": {
+				"location": {
+					"lng": "28.16507911682129",
+					"lat": "-26.13764190673828"
+				}
+			}
+		},
+
+		{
+			"section": "Springs",
+			"geometry": {
+				"location": {
+					"lng": "28.4243166",
+					"lat": "-26.255766666666666"
+				}
+			}
+		},
+
+
+		{
+			"section": "Brakpan",
+			"geometry": {
+				"location": {
+					"lng": "28.36703333333333",
+					"lat": "-26.228933333333334"
+				}
+			}
+		},
+
+		{
+			"section": "Tembisa",
+			"geometry": {
+				"location": {
+					"lng": "28.216533333333334",
+					"lat": "-25.972133333333332"
+				}
+			}
+		},
+
+		{
+			"section": "Nigel",
+			"geometry": {
+				"location": {
+					"lng": "28.44173333333333",
+					"lat": "-26.384716666666666"
+				}
+			}
+		},
+
+		{
+			"section": "Duduza",
+			"geometry": {
+				"location": {
+					"lng": "28.415433333333333",
+					"lat": "-26.3750711"
+				}
+			}
+		},
+
+
+		{
+			"section": "Tokoza",
+			"geometry": {
+				"location": {
+					"lng": "28.137366666666665",
+					"lat": "-26.355633333333333"
+				}
+			}
+		},
+
+
+		{
+			"section": "Bedfordview",
+			"geometry": {
+				"location": {
+					"lng": "28.4057767",
+					"lat": "-26.163316666666667"
+				}
+			}
+		}
+	]
+}

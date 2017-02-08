@@ -1,0 +1,15 @@
+
+  <ons-page ng-controller="statsController" ng-init="loadData()">
+    <ons-toolbar>
+      <div class="left"> 
+      <ons-back-button>Back</ons-back-button>
+    </div>
+      <div class="center">Ekurhuleni {{ title }} Stats</div>
+    </ons-toolbar>
+
+    <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+
+      <p align="center">
+      Click on the legend above to show/hide.
+      </p>
+  </ons-page>

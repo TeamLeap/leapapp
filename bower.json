@@ -1,0 +1,21 @@
+{
+  "name": "leap",
+  "authors": [
+    "Tsheko Mashego <tsheko.mashego@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Chart.js": "^2.1.0"
+  }
+}

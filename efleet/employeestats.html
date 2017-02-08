@@ -1,0 +1,24 @@
+  <ons-page ng-controller="employeeController" ng-init="showEmployeeStats()">
+    <ons-toolbar>
+      <div class="left"> 
+      <ons-back-button>Back</ons-back-button>
+    </div>
+      <div class="center">eFleet Employee Stats</div>
+    </ons-toolbar>
+
+    <p align="center">
+      eFleet Employee Stats
+      </p>
+       <p align="center">
+      Click on the graph to see the figures.
+      </p>
+    <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+
+      <p align="center">
+      Number of Male Employees: <b>{{malecount}}</b>
+      Number of Female Employees: <b>{{femalecount}}</b>
+      Minimum age for Female Employees:<b>{{minyearfemale}}</b>
+      Minimum age for Male Employees: <b>{{minyearmale}}</b>
+      </p>
+     
+  </ons-page>

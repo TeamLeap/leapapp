@@ -1,0 +1,71 @@
+<ons-page ng-controller="employeeController">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Cancel</ons-back-button>
+        </div>
+        <div class="center">Drivers Listing ({{employeeList.length}})</div>
+    </ons-toolbar>
+
+    <ons-list modifier="inset" style="margin-top: 10px">
+        
+        <div style="margin: 0 0 0 10px;"> Start Date</div>
+        <ons-list-item>
+            <input type="date" ng-model="employee.startDate" placeholder="yyyy-mm-dd"/>
+            <ons-button class="btn-distance" ng-click="getEmployeeStartDate()">
+                Choose Start Date
+            </ons-button>
+        </ons-list-item>
+
+        <div style="margin: 0 0 0 10px;"> End Date</div>
+        <ons-list-item>
+           <input type="date" ng-model="employee.endDate" placeholder="yyyy-mm-dd"/>
+            <ons-button class="btn-distance" ng-click="getEmployeeEndDate()">
+                Choose End Date
+            </ons-button>
+        </ons-list-item>
+
+    </ons-list>
+    <ons-button class="btn-distance" ng-click="getEmployee()">
+        Submit
+    </ons-button>
+    <ons-button class="btn-distance" ng-click="showStats()" ng-show="employeeList.length > 0">
+        Stats
+    </ons-button>
+    <br/>
+
+    <ons-list modifier="employeelist">
+
+        <ons-list-item class="list-location-container" ng-repeat="(id, employee) in employeeList" id="{{ id }}" ng-click="loadEmployeeDetails($index, vehicle)">
+            <ons-row>
+                <ons-col>
+                   
+                    <div class="name">Employee #: {{employee.EMPLOYEE_NO}}</div>
+                    
+                     <div class="name">{{employee.FDEP_CODE}}</div>
+                    
+                     <div class="name">TEL NO: {{employee.TEL_NO}}</div>
+                    
+                      <div class="name">Name: {{employee.FIRST_NAME}} {{employee.SURNAME}}</div>
+                    
+                     <div class="name">GENDER: {{employee.GENDER}}</div>
+                    
+                    <div class="clearfix"></div>
+                </ons-col>
+            </ons-row>
+           
+        </ons-list-item>
+
+    </ons-list>
+
+    <ons-list-item ng-show="employeeList.length == 0">
+        <ons-row>
+            No data available.
+        </ons-row>
+    </ons-list-item>
+
+    <ons-button id="moreButton" modifier="large" ng-show="employees.length > 20" should-spin="{{isFetching}}" ng-click="nextPage()">
+        <ons-icon icon="ion-ios-download"></ons-icon>
+        Load More
+    </ons-button>
+
+</ons-page>

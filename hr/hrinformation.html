@@ -1,0 +1,38 @@
+<style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        #chart1, svg {
+            margin: 0px;
+            padding: 10px;
+            height: 1200px;
+            width: 100%;
+        }
+    </style>
+<ons-page ng-controller="hrController" ng-init="initHRInfo()">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">HR Information</div>
+    </ons-toolbar>
+
+         
+    <p align="center" ng-hide="aggregatedList.length === 0">
+      Region with Highest Male Employees is: <b>{{maleHighRegion}}</b> with <b>{{maleHighValue}}</b><br>
+      Region with Highest Female Employees is: <b>{{femaleHighRegion}}</b> with <b>{{femaleHighValue}}</b><br>
+      
+        </p>
+    
+    <ons-scroller style="height: 100%; width: 100%">
+        
+    <div id="chart1" class='with-3d-shadow with-transitions'>
+        <svg></svg>
+    </div>
+   
+    </ons-scroller>
+
+</ons-page>

@@ -1,0 +1,55 @@
+<ons-page ng-controller="profileController" ng-init="pullMeterContent()">
+  <ons-toolbar>
+    <div class="left"> 
+      <ons-back-button>Back</ons-back-button>
+    </div>
+    <div class="center">Meter Information</div>
+    
+  </ons-toolbar>
+<ons-scroller style="height: 100%; width: 100%">
+  <div class="app-page">
+    <div class="app-page-photo" >   
+    
+      <ons-list modifier="inset" style="margin-top: 10px" class="scrollme" ng-scrollbar is-bar-shown="true">
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Meter Unit Number <span class="label label-danger">64010</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Meter Type <span class="label label-danger">{{meterdetails["meter-details-response"].data["meter-details"]["meter-type-name"]}}</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Service Category Name <span class="label label-default">{{meterdetails["meter-details-response"].data["meter-details"]["service-category-name"]}}</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Date Registered <span class="label label-default">{{meterdetails["meter-details-response"].data["meter-details"].meter["ns3:registered"] | date:'yyyy-MM-dd'}}</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Meter Model Number <span class="label label-default">{{meterdetails["meter-details-response"].data["meter-details"]["meter-model-number"]}}</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="app-open-desc">
+            <ons-icon icon="ion-android-clock"></ons-icon>
+            Active <span class="label label-default">{{meterdetails["meter-details-response"].data["meter-details"].meter["ns3:active"]}}</span>
+          </div>
+        </ons-list-item>
+      </ons-list>
+        </ons-scroller>
+    </div>
+  </div>
+
+</ons-page>

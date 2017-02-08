@@ -1,0 +1,15 @@
+
+  <ons-page ng-controller="statsAgeGroupController" ng-init="showAgeGroupResults()">
+    <ons-toolbar>
+      <div class="left"> 
+      <ons-back-button>Back</ons-back-button>
+    </div>
+      <div class="center">Age Group Stats for {{name}}</div>
+    </ons-toolbar>
+
+       <p align="center">
+      Click on the graph to see the figures.
+      </p>
+    <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+
+  </ons-page>

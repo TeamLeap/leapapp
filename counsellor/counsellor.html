@@ -1,0 +1,44 @@
+<ons-page ng-controller="talkToCounsellorController"  data-ng-init="pullContent()">
+        <ons-toolbar>
+          <div class="left">
+              <ons-back-button>Back</ons-back-button>
+          </div>
+          <div class="center">
+            Citizen Complains
+          </div>
+          
+        </ons-toolbar>
+
+
+        <ons-list class="plan-list">
+          <ons-list-item modifier="chevron" class="plan" ng-repeat="a in incidents" ng-click="appNavigator.pushPage('citizenresponse.html',{'ids':a.userID});">
+            <ons-row>
+              <ons-col width="80px" class="plan-left">
+                <div class="plan-date">{{a.timeLogged}}</div>
+                <div class="plan-duration"></div>
+              </ons-col>
+
+              <ons-col width="6px" class="plan-center" ng-style="{backgroundColor:a % 2 == 1 ? '#3399ff' : '#ccc'}">
+              </ons-col>
+
+              <ons-col class="plan-right">
+                <div class="plan-name">{{a.incidentType}}</div>
+
+                <div class="plan-info">
+                  <div>
+                    <ons-icon icon="fa-phone"></ons-icon>{{a.smsNumber}}
+                  </div>
+
+                  <div>
+                    <ons-icon icon="fa-map-marker"></ons-icon>{{a.description}}
+                  </div>
+                </div>
+              </ons-col>
+            </ons-row>
+          </ons-list-item>
+
+        </ons-list>
+
+
+
+</ons-page>

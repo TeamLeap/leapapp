@@ -1,0 +1,29 @@
+<ons-page ng-controller="branchesController">
+    <ons-toolbar>
+
+        <div class="center">Register</div>
+        <div class="right">
+            <ons-toolbar-button ng-click="signIn()"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <form name="authorizationForm" novalidate="" ng-submit="registerCustomer()">
+
+        <div class="login-form">
+
+            <input type="text" class="text-input--underbar" ng-model="firstname" placeholder="First Name" value="">
+            <input type="text" class="text-input--underbar" ng-model="lastname" placeholder="Last Name" value="">
+
+            <input type="number" class="text-input--underbar" ng-model="idNumber" placeholder="ID Number" value="">
+            <input type="number" class="text-input--underbar" ng-model="phoneNumber" placeholder="Phone Number" maxlength="10" value="">
+            <input type="email" class="text-input--underbar" ng-model="email" placeholder="Email" value="" ng-minlength="5" ng-maxlength="40" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required>
+            <input type="password" class="text-input--underbar" ng-model="password" placeholder="Password" value="">
+
+            <br>
+            <br>
+
+            <button class="button button--large--cta" type="submit">Sign Up</button>
+        </div>
+
+    </form>
+</ons-page>

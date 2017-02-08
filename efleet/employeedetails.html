@@ -1,0 +1,100 @@
+<ons-page ng-controller="employeeController" ng-init="showEmployeeDetails()">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">{{result.EMPLOYEE_NO}}</div>
+    </ons-toolbar>
+
+    <ons-scroller style="height: 100%; width: 100%">
+        <div class="app-page">
+            <div class="app-page-photo">
+               
+               <ons-list style="border-top: none">
+                    <ons-list-item style="line-height: 1; padding: 5;">
+                       
+                    </ons-list-item>
+                </ons-list>
+
+                <ons-list modifier="inset" style="margin-top: 10px" class="scrollme" ng-scrollbar is-bar-shown="true">
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-home"></ons-icon>
+                            Post code <span class="label label-danger">{{result.HOME_POST_CODE}}</span>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-person"></ons-icon>
+                            Gender <span class="label label-default">{{result.GENDER}}</span>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-calendar"></ons-icon>
+                            D.O.B <span class="label label-default">{{result.DATE_OF_BIRTH}}</span>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            
+                            Employee No <span class="label label-default">{{result.EMPLOYEE_NO}}</span>
+                        </div>
+                    </ons-list-item>
+                 
+                    
+                     <ons-list-item>
+                        <div class="app-open-desc">
+                            
+                            ID No <span class="label label-default">{{result."IDENTITY_NO}}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-home"></ons-icon>
+                            Home address <span class="label label-default">{{result.HOME_ADD_1}}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                     <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-mail"></ons-icon>
+                           Email <span class="label label-default">{{result.EMAIL}}</span>
+                        </div>
+                    </ons-list-item>
+                    
+            
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-list"></ons-icon>
+                            Active IND <span class="label label-default">{{result.ACTIVE_IND}}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                    
+                     <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-home"></ons-icon>
+                            Registratrion <span class="label label-default">{{result.HOME_ADD_2}}</span>
+                        </div>
+                    </ons-list-item>
+                  
+                    
+                     <ons-list-item>
+                        <div class="app-open-desc">
+
+                            Title <span class="label label-default">{{result.TITLE}}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                    
+                    
+                    
+                </ons-list>
+            </div>
+        </div>
+    </ons-scroller>
+
+
+</ons-page>

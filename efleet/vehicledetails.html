@@ -1,0 +1,71 @@
+<ons-page ng-controller="vehicleController" ng-init="showVehicleDetails()">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">{{result.registrationNumber}}</div>
+    </ons-toolbar>
+
+    <ons-scroller style="height: 100%; width: 100%">
+        <div class="app-page">
+            <div class="app-page-photo">
+                
+                <ons-row class="app-map">
+                    <ons-col>
+                        <map center="[{{result.latitude}}, {{result.longitude}}]">
+                            <marker position="[{{result.latitude}}, {{result.longitude}}]" title="Vehicle Position" animation="Animation.BOUNCE" visible="true"></marker>
+                        </map>
+                    </ons-col>
+                </ons-row>
+                
+               <ons-list style="border-top: none">
+                    <ons-list-item style="line-height: 1; padding: 5;">
+                        <ons-row class="action">
+
+                            <ons-col class="action-col">
+                                <div class="action-icon">
+                                    {{result.fleetNumber}}
+                                </div>
+                                <div class="action-label">Fleet No</div>
+                            </ons-col>
+
+                            <ons-col class="action-col">
+                                <div class="action-icon">
+                                    {{result.statusText}}
+                                </div>
+                                <div class="action-label">Status</div>
+                            </ons-col>
+
+                        </ons-row>
+                    </ons-list-item>
+                </ons-list>
+
+
+                <ons-list modifier="inset" style="margin-top: 10px" class="scrollme" ng-scrollbar is-bar-shown="true">
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                            {{result.location}}
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                            Position last updated <span class="label label-default">{{result.lastUpdatedTime}}</span>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                            Cellphone <span class="label label-default">{{result.cellNumber}}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                </ons-list>
+                
+            </div>
+        </div>
+    </ons-scroller>
+
+
+</ons-page>

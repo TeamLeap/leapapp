@@ -1,0 +1,61 @@
+<ons-page ng-controller="goodsReturnedNotesController" ng-init="getGoodsReturnedNotes()">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Cancel</ons-back-button>
+        </div>
+        <div class="center">Goods Returned Notes ({{returnedNotesList.length}})</div>
+    </ons-toolbar>
+ 
+    <br/>
+
+    <ons-list modifier="meterlist">
+
+        <ons-list-item class="list-location-container" ng-repeat="(id, goods) in returnedNotesList" id="{{ id }}" ng-click="loadGoodDetails($index,goods)">
+            <ons-row>
+                <ons-col>
+                   
+                    <div class="name"><i class="ion-ios-barcode"></i> EDI No: {{goods.EDI_NO}}</div>
+                    <div class="name"><i class="ion-ios-speedometer"></i> Fleet No: {{goods.FLEET_NO}}</div>
+
+                     <div class="name"><i class="ion-android-calendar"></i> GRN Date: {{goods.GRN_DATE
+                         }}</div>
+                     <div class="name"><i class="ion-ios-barcode"></i> GRN Number: {{goods.GRN_NO
+
+                         }}</div>
+                    
+                    <div class="name"><i class="ion-clipboard"></i> Registration No: {{goods.REG_NO
+
+                         }}</div>
+                    
+                    <div class="name"> <i class="ion-android-star"></i> Status: {{goods.STATUS
+
+                         }}</div>
+                    
+                    <div class="name"> <i class="ion-clock"></i> Timestamp: {{goods.TIMESTAMP
+
+                         }}</div>
+                    
+                    <div class="name"><i class="ion-ios-barcode"></i> VIN No: {{goods.VIN_NO
+
+                         }}</div>
+                    
+                    
+                    <div class="clearfix"></div>
+                </ons-col>
+                                
+                
+                
+            </ons-row>
+           
+        </ons-list-item>
+
+    </ons-list>
+
+    <ons-list-item ng-show="returnedNotesList.length === 0">
+        <ons-row>
+            No data available.
+        </ons-row>
+    </ons-list-item>
+
+
+</ons-page>

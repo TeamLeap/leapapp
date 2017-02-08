@@ -1,0 +1,37 @@
+<ons-page ng-controller="hrController" ng-init="initHRInfo()">
+  <ons-toolbar>
+    <div class="left"> 
+      <ons-back-button>Back</ons-back-button>
+    </div>
+    <div class="center">All Human Resource Per Region</div>
+    <div class="right" ng-show="isFetching">
+      <ons-toolbar-button><ons-icon icon="ion-loading-c" fixed-width="false" ></ons-icon></ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+  <div  class="map-fullscreen-container" >
+    <map zoom="9" center="{{ centerMap }}" class="fullscreen" zoom-control-options="{position:'RIGHT_TOP'}">
+      
+      <info-window id="marker-info">
+        <div>
+          <strong class="markerTitle">{{ infoWindow.title }}</strong>
+          <div class="markerContent">
+            <p>{{ infoWindow.content }}</p>
+            <ul>              
+              <li><span class="ion-model-s"></span><p>you are {{ infoWindow.distance }} km away from {{ infoWindow.title }}</p></li>
+            </ul>
+            
+          </div>
+        </div>
+      </info-window>
+
+      <marker ng-repeat="(id, marker) in markers" id="{{ id }}" 
+        position="{{marker.location}}" 
+        on-click="showMarker(event, $index)"
+        icon="{{marker.icon}}">
+      </marker>
+
+    </map>
+  </div>
+    
+   
+</ons-page>
