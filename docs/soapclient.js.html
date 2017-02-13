@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>My Project</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>My Project</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="angular-messages.min.js.html">angular-messages.min.js</a></li>
+            <li><a href="angular-nvd3.js.html">angular-nvd3.js</a></li>
+            <li><a href="angular.soap.js.html">angular.soap.js</a></li>
+            <li><a href="d3.js.html">d3.js</a></li>
+            <li><a href="nv.d3.js.html">nv.d3.js</a></li>
+            <li><a href="onsen/js/angular/angular-animate.js.html">onsen/js/angular/angular-animate.js</a></li>
+            <li><a href="onsen/js/angular/angular-touch.js.html">onsen/js/angular/angular-touch.js</a></li>
+            <li><a href="onsen/js/angular/angular.js.html">onsen/js/angular/angular.js</a></li>
+            <li><a href="onsen/js/angular/angular.min.js.html">onsen/js/angular/angular.min.js</a></li>
+            <li><a href="onsen/js/jquery-3.1.0.min.js.html">onsen/js/jquery-3.1.0.min.js</a></li>
+            <li><a href="onsen/js/onsenui.js.html">onsen/js/onsenui.js</a></li>
+            <li><a href="onsen/js/onsenui.min.js.html">onsen/js/onsenui.min.js</a></li>
+            <li><a href="onsen/js/onsenui_all.js.html">onsen/js/onsenui_all.js</a></li>
+            <li><a href="onsen/js/onsenui_all.min.js.html">onsen/js/onsenui_all.min.js</a></li>
+            <li><a href="signature_pad.js.html">signature_pad.js</a></li>
+            <li class="active"><a href="soapclient.js.html">soapclient.js</a></li>
+            <li><a href="swiper.js.html">swiper.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#SOAPClientParameters"><i class="alert alert-info"></i><span>SOAPClientParameters</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="SOAPClientParameters">
+            <h1>SOAPClientParameters</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>SOAPClientParameters()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>*</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>\</p><p> Javascript &quot;SOAP Client&quot; library</p></div>
+          <pre><code class="language-javascript">function SOAPClientParameters()
+{
+	var _pl = new Array();
+	this.add = function(name, value) 
+	{
+		_pl[name] = value; 
+		return this; 
+	}
+	this.toXml = function()
+	{
+		var xml = &quot;&quot;;
+		for(var p in _pl)
+		{
+			switch(typeof(_pl[p])) 
+			{
+                case &quot;string&quot;:
+                case &quot;number&quot;:
+                case &quot;boolean&quot;:
+                case &quot;object&quot;:
+                    xml += &quot;&lt;&quot; + p + &quot;&gt;&quot; + SOAPClientParameters._serialize(_pl[p]) + &quot;&lt;/&quot; + p + &quot;&gt;&quot;;
+                    break;
+                default:
+                    break;
+            }
+		}
+		return xml;	
+	}
+}
+SOAPClientParameters._serialize = function(o)
+{
+    var s = &quot;&quot;;
+    switch(typeof(o))
+    {
+        case &quot;string&quot;:
+            s += o.replace(/&amp;/g, &quot;&amp;amp;&quot;).replace(/&lt;/g, &quot;&amp;lt;&quot;).replace(/&gt;/g, &quot;&amp;gt;&quot;); break;
+        case &quot;number&quot;:
+        case &quot;boolean&quot;:
+            s += o.toString(); break;
+        case &quot;object&quot;:
+            // Date
+            if(o.constructor.toString().indexOf(&quot;function Date()&quot;) &gt; -1)
+            {
+        
+                var year = o.getFullYear().toString();
+                var month = (o.getMonth() + 1).toString(); month = (month.length == 1) ? &quot;0&quot; + month : month;
+                var date = o.getDate().toString(); date = (date.length == 1) ? &quot;0&quot; + date : date;
+                var hours = o.getHours().toString(); hours = (hours.length == 1) ? &quot;0&quot; + hours : hours;
+                var minutes = o.getMinutes().toString(); minutes = (minutes.length == 1) ? &quot;0&quot; + minutes : minutes;
+                var seconds = o.getSeconds().toString(); seconds = (seconds.length == 1) ? &quot;0&quot; + seconds : seconds;
+                var milliseconds = o.getMilliseconds().toString();
+                var tzminutes = Math.abs(o.getTimezoneOffset());
+                var tzhours = 0;
+                while(tzminutes &gt;= 60)
+                {
+                    tzhours++;
+                    tzminutes -= 60;
+                }
+                tzminutes = (tzminutes.toString().length == 1) ? &quot;0&quot; + tzminutes.toString() : tzminutes.toString();
+                tzhours = (tzhours.toString().length == 1) ? &quot;0&quot; + tzhours.toString() : tzhours.toString();
+                var timezone = ((o.getTimezoneOffset() &lt; 0) ? &quot;+&quot; : &quot;-&quot;) + tzhours + &quot;:&quot; + tzminutes;
+                s += year + &quot;-&quot; + month + &quot;-&quot; + date + &quot;T&quot; + hours + &quot;:&quot; + minutes + &quot;:&quot; + seconds + &quot;.&quot; + milliseconds + timezone;
+            }
+            // Array
+            else if(o.constructor.toString().indexOf(&quot;function Array()&quot;) &gt; -1)
+            {
+                for(var p in o)
+                {
+                    if(!isNaN(p))   // linear array
+                    {
+                        (/function\s+(\w*)\s*\(/ig).exec(o[p].constructor.toString());
+                        var type = RegExp.$1;
+                        switch(type)
+                        {
+                            case &quot;&quot;:
+                                type = typeof(o[p]);
+                            case &quot;String&quot;:
+                                type = &quot;string&quot;; break;
+                            case &quot;Number&quot;:
+                                type = &quot;int&quot;; break;
+                            case &quot;Boolean&quot;:
+                                type = &quot;bool&quot;; break;
+                            case &quot;Date&quot;:
+                                type = &quot;DateTime&quot;; break;
+                        }
+                        s += &quot;&lt;&quot; + type + &quot;&gt;&quot; + SOAPClientParameters._serialize(o[p]) + &quot;&lt;/&quot; + type + &quot;&gt;&quot;
+                    }
+                    else    // associative array
+                        s += &quot;&lt;&quot; + p + &quot;&gt;&quot; + SOAPClientParameters._serialize(o[p]) + &quot;&lt;/&quot; + p + &quot;&gt;&quot;
+                }
+            }
+            // Object or custom function
+            else
+                for(var p in o)
+                    s += &quot;&lt;&quot; + p + &quot;&gt;&quot; + SOAPClientParameters._serialize(o[p]) + &quot;&lt;/&quot; + p + &quot;&gt;&quot;;
+            break;
+        default:
+            break; // throw new Error(500, &quot;SOAPClientParameters: type '&quot; + typeof(o) + &quot;' is not supported&quot;);
+    }
+    return s;
+}
+
+function SOAPClient() {}
+
+SOAPClient.username = null;
+SOAPClient.password = null;
+
+SOAPClient.invoke = function(url, method, parameters, async, callback)
+{
+	if(async)
+		SOAPClient._loadWsdl(url, method, parameters, async, callback);
+	else
+		return SOAPClient._loadWsdl(url, method, parameters, async, callback);
+}
+
+// private: wsdl cache
+SOAPClient_cacheWsdl = new Array();
+
+// private: invoke async
+SOAPClient._loadWsdl = function(url, method, parameters, async, callback)
+{
+	// load from cache?
+	var wsdl = SOAPClient_cacheWsdl[url];
+	if(wsdl + &quot;&quot; != &quot;&quot; &amp;&amp; wsdl + &quot;&quot; != &quot;undefined&quot;)
+		return SOAPClient._sendSoapRequest(url, method, parameters, async, callback, wsdl);
+	// get wsdl
+	var xmlHttp = SOAPClient._getXmlHttp();
+	if (SOAPClient.username &amp;&amp; SOAPClient.password){
+		xmlHttp.open(&quot;GET&quot;, url + &quot;?wsdl&quot;, async, SOAPClient.username, SOAPClient.password);
+		// Some WS implementations (i.e. BEA WebLogic Server 10.0 JAX-WS) don't support Challenge/Response HTTP BASIC, so we send authorization headers in the first request
+		xmlHttp.setRequestHeader(&quot;Authorization&quot;, &quot;Basic &quot; + SOAPClient._toBase64(SOAPClient.username + &quot;:&quot; + SOAPClient.password));
+	}
+	else
+		xmlHttp.open(&quot;GET&quot;, url + &quot;?wsdl&quot;, async);
+	if(async) 
+	{
+		xmlHttp.onreadystatechange = function() 
+		{
+			if(xmlHttp.readyState == 4)
+				SOAPClient._onLoadWsdl(url, method, parameters, async, callback, xmlHttp);
+		}
+	}
+	xmlHttp.send(null);
+	if (!async)
+		return SOAPClient._onLoadWsdl(url, method, parameters, async, callback, xmlHttp);
+}
+SOAPClient._onLoadWsdl = function(url, method, parameters, async, callback, req)
+{
+	var wsdl = req.responseXML;
+	SOAPClient_cacheWsdl[url] = wsdl;	// save a copy in cache
+	return SOAPClient._sendSoapRequest(url, method, parameters, async, callback, wsdl);
+}
+SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback, wsdl)
+{
+	// get namespace
+	var ns = (wsdl.documentElement.attributes[&quot;targetNamespace&quot;] + &quot;&quot; == &quot;undefined&quot;) ? wsdl.documentElement.attributes.getNamedItem(&quot;targetNamespace&quot;).nodeValue : wsdl.documentElement.attributes[&quot;targetNamespace&quot;].value;
+	// build SOAP request
+	var sr = 
+				&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;utf-8\&quot;?&gt;&quot; +
+				&quot;&lt;soap:Envelope &quot; +
+				&quot;xmlns:xsi=\&quot;http://www.w3.org/2001/XMLSchema-instance\&quot; &quot; +
+				&quot;xmlns:xsd=\&quot;http://www.w3.org/2001/XMLSchema\&quot; &quot; +
+				&quot;xmlns:soap=\&quot;http://schemas.xmlsoap.org/soap/envelope/\&quot;&gt;&quot; +
+				&quot;&lt;soap:Body&gt;&quot; +
+				&quot;&lt;&quot; + method + &quot; xmlns=\&quot;&quot; + ns + &quot;\&quot;&gt;&quot; +
+				parameters.toXml() +
+				&quot;&lt;/&quot; + method + &quot;&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;&quot;;
+	// send request
+	var xmlHttp = SOAPClient._getXmlHttp();
+	if (SOAPClient.username &amp;&amp; SOAPClient.password){
+		xmlHttp.open(&quot;POST&quot;, url, async, SOAPClient.username, SOAPClient.password);
+		// Some WS implementations (i.e. BEA WebLogic Server 10.0 JAX-WS) don't support Challenge/Response HTTP BASIC, so we send authorization headers in the first request
+		xmlHttp.setRequestHeader(&quot;Authorization&quot;, &quot;Basic &quot; + SOAPClient._toBase64(SOAPClient.username + &quot;:&quot; + SOAPClient.password));
+	}
+	else
+		xmlHttp.open(&quot;POST&quot;, url, async);
+	var soapaction = ((ns.lastIndexOf(&quot;/&quot;) != ns.length - 1) ? ns + &quot;/&quot; : ns) + encodeURIComponent(method);
+	xmlHttp.setRequestHeader(&quot;SOAPAction&quot;, soapaction);
+	xmlHttp.setRequestHeader(&quot;Content-Type&quot;, &quot;text/xml; charset=utf-8&quot;);
+	if(async) 
+	{
+		xmlHttp.onreadystatechange = function() 
+		{
+			if(xmlHttp.readyState == 4)
+				SOAPClient._onSendSoapRequest(method, async, callback, wsdl, xmlHttp);
+		}
+	}
+	xmlHttp.send(sr);
+	if (!async)
+		return SOAPClient._onSendSoapRequest(method, async, callback, wsdl, xmlHttp);
+}
+
+SOAPClient._onSendSoapRequest = function(method, async, callback, wsdl, req) 
+{
+	var o = null;
+	var nd = SOAPClient._getElementsByTagName(req.responseXML, method + &quot;Result&quot;);
+	if(nd.length == 0)
+		nd = SOAPClient._getElementsByTagName(req.responseXML, &quot;return&quot;);	// PHP web Service?
+	if(nd.length == 0)
+	{
+		if(req.responseXML.getElementsByTagName(&quot;faultcode&quot;).length &gt; 0)
+		{
+		    if(async || callback)
+		        o = new Error(500, req.responseXML.getElementsByTagName(&quot;faultstring&quot;)[0].childNodes[0].nodeValue);
+			else
+			    throw new Error(500, req.responseXML.getElementsByTagName(&quot;faultstring&quot;)[0].childNodes[0].nodeValue);			
+		}
+	}
+	else
+		o = SOAPClient._soapresult2object(nd[0], wsdl);
+	if(callback)
+		callback(o, req.responseXML);
+	if(!async)
+		return o;
+}
+SOAPClient._soapresult2object = function(node, wsdl)
+{
+    var wsdlTypes = SOAPClient._getTypesFromWsdl(wsdl);
+    return SOAPClient._node2object(node, wsdlTypes);
+}
+SOAPClient._node2object = function(node, wsdlTypes)
+{
+	// null node
+	if(node == null)
+		return null;
+	// text node
+	if(node.nodeType == 3 || node.nodeType == 4)
+		return SOAPClient._extractValue(node, wsdlTypes);
+	// leaf node
+	if (node.childNodes.length == 1 &amp;&amp; (node.childNodes[0].nodeType == 3 || node.childNodes[0].nodeType == 4))
+		return SOAPClient._node2object(node.childNodes[0], wsdlTypes);
+	var isarray = SOAPClient._getTypeFromWsdl(node.nodeName, wsdlTypes).toLowerCase().indexOf(&quot;arrayof&quot;) != -1;
+	// object node
+	if(!isarray)
+	{
+		var obj = null;
+		if(node.hasChildNodes())
+			obj = new Object();
+		for(var i = 0; i &lt; node.childNodes.length; i++)
+		{
+			var p = SOAPClient._node2object(node.childNodes[i], wsdlTypes);
+			obj[node.childNodes[i].nodeName] = p;
+		}
+		return obj;
+	}
+	// list node
+	else
+	{
+		// create node ref
+		var l = new Array();
+		for(var i = 0; i &lt; node.childNodes.length; i++)
+			l[l.length] = SOAPClient._node2object(node.childNodes[i], wsdlTypes);
+		return l;
+	}
+	return null;
+}
+SOAPClient._extractValue = function(node, wsdlTypes)
+{
+	var value = node.nodeValue;
+	switch(SOAPClient._getTypeFromWsdl(node.parentNode.nodeName, wsdlTypes).toLowerCase())
+	{
+		default:
+		case &quot;s:string&quot;:			
+			return (value != null) ? value + &quot;&quot; : &quot;&quot;;
+		case &quot;s:boolean&quot;:
+			return value + &quot;&quot; == &quot;true&quot;;
+		case &quot;s:int&quot;:
+		case &quot;s:long&quot;:
+			return (value != null) ? parseInt(value + &quot;&quot;, 10) : 0;
+		case &quot;s:double&quot;:
+			return (value != null) ? parseFloat(value + &quot;&quot;) : 0;
+		case &quot;s:datetime&quot;:
+			if(value == null)
+				return null;
+			else
+			{
+				value = value + &quot;&quot;;
+				value = value.substring(0, (value.lastIndexOf(&quot;.&quot;) == -1 ? value.length : value.lastIndexOf(&quot;.&quot;)));
+				value = value.replace(/T/gi,&quot; &quot;);
+				value = value.replace(/-/gi,&quot;/&quot;);
+				var d = new Date();
+				d.setTime(Date.parse(value));										
+				return d;				
+			}
+	}
+}
+SOAPClient._getTypesFromWsdl = function(wsdl)
+{
+	var wsdlTypes = new Array();
+	// IE
+	var ell = wsdl.getElementsByTagName(&quot;s:element&quot;);	
+	var useNamedItem = true;
+	// MOZ
+	if(ell.length == 0)
+	{
+		ell = wsdl.getElementsByTagName(&quot;element&quot;);	     
+		useNamedItem = false;
+	}
+	for(var i = 0; i &lt; ell.length; i++)
+	{
+		if(useNamedItem)
+		{
+			if(ell[i].attributes.getNamedItem(&quot;name&quot;) != null &amp;&amp; ell[i].attributes.getNamedItem(&quot;type&quot;) != null) 
+				wsdlTypes[ell[i].attributes.getNamedItem(&quot;name&quot;).nodeValue] = ell[i].attributes.getNamedItem(&quot;type&quot;).nodeValue;
+		}	
+		else
+		{
+			if(ell[i].attributes[&quot;name&quot;] != null &amp;&amp; ell[i].attributes[&quot;type&quot;] != null)
+				wsdlTypes[ell[i].attributes[&quot;name&quot;].value] = ell[i].attributes[&quot;type&quot;].value;
+		}
+	}
+	return wsdlTypes;
+}
+SOAPClient._getTypeFromWsdl = function(elementname, wsdlTypes)
+{
+    var type = wsdlTypes[elementname] + &quot;&quot;;
+    return (type == &quot;undefined&quot;) ? &quot;&quot; : type;
+}
+// private: utils
+SOAPClient._getElementsByTagName = function(document, tagName)
+{
+	try
+	{
+		// trying to get node omitting any namespaces (latest versions of MSXML.XMLDocument)
+		return document.selectNodes(&quot;.//*[local-name()=\&quot;&quot;+ tagName +&quot;\&quot;]&quot;);
+	}
+	catch (ex) {}
+	// old XML parser support
+	return document.getElementsByTagName(tagName);
+}
+// private: xmlhttp factory
+SOAPClient._getXmlHttp = function() 
+{
+	try
+	{
+		if(window.XMLHttpRequest) 
+		{
+			var req = new XMLHttpRequest();
+			// some versions of Moz do not support the readyState property and the onreadystate event so we patch it!
+			if(req.readyState == null) 
+			{
+				req.readyState = 1;
+				req.addEventListener(&quot;load&quot;, 
+									function() 
+									{
+										req.readyState = 4;
+										if(typeof req.onreadystatechange == &quot;function&quot;)
+											req.onreadystatechange();
+									},
+									false);
+			}
+			return req;
+		}
+		if(window.ActiveXObject) 
+			return new ActiveXObject(SOAPClient._getXmlHttpProgID());
+	}
+	catch (ex) {}
+	throw new Error(&quot;Your browser does not support XmlHttp objects&quot;);
+}
+SOAPClient._getXmlHttpProgID = function()
+{
+	if(SOAPClient._getXmlHttpProgID.progid)
+		return SOAPClient._getXmlHttpProgID.progid;
+	var progids = [&quot;Msxml2.XMLHTTP.5.0&quot;, &quot;Msxml2.XMLHTTP.4.0&quot;, &quot;MSXML2.XMLHTTP.3.0&quot;, &quot;MSXML2.XMLHTTP&quot;, &quot;Microsoft.XMLHTTP&quot;];
+	var o;
+	for(var i = 0; i &lt; progids.length; i++)
+	{
+		try
+		{
+			o = new ActiveXObject(progids[i]);
+			return SOAPClient._getXmlHttpProgID.progid = progids[i];
+		}
+		catch (ex) {};
+	}
+	throw new Error(&quot;Could not find an installed XML parser&quot;);
+}
+
+SOAPClient._toBase64 = function(input)
+{
+	var keyStr = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=&quot;;
+	var output = &quot;&quot;;
+	var chr1, chr2, chr3;
+	var enc1, enc2, enc3, enc4;
+	var i = 0;
+
+	do {
+		chr1 = input.charCodeAt(i++);
+		chr2 = input.charCodeAt(i++);
+		chr3 = input.charCodeAt(i++);
+
+		enc1 = chr1 &gt;&gt; 2;
+		enc2 = ((chr1 &amp; 3) &lt;&lt; 4) | (chr2 &gt;&gt; 4);
+		enc3 = ((chr2 &amp; 15) &lt;&lt; 2) | (chr3 &gt;&gt; 6);
+		enc4 = chr3 &amp; 63;
+
+		if (isNaN(chr2)) {
+			enc3 = enc4 = 64;
+		} else if (isNaN(chr3)) {
+			enc4 = 64;
+		}
+
+		output = output + keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+		keyStr.charAt(enc3) + keyStr.charAt(enc4);
+	} while (i &lt; input.length);
+
+	return output;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>
