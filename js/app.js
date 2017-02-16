@@ -1242,7 +1242,395 @@
     
     
     
+ app.controller('WaterPotablePointsController', ['$http', '$scope', '$rootScope', '$compile', 'appConfig', function ($http, $scope, $rootScope, $compile, appConfig) {
+
     
+           
+        $scope.map;
+        $scope.overlay;
+        $scope.markers = [];
+        $scope.markerId = 1;
+   
+
+        //Map initialization  
+        $scope.start = function () {
+
+            navigator.geolocation.getCurrentPosition(function (position) {
+
+                $scope.userLat = position.coords.latitude;
+                $scope.userLng = position.coords.longitude;
+
+                var latlng = new google.maps.LatLng($scope.userLat, $scope.userLng);
+
+                var myOptions = {
+                    zoom: 11,
+                    center: latlng,
+                    //mapTypeId: google.maps.MapTypeId.SATELLITE
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                $scope.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                $scope.overlay = new google.maps.OverlayView();
+                $scope.overlay.draw = function () {}; // empty function required
+
+                $scope.overlay.setMap($scope.map);
+                $scope.element = document.getElementById('map_canvas');
+                $scope.hammertime = Hammer($scope.element).on("hold", function (event) {
+                    $scope.addOnClick(event);
+                });
+
+            }, function (error) {
+
+                console.log("Couldn't get the location of the user.");
+
+
+                ons.notification.alert({
+                    message: 'Please enable you GPS and try again.! ' + error.message,
+                    modifier: 'material'
+                });
+
+                console.log(error.code);
+
+            }, {
+                maximumAge: Infinity,
+                timeout: 60000,
+                enableHighAccuracy: true
+            });
+
+        };
+
+        
+        //Delete all Markers
+        $scope.resetAllMarkers = function () {
+
+
+            if ($scope.markers.length == 0) {
+                return;
+            }
+
+            for (var i = 0; i < $scope.markers.length; i++) {
+
+                //Remove the marker from Map                  
+                $scope.markers[i].setMap(null);
+            }
+        };
+
+        //show all Markers
+        $scope.showMarkers = function (type) {
+
+            //var image;
+            modal.show();
+
+            //reset what is on the map currently
+            $scope.resetAllMarkers();
+
+            if (type == "poi")
+                $scope.loadPOIMarkers();
+            else
+                $scope.loadMarkers(type);
+
+            modal.hide();
+
+        };
+
+
+        $scope.loadMarkers = function (type) {
+
+            $scope.API = appConfig.emmwaterpotablepointsEndPoint; //"http://wmdev.ekurhuleni.gov.za:5555/rest/EMMWater/waterLongLati";
+
+            $scope.API = $scope.API + '?' + type + '=true'
+
+            $scope.markers = [];
+
+            $http.get($scope.API).success(function (response) {
+
+                /*  $.each(response.poi, function (key, value) {
+
+                      var latLng = new google.maps.LatLng(value.lat, value.lon);
+                      var marker = new google.maps.Marker({
+                          'position': latLng
+                      });
+                      markers.push(marker);
+                  });*/
+
+                for (var i = 0; i < response.poi.length; i++) {
+
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(response.poi[i].geometry.location.lat, response.poi[i].geometry.location.lng),
+                        map: $scope.map,
+                        title: response.poi[i].name
+
+                    });
+
+                    $scope.markers.push(marker);
+
+                    marker.content = "<div><p>" + marker.title + "</p><input type='submit' ng-click='getDirections(" + marker.position.lat() + "," + marker.position.lng() + ")' class='btn-distance' value='Directions' /></div>";
+
+                    google.maps.event.addListener(marker, 'click', (function (marker, i, $scope) {
+                        return function () {
+                            var compiled = $compile(marker.content)($scope);
+                            $scope.$apply();
+                            infowindow.setContent(compiled[0]);
+                            infowindow.open(map, marker);
+                        }
+                    })(marker, i, $scope));
+
+                }
+
+            });
+
+        }
+
+        $scope.loadPOIMarkers = function (type) {
+
+            modal.show();
+
+            navigator.geolocation.getCurrentPosition(function (position) {
+
+                $scope.userLat = position.coords.latitude;
+                $scope.userLng = position.coords.longitude;
+
+                $scope.API = appConfig.nearbysearchapiEndPoint + $scope.userLat + "," + $scope.userLng + "&radius=25000&type=point_of_interest&key=AIzaSyD8Or6tO3h801EW-QtIDI_VG-93B5OnoIM";
+
+                $http.get($scope.API).success(function (response) {
+
+                    $scope.locations = response.results;
+
+                    $scope.markers = [];
+
+                    $.each($scope.locations, function (index, value) {
+
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng($scope.locations[index].geometry.location.lat, $scope.locations[index].geometry.location.lng),
+                            map: $scope.map,
+                            title: $scope.locations[index].name
+                        });
+
+                        $scope.markers.push(marker);
+
+                        marker.content = "<div><h3>" + marker.title + "</h3><input type='submit' ng-click='getDirections(" + marker.position.lat() + "," + marker.position.lng() + ")' class='btn-distance' value='Directions' /></div>";
+
+                        google.maps.event.addListener(marker, 'click', (function (marker, index) {
+                            return function () {
+                                //infowindow.setContent($scope.locations[index].name);
+                                var compiled = $compile(marker.content)($scope);
+                                $scope.$apply();
+                                infowindow.setContent(compiled[0]);
+                                infowindow.open(map, marker);
+                            }
+                        })(marker, index));
+
+                    });
+
+                    modal.hide();
+
+
+                });
+
+            }, function (error) {
+
+                console.log("Couldn't get the location of the user.");
+
+
+                ons.notification.alert({
+                    message: 'Please enable you GPS and try again.! ' + error.message,
+                    modifier: 'material'
+                });
+
+                console.log(error.code);
+
+            }, {
+                maximumAge: Infinity,
+                timeout: 60000,
+                enableHighAccuracy: true
+            });
+
+        }
+
+        $scope.loadWaterPotablePointsMarkers = function () {
+
+            modal.show();
+
+            navigator.geolocation.getCurrentPosition(function (position) {
+
+                $scope.userLat = position.coords.latitude;
+                $scope.userLng = position.coords.longitude;
+
+                $scope.API = appConfig.emmwaterpotablepointsEndPoint;
+
+                $http.get($scope.API).success(function (response) {
+
+                    $scope.locations = response.GPS;
+
+                    $scope.markers = [];
+
+                    $.each($scope.locations, function (index, value) {
+
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng($scope.locations[index].Lat, $scope.locations[index].Long),
+                            map: $scope.map,
+                            title: $scope.locations[index].ClinicAddress
+                        });
+
+                        $scope.markers.push(marker);
+
+                        marker.content = "<div><h3>" + marker.title + "</h3><input type='submit' ng-click='getDirections(" + marker.position.lat() + "," + marker.position.lng() + ")' class='btn-distance' value='Directions' /></div>";
+
+                        google.maps.event.addListener(marker, 'click', (function (marker, index) {
+                            return function () {
+                                //infowindow.setContent($scope.locations[index].ClinicAddress);
+                                var compiled = $compile(marker.content)($scope);
+                                $scope.$apply();
+                                infowindow.setContent(compiled[0]);
+                                infowindow.open(map, marker);
+                            }
+                        })(marker, index));
+
+                    });
+
+                    modal.hide();
+
+
+                });
+
+            }, function (error) {
+
+                console.log("Couldn't get the location of the user.");
+
+
+                ons.notification.alert({
+                    message: 'Please enable you GPS and try again.! ' + error.message,
+                    modifier: 'material'
+                });
+
+                console.log(error.code);
+
+            }, {
+                maximumAge: Infinity,
+                timeout: 60000,
+                enableHighAccuracy: true
+            });
+
+        }
+
+        $scope.getDirections = function (lat, lot) {
+
+            var link = appConfig.googledirectionapiEndPoint + $scope.userLat + "," + $scope.userLng + "&daddr=" + lat + "," + lot;
+            console.log(link);
+
+            window.location = link;
+        }
+
+        $scope.rad = function (x) {
+            return x * Math.PI / 180;
+        };
+
+        //Calculate the distance between the Markers
+        $scope.calculateDistance = function () {
+
+            if ($scope.markers.length < 2) {
+                ons.notification.alert({
+                    message: 'Insert at least 2 markers!!!'
+                });
+            } else {
+                var totalDistance = 0;
+                var partialDistance = [];
+                partialDistance.length = $scope.markers.length - 1;
+
+                for (var i = 0; i < partialDistance.length; i++) {
+                    var p1 = $scope.markers[i];
+                    var p2 = $scope.markers[i + 1];
+
+                    var R = 6378137; // Earth’s mean radius in meter
+                    var dLat = $scope.rad(p2.position.lat() - p1.position.lat());
+                    var dLong = $scope.rad(p2.position.lng() - p1.position.lng());
+                    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                        Math.cos($scope.rad(p1.position.lat())) * Math.cos($scope.rad(p2.position.lat())) *
+                        Math.sin(dLong / 2) * Math.sin(dLong / 2);
+                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                    totalDistance += R * c / 1000; //distance in Km
+                    partialDistance[i] = R * c / 1000;
+                }
+
+
+                ons.notification.confirm({
+                    message: 'Do you want to see the partial distances?',
+                    callback: function (idx) {
+
+                        ons.notification.alert({
+                            message: "The total distance is " + totalDistance.toFixed(1) + " km"
+                        });
+
+                        switch (idx) {
+                        case 0:
+
+                            break;
+                        case 1:
+                            for (var i = (partialDistance.length - 1); i >= 0; i--) {
+
+                                ons.notification.alert({
+                                    message: "The partial distance from point " + (i + 1) + " to point " + (i + 2) + " is " + partialDistance[i].toFixed(1) + " km"
+                                });
+                            }
+                            break;
+                        }
+                    }
+                });
+            }
+        };
+
+        //Add single Marker
+        $scope.addOnClick = function (event) {
+            var x = event.gesture.center.pageX;
+            var y = event.gesture.center.pageY - 44;
+            var point = new google.maps.Point(x, y);
+            var coordinates = $scope.overlay.getProjection().fromContainerPixelToLatLng(point);
+
+            var marker = new google.maps.Marker({
+                position: coordinates,
+                map: $scope.map
+            });
+
+            marker.id = $scope.markerId;
+            $scope.markerId++;
+            $scope.markers.push(marker);
+
+
+            //Creation of the listener associated to the Markers click
+
+            google.maps.event.addListener(marker, "click", function (e) {
+                ons.notification.confirm({
+                    message: 'Do you want to delete the marker?',
+                    callback: function (idx) {
+                        switch (idx) {
+                        case 0:
+                            ons.notification.alert({
+                                message: 'You pressed "Cancel".'
+                            });
+                            break;
+                        case 1:
+                            for (var i = 0; i < $scope.markers.length; i++) {
+                                if ($scope.markers[i].id == marker.id) {
+                                    //Remove the marker from Map                  
+                                    $scope.markers[i].setMap(null);
+
+                                    //Remove the marker from array.
+                                    $scope.markers.splice(i, 1);
+                                }
+                            }
+                            ons.notification.alert({
+                                message: 'Marker deleted.'
+                            });
+                            break;
+                        }
+                    }
+                });
+            });
+
+        }
+    }]);
+    
+        
     
     
     
