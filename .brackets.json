@@ -1,0 +1,10 @@
+{
+    "jscodehints.detectedExclusions": [
+        "C:/Users/Skhomo1/Documents/leapapp/ehealth/ehealth.controller.js",
+        "C:/Users/Skhomo1/Documents/leapapp/hr/hr.controller.js",
+        "C:/Users/Skhomo1/Documents/leapapp/lib/onsen/js/onsenui.js",
+        "C:/Users/Skhomo1/Documents/LEAP November/leap-master/lib/onsen/js/onsenui_all.min.js",
+        "C:/Users/Skhomo1/Documents/leapapp/indigent/indigent.controller.js",
+        "C:/Users/Skhomo1/Documents/leapapp/efleet/efleet.controller.js"
+    ]
+}
