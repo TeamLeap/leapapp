@@ -27,6 +27,7 @@ app
   emmIdigentEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMReporting/resources/indigentMonthlyReports',
   emmHRinfoEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMHR/resources/getEmployeesPerDept/',
   emmEhealthinfoEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMEHealth/resources/getMedAssetAmount',
+ emmcemetryEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMCemetery/resources/personDetails/',
   emmcemetryEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMCemetery/resources/personDetails/',
   notificationapiEndPoint : 'https://onesignal.com/api/v1/notifications'
 
