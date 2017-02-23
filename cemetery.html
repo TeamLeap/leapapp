@@ -1,0 +1,65 @@
+<ons-page ng-controller="cemetryController">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Cancel</ons-back-button>
+        </div>
+        <div class="center">Cemetery Listing</div>
+    </ons-toolbar>
+
+    <form name="profileForm" class="elegant-aero">
+        <ons-list modifier="inset" style="margin-top: 10px">
+
+            <ons-list-item>
+                <input type="text" class="text-input text-input--transparent" placeholder="First Name" ng-model="firstname" style="width: 100%" required>
+            </ons-list-item>
+
+            <ons-list-item>
+                <input type="text" class="text-input text-input--transparent" placeholder="Last Name" ng-model="lastname" style="width: 100%" required>
+            </ons-list-item>
+
+            <ons-list-item>
+                <input type="text" class="text-input text-input--transparent" placeholder="ID Number" ng-model="idno" style="width: 100%">
+            </ons-list-item>
+
+        </ons-list>
+
+        <ons-row class="profile-wrapper" style="padding: 10px;">
+            <ons-button class="btn-distance" ng-click="getCementries()">
+                Submit
+            </ons-button>
+        </ons-row>
+
+    </form>
+
+    <ons-list modifier="cemetrylist">
+
+        <ons-list-item class="list-location-container" ng-repeat="cemetry in cemetryList">
+            <ons-row>
+                <ons-col>
+
+                    <div class="name">{{cemetry.FIRSTNAME}} {{cemetry.SURNAME}}</div>
+
+                    <div class="name">{{cemetry.DATEOFDEATH}}</div>
+
+                    <div class="name">{{cemetry.GENDER}}</div>
+
+                    <div class="desc">{{cemetry.LASTKNOWNADDRESS}}</div>
+
+                    <div class="name">{{cemetry.GRAVE}}</div>
+
+                    <div class="clearfix"></div>
+                </ons-col>
+            </ons-row>
+
+        </ons-list-item>
+
+    </ons-list>
+
+
+    <ons-list-item ng-show="cemetryList.length == 0">
+        <ons-row>
+            No data available.
+        </ons-row>
+    </ons-list-item>
+
+</ons-page>
