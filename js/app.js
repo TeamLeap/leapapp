@@ -1125,6 +1125,116 @@
         }
 
     }]);
+    
+    app.controller('logCallsController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', function ($http, $scope, $rootScope, $sce, appConfig) {
+
+        $scope.numOfCalls = 0;
+
+        $scope.API = appConfig.emmcreateincidentapiEndPoint;
+
+        $scope.list = [{
+            "id": "1",
+            "name": "Cemeteries"
+            }, {
+            "id": "2",
+            "name": "R1 - Road Infrastructure"
+            }, {
+            "id": "3",
+            "name": "Finance Queries"
+            }];
+
+        $scope.defectlist = [{
+            "id": "2",
+            "name": "City Planning"
+            }, {
+            "id": "3",
+            "name": "Communication & Branding"
+            }, {
+            "id": "4",
+            "name": "Customer Relationship Management"
+            }];
+
+        $scope.init = function () {
+
+            $scope.viewsettings = window.localStorage.getItem("viewsettings");
+
+        }
+
+        $scope.changeView = function (value) {
+
+            window.localStorage.setItem("viewsettings", value);
+
+        }
+
+        $scope.goLogCall = function () {
+
+
+            var requestParams = {
+                "description": $scope.logcall.desc,
+                "category": $scope.logcall.category,
+                "imageName": $scope.logcall.imageName,
+                "latitude": $scope.userLat,
+                "longitude": $scope.userLng,
+                "defectType": $scope.logcall.defecttype,
+                "imageNotes": $scope.logcall.imageNotes
+            };
+
+            if (typeof $scope.logcall.desc === 'undefined' && typeof $scope.logcall.category === 'undefined' && typeof $scope.logcall.imageName === 'undefined' && typeof $scope.logcall.defecttype === 'undefined' && typeof $scope.logcall.imageNotes === 'undefined') {
+
+                ons.notification.alert({
+                    message: 'This input form not complete!',
+                    modifier: 'material'
+                });
+
+
+            } else {
+
+                $scope.isFetching = true;
+                $rootScope.didYouKnowMessage = loadingMessageService.showMessage();
+                modal.show();
+
+                localStorage.setItem(Math.floor(Date.now() / 1000), JSON.stringify(requestParams));
+
+                $scope.API = $scope.API + '{"DateAndTime":"' + Math.floor(Date.now() / 1000) + '","Description":"' + $scope.logcall.desc + '","Category":"' + $scope.logcall.category + '","imageName":"' + $scope.logcall.imageName + '","GPSCoordinatesLatitude":"' + $scope.userLat + '","CRMID":"2571133","DefectType":"' + $scope.logcall.defecttype + '","imageNotes":"' + $scope.logcall.imageNotes + '","GPSCoordinatesLongitude":"' + $scope.userLng + '"}';
+
+                $http.get($scope.API).success(function (data) {
+
+                    $scope.isFetching = false;
+                    modal.hide();
+
+                    console.debug("response from esb", data.CaseReferenceNumber);
+
+                    ons.notification.alert({
+                        message: 'Your reference number is ' + data.CaseReferenceNumber,
+                        modifier: 'material'
+                    });
+
+
+                    console.log("before :" + appNavigator.getPages().length);
+                    appNavigator.pushPage('main-tab.html');
+                    appNavigator.getCurrentPage().destroy();
+                    console.log("after :" + appNavigator.getPages().length);
+
+                }).error(function (data, status, headers, config) {
+                    $scope.isFetching = false;
+                    modal.hide();
+
+
+                    ons.notification.alert({
+                        message: JSON.stringify(data),
+                        modifier: 'material'
+                    });
+
+
+
+                    console.log(Math.floor(Date.now() / 1000));
+                    console.debug("error", status);
+                });
+
+            }
+        };
+
+}]);
 
     app.controller('goodsReturnedNotesController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
 
