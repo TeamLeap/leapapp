@@ -1,6 +1,4 @@
 <ons-page ng-controller="ReviewsController" ng-init="getReviews()">
-    
-   
        
  <ons-tabbar>
       <ons-tab page="timeline.html" active="true">
@@ -12,7 +10,9 @@
       <ons-tab page="timeline.html">
        
       </ons-tab>
-      
+      <ons-tab page="timeline.html">
+       
+      </ons-tab>
     </ons-tabbar>
 
     <ons-template id="timeline.html">
@@ -50,20 +50,13 @@
                   
               <div class="name"><i class="ion-ios-star"></i> Average rating: {{Reviews.average_rating }}</div>
                   
-                  
-                   <div class="name"><i class="ion-ios-location"></i> {{Reviews.listing_title }}</div>
-                  
-                  
-                  
+             <div class="name"><i class="ion-ios-location"></i> {{Reviews.listing_title }}</div>
+                   
               </ons-col>
             </ons-row>
           </ons-list-item>
         </ons-list>
-
-
       </ons-page>
     </ons-template>
-
-
 
 </ons-page>
