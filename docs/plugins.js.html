@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>My Project</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>My Project</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="app.js.html">app.js</a></li>
+            <li><a href="config.js.html">config.js</a></li>
+            <li><a href="map-icons.js.html">map-icons.js</a></li>
+            <li><a href="ng-cordova.js.html">ng-cordova.js</a></li>
+            <li><a href="oauth.js.html">oauth.js</a></li>
+            <li class="active"><a href="plugins.js.html">plugins.js</a></li>
+            <li><a href="ui-bootstrap-tpls-2.1.1.js.html">ui-bootstrap-tpls-2.1.1.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#ready"><i class="alert alert-success"></i><span>ready</span></a>
+              </li>
+              <li><a href="#Helpers"><i class="alert alert-success"></i><span>Helpers</span></a>
+              </li>
+              <li><a href="#DomHelpers"><i class="alert alert-success"></i><span>DomHelpers</span></a>
+              </li>
+              <li><a href="#if"><i class="alert alert-info"></i><span>if</span></a>
+              </li>
+              <li><a href="#Private"><i class="alert alert-success"></i><span>Private</span></a>
+              </li>
+              <li><a href="#base64content"><i class="alert alert-success"></i><span>base64content</span></a>
+              </li>
+              <li><a href="#OLD_SRC_ATTR"><i class="alert alert-success"></i><span>OLD_SRC_ATTR</span></a>
+              </li>
+              <li><a href="#persistence"><i class="alert alert-success"></i><span>persistence</span></a>
+              </li>
+              <li><a href="#ngMap"><i class="alert alert-success"></i><span>ngMap</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="ready">
+            <h1>ready</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>ready</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>is AngularJS jQueryLite available</p></div>
+          <pre><code class="language-javascript">ready: false,
+attributes: {}
+    },
+    LOG_LEVEL_INFO = 1,
+    LOG_LEVEL_WARNING = 2,
+    LOG_LEVEL_ERROR = 3;
+
+(function ($) {
+
+    'use strict';</code></pre>
+          <section id="Helpers">
+            <h1>Helpers</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>Helpers</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Helpers <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p></div>
+          <pre><code class="language-javascript">var Helpers = {};
+
+// make sure the url does not contain funny characters like spaces that might make the download fail
+Helpers.sanitizeURI = function (uri) {
+    if (ImgCache.options.skipURIencoding) {
+        return uri;
+    } else {
+        var encodedURI = encodeURI(uri);</code></pre>
+          <div class="description"><p>TODO: The following bit of code will have to be checked first (#30)<br />            if (Helpers.isCordova()) {<br />                return encodedURI.replace(/%/g, &#39;%25&#39;);<br />            }</p></div>
+          <pre><code class="language-javascript">return encodedURI;
+        }
+    };
+
+    // with a little help from http://code.google.com/p/js-uri/
+    Helpers.URI = function (str) {
+        if (!str) { str = ''; }
+        // Based on the regex in RFC2396 Appendix B.
+        var parser = /^(?:([^:\/?\#]+):)?(?:\/\/([^\/?\#]*))?([^?\#]*)(?:\?([^\#]*))?(?:\#(.*))?/,
+result = str.match(parser);
+        this.scheme    = result[1] || null;
+        this.authority = result[2] || null;
+        this.path      = result[3] || null;
+        this.query     = result[4] || null;
+        this.fragment  = result[5] || null;
+    };
+    // returns lower cased filename from full URI
+    Helpers.URIGetFileName = function (fullpath) {
+        if (!fullpath) {
+return;
+        }
+        //TODO: there must be a better way here.. (url encoded strings fail)
+        var idx = fullpath.lastIndexOf('/');
+        if (!idx) {
+return;
+        }
+        return fullpath.substr(idx + 1).toLowerCase();
+    };
+
+    // returns lower cased path from full URI
+    Helpers.URIGetPath = function (str) {
+        if (!str) {
+return;
+        }
+        var uri = Helpers.URI(str);
+        return uri.path.toLowerCase();
+    };
+
+    // returns extension from filename (without leading '.')
+    Helpers.FileGetExtension = function (filename) {
+        if (!filename) {
+return '';
+        }
+        filename = filename.split('?')[0];
+        var ext = filename.split('.').pop();
+        // make sure it's a realistic file extension - for images no more than 4 characters long (.jpeg)
+        if (!ext || ext.length &gt; 4) {
+return '';
+        }
+        return ext;
+    };
+
+    Helpers.isCordova = function () {
+        return (typeof cordova !== 'undefined' || typeof phonegap !== 'undefined');
+    };
+
+    Helpers.isCordovaAndroid = function () {
+        return (Helpers.isCordova() &amp;&amp; device &amp;&amp; device.platform &amp;&amp; device.platform.toLowerCase().indexOf('android') &gt;= 0);
+    };
+
+    // special case for #47
+    Helpers.isCordovaAndroidOlderThan4 = function () {
+        return (Helpers.isCordovaAndroid() &amp;&amp; device.version &amp;&amp; (device.version.indexOf('2.') === 0 || device.version.indexOf('3.') === 0));
+    };
+
+    // Fix for #42 (Cordova versions &lt; 4.0)
+    Helpers.EntryToURL = function (entry) {
+        if (Helpers.isCordovaAndroidOlderThan4() &amp;&amp; typeof entry.toNativeURL === 'function') {
+return entry.toNativeURL();
+        } else {
+return entry.toURL();
+        }
+    };
+
+    // Returns a URL that can be used to locate a file
+    Helpers.EntryGetURL = function (entry) {
+        // toURL for html5, toURI for cordova 1.x
+        return (typeof entry.toURL === 'function' ? Helpers.EntryToURL(entry) : entry.toURI());
+    };
+
+    // Returns the full absolute path from the root to the FileEntry
+    Helpers.EntryGetPath = function (entry) {
+        if (Helpers.isCordova()) {
+// From Cordova 3.3 onward toURL() seems to be required instead of fullPath (#38)
+return (typeof entry.toURL === 'function' ? Helpers.EntryToURL(entry) : entry.fullPath);
+        } else {
+return entry.fullPath;
+        }
+    };
+
+    Helpers.getCordovaStorageType = function (isPersistent) {
+        // From Cordova 3.1 onward those constants have moved to the window object (#38)
+        if (typeof LocalFileSystem !== 'undefined') {
+if (isPersistent &amp;&amp; LocalFileSystem.hasOwnProperty('PERSISTENT')) {
+    return LocalFileSystem.PERSISTENT;
+}
+if (!isPersistent &amp;&amp; LocalFileSystem.hasOwnProperty('TEMPORARY')) {
+    return LocalFileSystem.TEMPORARY;
+}
+        }
+        return (isPersistent ? window.PERSISTENT : window.TEMPORARY);
+    };</code></pre>
+          <div class="description"><hr>
+</div>
+          <section id="DomHelpers">
+            <h1>DomHelpers</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>DomHelpers</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>DomHelpers <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>*</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p></div>
+          <pre><code class="language-javascript">var DomHelpers = {};
+
+DomHelpers.trigger = function (DomElement, eventName) {
+    if (ImgCache.jQuery) {
+        $(DomElement).trigger(eventName);
+    } else {</code></pre>
+          <section id="if">
+            <h1>if</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>if()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>CustomEvent polyfill</p></div>
+          <pre><code class="language-javascript">if (!window.CustomEvent) {
+    // CustomEvent for browsers which don't natively support the Constructor method
+    window.CustomEvent = function CustomEvent(type, params) {
+        var event;
+        params = params || {bubbles: false, cancelable: false, detail: undefined};
+        try {
+            event = document.createEvent('CustomEvent');
+            event.initCustomEvent(type, params.bubbles, params.cancelable, params.detail);
+        } catch (error) {
+            // for browsers that don't support CustomEvent at all, we use a regular event instead
+            event = document.createEvent('Event');
+            event.initEvent(type, params.bubbles, params.cancelable);
+            event.detail = params.detail;
+        }
+        return event;
+    };
+}
+DomElement.dispatchEvent(new CustomEvent(eventName));
+        }
+    };
+
+    DomHelpers.removeAttribute = function (element, attrName) {
+        if (ImgCache.jQuery || ImgCache.jQueryLite) {
+element.removeAttr(attrName);
+        } else {
+element.removeAttribute(attrName);
+        }
+    };
+    DomHelpers.setAttribute = function (element, attrName, value) {
+        if (ImgCache.jQuery || ImgCache.jQueryLite) {
+element.attr(attrName, value);
+        } else {
+element.setAttribute(attrName, value);
+        }
+    };
+    DomHelpers.getAttribute = function (element, attrName) {
+        if (ImgCache.jQuery || ImgCache.jQueryLite) {
+return element.attr(attrName);
+        } else {
+return element.getAttribute(attrName);
+        }
+    };
+    DomHelpers.getBackgroundImage = function (element) {
+        if (ImgCache.jQuery || ImgCache.jQueryLite) {
+return element.css('background-image');
+        } else {
+var style = window.getComputedStyle(element, null);
+if (!style) {
+    return;
+}
+return style.backgroundImage;
+        }
+    };
+    DomHelpers.setBackgroundImage = function (element, styleValue) {
+        if (ImgCache.jQuery || ImgCache.jQueryLite) {
+element.css('background-image', styleValue);
+        } else {
+element.style.backgroundImage = styleValue;
+        }
+    };</code></pre>
+          <div class="description"><hr>
+</div>
+          <section id="Private">
+            <h1>Private</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>Private</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Private <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p></div>
+          <pre><code class="language-javascript">var Private = { attributes: {} };
+
+Private.isImgCacheLoaded = function () {
+    if (!ImgCache.attributes.filesystem || !ImgCache.attributes.dirEntry) {
+        ImgCache.overridables.log('ImgCache not loaded yet! - Have you called ImgCache.init() first?', LOG_LEVEL_WARNING);
+        return false;
+    }
+    return true;
+};
+
+Private.attributes.hasLocalStorage = false;
+Private.hasLocalStorage = function () {
+    // if already tested, avoid doing the check again
+    if (Private.attributes.hasLocalStorage) {
+        return Private.attributes.hasLocalStorage;
+    }
+    try {
+        var mod = ImgCache.overridables.hash('imgcache_test');
+        localStorage.setItem(mod, mod);
+        localStorage.removeItem(mod);
+        Private.attributes.hasLocalStorage = true;
+        return true;
+
+    } catch (e) {
+        // this is an info, not an error
+        ImgCache.overridables.log('Could not write to local storage: ' + e.message, LOG_LEVEL_INFO);
+        return false;
+    }
+};
+
+Private.setCurrentSize = function (curSize) {
+    ImgCache.overridables.log('current size: ' + curSize, LOG_LEVEL_INFO);
+    if (Private.hasLocalStorage()){
+        localStorage.setItem('imgcache:' + ImgCache.options.localCacheFolder, curSize);
+    }
+};
+
+Private.getCachedFilePath = function (img_src) {
+    return ImgCache.options.localCacheFolder + '/' + Private.getCachedFileName(img_src);
+};
+
+// used for FileTransfer.download only
+Private.getCachedFileFullPath = function (img_src) {
+    var local_root = Helpers.EntryGetPath(ImgCache.attributes.dirEntry);
+    return (local_root ? local_root + '/' : '/') + Private.getCachedFileName(img_src);
+};
+
+Private.getCachedFileName = function (img_src) {
+    if (!img_src) {
+        ImgCache.overridables.log('No source given to getCachedFileName', LOG_LEVEL_WARNING);
+        return;
+    }
+    var hash = ImgCache.overridables.hash(img_src);
+    var ext = Helpers.FileGetExtension(Helpers.URIGetFileName(img_src));
+    return hash + (ext ? ('.' + ext) : '');
+};
+
+Private.setNewImgPath = function ($img, new_src, old_src) {
+    DomHelpers.setAttribute($img, 'src', new_src);
+    // store previous url in case we need to reload it
+    DomHelpers.setAttribute($img, OLD_SRC_ATTR, old_src);
+};
+
+Private.createCacheDir = function (success_callback, error_callback) {
+    if (!ImgCache.attributes.filesystem) {
+        ImgCache.overridables.log('Filesystem instance was not initialised', LOG_LEVEL_ERROR);
+        if (error_callback) { error_callback(); }
+        return;
+    }
+
+    var _fail = function (error) {
+        ImgCache.overridables.log('Failed to get/create local cache directory: ' + error.code, LOG_LEVEL_ERROR);
+        if (error_callback) { error_callback(); }
+    };
+    var _getDirSuccess = function (dirEntry) {
+        ImgCache.attributes.dirEntry = dirEntry;
+        ImgCache.overridables.log('Local cache folder opened: ' + Helpers.EntryGetPath(dirEntry), LOG_LEVEL_INFO);
+
+        //Put .nomedia file in cache directory so Android doesn't index it.
+        if (Helpers.isCordovaAndroid()) {
+
+            var _androidNoMediaFileCreated = function () {
+                ImgCache.overridables.log('.nomedia file created.', LOG_LEVEL_INFO);
+                if (success_callback) { success_callback(); }
+            };
+
+            dirEntry.getFile('.nomedia', {create: true, exclusive: false}, _androidNoMediaFileCreated, _fail);
+        } else {
+            // #73 - iOS: the directory should not be backed up in iCloud
+            if (dirEntry.setMetadata) {
+                dirEntry.setMetadata(function () {</code></pre>
+          <div class="description"><p>success</p></div>
+          <pre><code class="language-javascript">ImgCache.overridables.log('com.apple.MobileBackup metadata set', LOG_LEVEL_INFO);
+                        }, function () {</code></pre>
+          <div class="description"><p>failure</p></div>
+          <pre><code class="language-javascript">ImgCache.overridables.log('com.apple.MobileBackup metadata could not be set', LOG_LEVEL_WARNING);
+                        }, { 'com.apple.MobileBackup': 1 }
+                        // 1=NO backup oddly enough..
+                    );
+                }
+
+                if (success_callback) { success_callback(); }
+            }
+
+            ImgCache.ready = true;
+            DomHelpers.trigger(document, IMGCACHE_READY_TRIGGERED_EVENT);
+        };
+        ImgCache.attributes.filesystem.root.getDirectory(ImgCache.options.localCacheFolder, {create: true, exclusive: false}, _getDirSuccess, _fail);
+    };
+
+    // This is a wrapper for phonegap's FileTransfer object in order to implement the same feature
+    // in Chrome (and possibly extra browsers in the future)
+    Private.FileTransferWrapper = function (filesystem) {
+        if (Helpers.isCordova()) {
+            // PHONEGAP
+            this.fileTransfer = new FileTransfer();
+        }
+        this.filesystem = filesystem;	// only useful for CHROME
+    };
+    Private.FileTransferWrapper.prototype.download = function (uri, localPath, success_callback, error_callback, on_progress) {
+
+        var headers = ImgCache.options.headers || {};
+        var isOnProgressAvailable = (typeof on_progress === 'function');
+
+        if (this.fileTransfer) {
+            if (isOnProgressAvailable) {
+                this.fileTransfer.onprogress = on_progress;
+            }
+            return this.fileTransfer.download(uri, localPath, success_callback, error_callback, false, { 'headers': headers });
+        }
+
+        var filesystem = this.filesystem;
+
+        // CHROME - browsers
+        var _fail = function (str, level, error_callback) {
+            ImgCache.overridables.log(str, level);
+            // mock up FileTransferError, so at least caller knows there was a problem.
+            // Normally, the error.code in the callback is a FileWriter error, we return 0 if the error was an XHR error
+            if (error_callback) {
+                error_callback({code: 0, source: uri, target: localPath});
+            }
+        };
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', uri, true);
+        if (isOnProgressAvailable) {
+            xhr.onprogress = on_progress;
+        }
+        xhr.responseType = 'blob';
+        for (var key in headers) {
+            xhr.setRequestHeader(key, headers[key]);
+        }
+        xhr.onload = function () {
+            if (xhr.response &amp;&amp; (xhr.status === 200 || xhr.status === 0)) {
+                filesystem.root.getFile(localPath, { create:true }, function (fileEntry) {
+                    fileEntry.createWriter(function (writer) {
+                        writer.onerror = error_callback;
+                        writer.onwriteend = function () { success_callback(fileEntry);  };
+                        writer.write(xhr.response, error_callback);
+                    }, error_callback);
+                }, error_callback);
+            } else {
+                _fail('Image ' + uri + ' could not be downloaded - status: ' + xhr.status, 3, error_callback);
+            }
+        };
+        xhr.onerror = function () {
+            _fail('XHR error - Image ' + uri + ' could not be downloaded - status: ' + xhr.status, 3, error_callback);
+        };
+        xhr.send();
+    };
+
+    Private.getBackgroundImageURL = function ($div) {
+        var backgroundImageProperty = DomHelpers.getBackgroundImage($div);
+        if (!backgroundImageProperty) {
+            return;
+        }
+        var regexp = /\((.+)\)/;
+        var img_src = regexp.exec(backgroundImageProperty)[1];
+        return img_src;
+    };
+
+    Private.loadCachedFile = function ($element, img_src, set_path_callback, success_callback, error_callback) {
+        if (!Private.isImgCacheLoaded()) {
+            return;
+        }
+
+        if (!$element) {
+            return;
+        }
+
+        var filename = Helpers.URIGetFileName(img_src);
+
+        var _gotFileEntry = function (entry) {
+            if (ImgCache.options.useDataURI) {
+                var _win = function (file) {
+                    var reader = new FileReader();
+                    reader.onloadend = function (e) {
+                        // prefix with : 'data:' + mime_type + ';base64;' + .. ?</code></pre>
+          <section id="base64content">
+            <h1>base64content</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>base64content</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>var mime_type = &#39;&#39;;<br />                        if (filename &amp;&amp; filename.length &gt; 4) {<br />                            //TODO: of course relying on extension is wrong.. but we trust our data here<br />                            var ext = filename.substr(filename.length - 4).toLowerCase();<br />                            if (ext == &#39;.jpg&#39; || ext == &#39;jpeg&#39;) {<br />                                mime_type = &#39;image/jpeg&#39;;<br />                            } else if (ext == &#39;.png&#39;) {<br />                                mime_type = &#39;image/png&#39;;<br />                            } else if (ext == &#39;.gif&#39;) {<br />                                mime_type = &#39;image/gif&#39;;<br />                            }<br />                        }</p></div>
+          <pre><code class="language-javascript">var base64content = e.target.result;
+if (!base64content) {
+    ImgCache.overridables.log('File in cache ' + filename + ' is empty', LOG_LEVEL_WARNING);
+    if (error_callback) { error_callback($element); }
+    return;
+}
+set_path_callback($element, base64content, img_src);
+ImgCache.overridables.log('File ' + filename + ' loaded from cache', LOG_LEVEL_INFO);
+if (success_callback) { success_callback($element); }
+                    };
+                    reader.readAsDataURL(file);
+                };
+                var _fail = function (error) {
+                    ImgCache.overridables.log('Failed to read file ' + error.code, LOG_LEVEL_ERROR);
+                    if (error_callback) { error_callback($element); }
+                };
+
+                entry.file(_win, _fail);
+            } else {
+                // using src=&quot;filesystem:&quot; kind of url
+                var new_url = Helpers.EntryGetURL(entry);
+                set_path_callback($element, new_url, img_src);
+                ImgCache.overridables.log('File ' + filename + ' loaded from cache', LOG_LEVEL_INFO);
+                if (success_callback) { success_callback($element); }
+            }
+        };
+        // if file does not exist in cache, cache it now!
+        var _fail = function () {
+            ImgCache.overridables.log('File ' + filename + ' not in cache', LOG_LEVEL_INFO);
+            if (error_callback) { error_callback($element); }
+        };
+        ImgCache.attributes.filesystem.root.getFile(Private.getCachedFilePath(img_src), {create: false}, _gotFileEntry, _fail);
+    };</code></pre>
+          <section id="OLD_SRC_ATTR">
+            <h1>OLD_SRC_ATTR</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>OLD_SRC_ATTR</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><hr>
+</div>
+          <pre><code class="language-javascript">var OLD_SRC_ATTR = 'data-old-src',
+        OLD_BACKGROUND_ATTR = 'data-old-background',
+        IMGCACHE_READY_TRIGGERED_EVENT = 'ImgCacheReady';
+
+ImgCache.init = function (success_callback, error_callback) {
+	ImgCache.attributes.init_callback = success_callback;
+
+        var _checkSize = function (callback) {
+            if (ImgCache.options.cacheClearSize &gt; 0) {
+                var curSize = ImgCache.getCurrentSize();
+                if (curSize &gt; (ImgCache.options.cacheClearSize * 1024 * 1024)) {
+                    ImgCache.clearCache(callback, callback);
+                } else {
+                    if (callback) { callback(); }
+                }
+            } else {
+                if (callback) { callback(); }
+            }
+        };
+        var _gotFS = function (filesystem) {
+		ImgCache.overridables.log('LocalFileSystem opened', LOG_LEVEL_INFO);
+
+		// store filesystem handle
+		ImgCache.attributes.filesystem = filesystem;
+
+		Private.createCacheDir(function () {
+			_checkSize(ImgCache.attributes.init_callback);
+		}, error_callback);
+	};
+	var _fail = function (error) {
+		ImgCache.overridables.log('Failed to initialise LocalFileSystem ' + error.code, LOG_LEVEL_ERROR);
+		if (error_callback) { error_callback(); }
+	};
+	if (Helpers.isCordova()) {
+		// PHONEGAP
+            window.requestFileSystem(Helpers.getCordovaStorageType(ImgCache.options.usePersistentCache), 0, _gotFS, _fail);
+	} else {
+		//CHROME
+		window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+		window.storageInfo = window.storageInfo || (ImgCache.options.usePersistentCache ? navigator.webkitPersistentStorage : navigator.webkitTemporaryStorage);
+		if (!window.storageInfo) {
+			ImgCache.overridables.log('Your browser does not support the html5 File API', LOG_LEVEL_WARNING);
+			if (error_callback) { error_callback(); }
+			return;
+		}
+		// request space for storage
+		var quota_size = ImgCache.options.chromeQuota;
+		window.storageInfo.requestQuota(
+			quota_size,
+			function () {</code></pre>
+          <section id="persistence">
+            <h1>persistence</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>persistence</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>success</p></div>
+          <pre><code class="language-javascript">var persistence = (ImgCache.options.usePersistentCache ? window.storageInfo.PERSISTENT : window.storageInfo.TEMPORARY);
+window.requestFileSystem(persistence, quota_size, _gotFS, _fail);
+				},
+				function (error) {</code></pre>
+          <div class="description"><p>error</p></div>
+          <pre><code class="language-javascript">ImgCache.overridables.log('Failed to request quota: ' + error.message, LOG_LEVEL_ERROR);
+if (error_callback) { error_callback(); }
+				}
+			);
+		}
+	};
+
+	ImgCache.getCurrentSize = function () {
+		if (Private.hasLocalStorage()) {
+			var curSize = localStorage.getItem('imgcache:' + ImgCache.options.localCacheFolder);
+			if (curSize === null) {
+				return 0;
+			}
+			return parseInt(curSize, 10);
+		} else {
+			return 0;
+		}
+	};
+
+	// this function will not check if the image is already cached or not =&gt; it will overwrite existing data
+    // on_progress callback follows this spec: http://www.w3.org/TR/2014/REC-progress-events-20140211/ -- see #54
+	ImgCache.cacheFile = function (img_src, success_callback, error_callback, on_progress) {
+
+		if (!Private.isImgCacheLoaded() || !img_src) {
+			return;
+        }
+
+		img_src = Helpers.sanitizeURI(img_src);
+
+		var filePath = Private.getCachedFileFullPath(img_src);
+
+		var fileTransfer = new Private.FileTransferWrapper(ImgCache.attributes.filesystem);
+		fileTransfer.download(
+			img_src,
+			filePath,
+			function (entry) {
+				entry.getMetadata(function (metadata) {
+if (metadata &amp;&amp; metadata.hasOwnProperty('size')) {
+	ImgCache.overridables.log('Cached file size: ' + metadata.size, LOG_LEVEL_INFO);
+	Private.setCurrentSize(ImgCache.getCurrentSize() + parseInt(metadata.size, 10));
+} else {
+	ImgCache.overridables.log('No metadata size property available', LOG_LEVEL_INFO);
+}
+				});
+				ImgCache.overridables.log('Download complete: ' + Helpers.EntryGetPath(entry), LOG_LEVEL_INFO);
+
+				// iOS: the file should not be backed up in iCloud
+				// new from cordova 1.8 only
+				if (entry.setMetadata) {
+                    entry.setMetadata(
+                        function () {</code></pre>
+          <div class="description"><p>success</p></div>
+          <pre><code class="language-javascript">ImgCache.overridables.log('com.apple.MobileBackup metadata set', LOG_LEVEL_INFO);
+                        },
+                        function () {</code></pre>
+          <div class="description"><p>failure</p></div>
+          <pre><code class="language-javascript">ImgCache.overridables.log('com.apple.MobileBackup metadata could not be set', LOG_LEVEL_WARNING);
+                        },
+                        { 'com.apple.MobileBackup': 1 }
+                        // 1=NO backup oddly enough..
+                    );
+				}
+
+				if (success_callback) { success_callback(); }
+			},
+			function (error) {
+				if (error.source) { ImgCache.overridables.log('Download error source: ' + error.source, LOG_LEVEL_ERROR); }
+				if (error.target) { ImgCache.overridables.log('Download error target: ' + error.target, LOG_LEVEL_ERROR); }
+				ImgCache.overridables.log('Download error code: ' + error.code, LOG_LEVEL_ERROR);
+				if (error_callback) { error_callback(); }
+			},
+            on_progress
+		);
+	};
+
+    // Returns the file already available in the cached
+    // Reminder: this is an asynchronous method!
+    // Answer to the question comes in response_callback as the second argument (first being the path)
+    ImgCache.getCachedFile = function (img_src, response_callback) {
+        // sanity check
+        if (!Private.isImgCacheLoaded() || !response_callback) {
+            return;
+        }
+
+        img_src = Helpers.sanitizeURI(img_src);
+
+        var path = Private.getCachedFilePath(img_src);
+        if (Helpers.isCordovaAndroid()) {
+            // This hack is probably only used for older versions of Cordova
+            if (path.indexOf('file://') === 0) {
+                // issue #4 -- android cordova specific
+                path = path.substr(7);
+            }
+        }
+
+        // try to get the file entry: if it fails, there's no such file in the cache
+        ImgCache.attributes.filesystem.root.getFile(
+            path,
+            { create: false },
+            function (file_entry) { response_callback(img_src, file_entry); },
+            function () { response_callback(img_src, null); }
+        );
+    };
+
+	// Returns the local url of a file already available in the cache
+	ImgCache.getCachedFileURL = function (img_src, success_callback, error_callback) {
+        var _getURL = function (img_src, entry) {
+            if (!entry) {
+                if (error_callback) { error_callback(img_src); }
+            } else {
+                success_callback(img_src, Helpers.EntryGetURL(entry));
+            }
+        };
+
+        ImgCache.getCachedFile(img_src, _getURL);
+	};
+
+
+    // checks if a copy of the file has already been cached
+    // Reminder: this is an asynchronous method!
+    // Answer to the question comes in response_callback as the second argument (first being the path)
+    ImgCache.isCached = function (img_src, response_callback) {
+        ImgCache.getCachedFile(img_src, function (src, file_entry) {
+            response_callback(src, file_entry !== null);
+        });
+    };
+
+	// $img: jQuery object of an &lt;img/&gt; element
+	// Synchronous method
+	ImgCache.useOnlineFile = function ($img) {
+
+		if (!Private.isImgCacheLoaded() || !$img) {
+			return;
+        }
+
+		var prev_src = DomHelpers.getAttribute($img, OLD_SRC_ATTR);
+		if (prev_src) {
+			DomHelpers.setAttribute($img, 'src', prev_src);
+        }
+		DomHelpers.removeAttribute($img, OLD_SRC_ATTR);
+	};
+
+
+
+	// $img: jQuery object of an &lt;img/&gt; element
+	ImgCache.useCachedFile = function ($img, success_callback, error_callback) {
+
+		if (!Private.isImgCacheLoaded()) {
+			return;
+        }
+
+		Private.loadCachedFile($img, DomHelpers.getAttribute($img, 'src'), Private.setNewImgPath, success_callback, error_callback);
+	};
+
+	// When the source url is not the 'src' attribute of the given img element
+	ImgCache.useCachedFileWithSource = function ($img, image_url, success_callback, error_callback) {
+
+		if (!Private.isImgCacheLoaded()) {
+			return;
+        }
+
+        var img_url = Helpers.sanitizeURI(image_url);
+
+        Private.loadCachedFile($img, img_url, Private.setNewImgPath, success_callback, error_callback);
+	};
+
+	// clears the cache
+	ImgCache.clearCache = function (success_callback, error_callback) {
+
+		if (!Private.isImgCacheLoaded()) {
+			return;
+        }
+
+		// delete cache dir completely
+		ImgCache.attributes.dirEntry.removeRecursively(
+			function () {
+				ImgCache.overridables.log('Local cache cleared', LOG_LEVEL_INFO);
+				Private.setCurrentSize(0);
+				// recreate the cache dir now
+				Private.createCacheDir(success_callback, error_callback);
+			},
+			function (error) {
+				ImgCache.overridables.log('Failed to remove directory or its contents: ' + error.code, LOG_LEVEL_ERROR);
+				if (error_callback) { error_callback(); }
+			}
+		);
+	};
+
+	ImgCache.removeFile = function (img_src, success_callback, error_callback) {
+
+		img_src = Helpers.sanitizeURI(img_src);
+
+		var filePath = Private.getCachedFilePath(img_src);
+		var _fail = function (error) {
+			ImgCache.overridables.log('Failed to remove file due to ' + error.code, LOG_LEVEL_ERROR);
+			if (error_callback) { error_callback(); }
+		};
+		ImgCache.attributes.filesystem.root.getFile(filePath, { create: false }, function (fileEntry) {
+			fileEntry.remove(
+				function () {
+					if (success_callback) { success_callback(); }
+				},
+				_fail
+			);
+		}, _fail);
+	};
+
+    ImgCache.cacheBackground = function ($div, success_callback, error_callback, on_progress) {
+
+		if (!Private.isImgCacheLoaded()) {
+			return;
+        }
+
+		var img_src = Private.getBackgroundImageURL($div);
+		if (!img_src) {
+			ImgCache.overridables.log('No background to cache', LOG_LEVEL_WARNING);
+			if (error_callback) { error_callback(); }
+			return;
+		}
+
+		ImgCache.overridables.log('Background image URL: ' + img_src, LOG_LEVEL_INFO);
+		ImgCache.cacheFile(img_src, success_callback, error_callback, on_progress);
+	};
+
+	ImgCache.useCachedBackground = function ($div, success_callback, error_callback) {
+
+		if (!Private.isImgCacheLoaded()) {
+			return;
+        }
+
+		var img_src = Private.getBackgroundImageURL($div);
+		if (!img_src) {
+			ImgCache.overridables.log('No background to cache', LOG_LEVEL_WARNING);
+			if (error_callback) { error_callback(); }
+			return;
+		}
+
+		var _setBackgroundImagePath = function ($element, new_src, old_src) {
+			DomHelpers.setBackgroundImage($element, 'url(&quot;' + new_src + '&quot;)');
+			// store previous url in case we need to reload it
+			DomHelpers.setAttribute($element, OLD_BACKGROUND_ATTR, old_src);
+		};
+
+		Private.loadCachedFile($div, img_src, _setBackgroundImagePath, success_callback, error_callback);
+	};
+
+
+	// $div: jQuery object of an element
+	// Synchronous method
+	// Method used to revert call to useCachedBackground
+	ImgCache.useBackgroundOnlineFile = function ($div) {
+
+		if (!$div) {
+			return;
+        }
+
+		var prev_src = DomHelpers.getAttribute($div, OLD_BACKGROUND_ATTR);
+		if (prev_src) {
+			DomHelpers.setBackgroundImage($div, 'url(&quot;' + prev_src + '&quot;)');
+        }
+		DomHelpers.removeAttribute($div, OLD_BACKGROUND_ATTR);
+	};
+
+	// returns the URI of the local cache folder (filesystem:)
+	// this function is more useful for the examples than for anything else..
+	// Synchronous method
+	ImgCache.getCacheFolderURI = function () {
+
+		if (!Private.isImgCacheLoaded()) {
+			return;
+        }
+
+		return Helpers.EntryGetURL(ImgCache.attributes.dirEntry);
+	};</code></pre>
+          <div class="description"><hr>
+</div>
+          <pre><code class="language-javascript">// Expose the class either via AMD, CommonJS or the global object
+if (typeof define === 'function' &amp;&amp; define.amd) {
+    define('imgcache', [], function () {
+        return ImgCache;
+    });
+}
+else if (typeof module === 'object' &amp;&amp; module.exports){
+    module.exports = ImgCache;
+}
+else {
+    window.ImgCache = ImgCache;
+}
+
+})(window.jQuery || window.Zepto || function () { throw &quot;jQuery is not available&quot;; } );</code></pre>
+          <div class="description"><p>Angular Carousel - Mobile friendly touch carousel for AngularJS</p></div>
+          <pre><code class="language-javascript">angular.module(&quot;angular-carousel&quot;,[&quot;ngTouch&quot;,&quot;angular-carousel.shifty&quot;]),angular.module(&quot;angular-carousel&quot;).directive(&quot;rnCarouselAutoSlide&quot;,[&quot;$timeout&quot;,function(a){return{restrict:&quot;A&quot;,link:function(b,c,d){var e=Math.round(1e3*parseFloat(d.rnCarouselAutoSlide)),f=increment=!1,g=c.children().length;b.carouselExposedIndex||(b.carouselExposedIndex=0),stopAutoplay=function(){angular.isDefined(f)&amp;&amp;a.cancel(f),f=void 0},increment=function(){b.carouselExposedIndex=b.carouselExposedIndex&lt;g-1?b.carouselExposedIndex+1:0},restartTimer=function(){stopAutoplay(),f=a(increment,e)},b.$watch(&quot;carouselIndex&quot;,function(){restartTimer()}),restartTimer(),d.rnCarouselPauseOnHover&amp;&amp;&quot;false&quot;!=d.rnCarouselPauseOnHover&amp;&amp;(c.on(&quot;mouseenter&quot;,stopAutoplay),c.on(&quot;mouseleave&quot;,restartTimer)),b.$on(&quot;$destroy&quot;,function(){stopAutoplay(),c.off(&quot;mouseenter&quot;,stopAutoplay),c.off(&quot;mouseleave&quot;,restartTimer)})}}}]),angular.module(&quot;angular-carousel&quot;).directive(&quot;rnCarouselIndicators&quot;,[&quot;$parse&quot;,function(a){return{restrict:&quot;A&quot;,scope:{slides:&quot;=&quot;,index:&quot;=rnCarouselIndex&quot;},templateUrl:&quot;carousel-indicators.html&quot;,link:function(b,c,d){var e=a(d.rnCarouselIndex);b.goToSlide=function(a){e.assign(b.$parent.$parent,a)}}}}]),angular.module(&quot;angular-carousel&quot;).run([&quot;$templateCache&quot;,function(a){a.put(&quot;carousel-indicators.html&quot;,'&lt;div class=&quot;rn-carousel-indicator&quot;&gt;\n&lt;span ng-repeat=&quot;slide in slides&quot; ng-class=&quot;{active: $index==index}&quot; ng-click=&quot;goToSlide($index)&quot;&gt;●&lt;/span&gt;&lt;/div&gt;')}]),function(){&quot;use strict&quot;;angular.module(&quot;angular-carousel&quot;).service(&quot;DeviceCapabilities&quot;,function(){function a(){var a=&quot;transform&quot;,b=&quot;webkitTransform&quot;;return&quot;undefined&quot;!=typeof document.body.style[a]?[&quot;webkit&quot;,&quot;moz&quot;,&quot;o&quot;,&quot;ms&quot;].every(function(b){var c=&quot;-&quot;+b+&quot;-transform&quot;;return&quot;undefined&quot;!=typeof document.body.style[c]?(a=c,!1):!0}):a=&quot;undefined&quot;!=typeof document.body.style[b]?&quot;-webkit-transform&quot;:void 0,a}function b(){var a,b=document.createElement(&quot;p&quot;),c={webkitTransform:&quot;-webkit-transform&quot;,msTransform:&quot;-ms-transform&quot;,transform:&quot;transform&quot;};document.body.insertBefore(b,null);for(var d in c)void 0!==b.style[d]&amp;&amp;(b.style[d]=&quot;translate3d(1px,1px,1px)&quot;,a=window.getComputedStyle(b).getPropertyValue(c[d]));return document.body.removeChild(b),void 0!==a&amp;&amp;a.length&gt;0&amp;&amp;&quot;none&quot;!==a}return{has3d:b(),transformProperty:a()}}).service(&quot;computeCarouselSlideStyle&quot;,[&quot;DeviceCapabilities&quot;,function(a){return function(b,c,d){var e,f={display:&quot;inline-block&quot;},g=100*b+c,h=a.has3d?&quot;translate3d(&quot;+g+&quot;%, 0, 0)&quot;:&quot;translate3d(&quot;+g+&quot;%, 0)&quot;,i=(100-Math.abs(g))/100;if(a.transformProperty)if(&quot;fadeAndSlide&quot;==d)f[a.transformProperty]=h,e=0,Math.abs(g)&lt;100&amp;&amp;(e=.3+.7*i),f.opacity=e;else if(&quot;hexagon&quot;==d){var j=100,k=0,l=60*(i-1);j=-100*b&gt;c?100:0,k=-100*b&gt;c?l:-l,f[a.transformProperty]=h+&quot; rotateY(&quot;+k+&quot;deg)&quot;,f[a.transformProperty+&quot;-origin&quot;]=j+&quot;% 50%&quot;}else if(&quot;zoom&quot;==d){f[a.transformProperty]=h;var m=1;Math.abs(g)&lt;100&amp;&amp;(m=1+2*(1-i)),f[a.transformProperty]+=&quot; scale(&quot;+m+&quot;)&quot;,f[a.transformProperty+&quot;-origin&quot;]=&quot;50% 50%&quot;,e=0,Math.abs(g)&lt;100&amp;&amp;(e=.3+.7*i),f.opacity=e}else f[a.transformProperty]=h;else f[&quot;margin-left&quot;]=g+&quot;%&quot;;return f}}]).service(&quot;createStyleString&quot;,function(){return function(a){var b=[];return angular.forEach(a,function(a,c){b.push(c+&quot;:&quot;+a)}),b.join(&quot;;&quot;)}}).directive(&quot;rnCarousel&quot;,[&quot;$swipe&quot;,&quot;$window&quot;,&quot;$document&quot;,&quot;$parse&quot;,&quot;$compile&quot;,&quot;$timeout&quot;,&quot;$interval&quot;,&quot;computeCarouselSlideStyle&quot;,&quot;createStyleString&quot;,&quot;Tweenable&quot;,function(a,b,c,d,e,f,g,h,i,j){function k(a,b,c){var d=c;return a.every(function(a,c){return angular.equals(a,b)?(d=c,!1):!0}),d}{var l=0;b.requestAnimationFrame||b.webkitRequestAnimationFrame||b.mozRequestAnimationFrame}return{restrict:&quot;A&quot;,scope:!0,compile:function(m,n){var o,p,q=m[0].querySelector(&quot;li&quot;),r=q?q.attributes:[],s=!1,t=!1;return[&quot;ng-repeat&quot;,&quot;data-ng-repeat&quot;,&quot;ng:repeat&quot;,&quot;x-ng-repeat&quot;].every(function(a){var b=r[a];if(angular.isDefined(b)){var c=b.value.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+?)(?:\s+track\s+by\s+([\s\S]+?))?\s*$/),d=c[3];if(o=c[1],p=c[2],o)return angular.isDefined(n.rnCarouselBuffered)&amp;&amp;(t=!0,b.value=o+&quot; in &quot;+p+&quot;|carouselSlice:carouselBufferIndex:carouselBufferSize&quot;,d&amp;&amp;(b.value+=&quot; track by &quot;+d)),s=!0,!1}return!0}),function(m,n,o){function q(){return n[0].querySelectorAll(&quot;ul[rn-carousel] &gt; li&quot;)}function r(a){L=!0,A({x:a.clientX,y:a.clientY},a)}function u(a){var b=100*m.carouselBufferIndex+a;angular.forEach(q(),function(a,c){a.style.cssText=i(h(c,b,I.transitionType))})}function v(a,b){if(void 0===a&amp;&amp;(a=m.carouselIndex),b=b||{},b.animate===!1||&quot;none&quot;===I.transitionType)return O=!1,K=-100*a,m.carouselIndex=a,B(),void 0;O=!0;var c=new j;c.tween({from:{x:K},to:{x:-100*a},duration:I.transitionDuration,easing:I.transitionEasing,step:function(a){u(a.x)},finish:function(){O=!1,m.$apply(function(){m.carouselIndex=a,K=-100*a,B()})}})}function w(){var a=n[0].getBoundingClientRect();return a.width?a.width:a.right-a.left}function x(){M=w()}function y(a){return c.bind(&quot;mouseup&quot;,r),x(),N=n[0].querySelector(&quot;li&quot;).getBoundingClientRect().left,D=!0,E=a.x,!1}function z(a){if(!O){var b,c;if(D&amp;&amp;(b=a.x,c=E-b,c&gt;2||-2&gt;c)){L=!0;var d=K+100*-c/M;u(d)}return!1}}function A(a,b){if((!b||L)&amp;&amp;(c.unbind(&quot;mouseup&quot;,r),D=!1,L=!1,F=E-a.x,0!==F&amp;&amp;!O))if(K+=100*-F/M,I.isSequential){var d=I.moveTreshold*M,e=-F,f=-Math[e&gt;=0?&quot;ceil&quot;:&quot;floor&quot;](e/M),g=Math.abs(e)&gt;d;G&amp;&amp;f+m.carouselIndex&gt;=G.length&amp;&amp;(f=G.length-1-m.carouselIndex),f+m.carouselIndex&lt;0&amp;&amp;(f=-m.carouselIndex);var h=g?f:0;F=m.carouselIndex+h,v(F)}else m.$apply(function(){m.carouselIndex=parseInt(-K/100,10),B()})}function B(){var a=0,b=(m.carouselBufferSize-1)/2;t?(a=m.carouselIndex&lt;=b?0:G&amp;&amp;G.length&lt;m.carouselBufferSize?0:G&amp;&amp;m.carouselIndex&gt;G.length-m.carouselBufferSize?G.length-m.carouselBufferSize:m.carouselIndex-b,m.carouselBufferIndex=a,f(function(){u(K)},0,!1)):f(function(){u(K)},0,!1)}function C(){x(),v()}l++;var D,E,F,G,H={transitionType:o.rnCarouselTransition||&quot;slide&quot;,transitionEasing:&quot;easeTo&quot;,transitionDuration:300,isSequential:!0,autoSlideDuration:3,bufferSize:5,moveTreshold:.1},I=angular.extend({},H),J=!1,K=0,L=!1,M=null,N=null,O=!1;if(void 0!==o.rnCarouselControls){var P='&lt;div class=&quot;rn-carousel-controls&quot;&gt;\n  &lt;span class=&quot;rn-carousel-control rn-carousel-control-prev&quot; ng-click=&quot;prevSlide()&quot; ng-if=&quot;carouselIndex &gt; 0&quot;&gt;&lt;/span&gt;\n  &lt;span class=&quot;rn-carousel-control rn-carousel-control-next&quot; ng-click=&quot;nextSlide()&quot; ng-if=&quot;carouselIndex &lt; '+p+'.length - 1&quot;&gt;&lt;/span&gt;\n&lt;/div&gt;';n.append(e(angular.element(P))(m))}a.bind(n,{start:y,move:z,end:A,cancel:function(a){A({},a)}}),m.nextSlide=function(a){var b=m.carouselIndex+1;b&gt;G.length-1&amp;&amp;(b=0),O||v(b,a)},m.prevSlide=function(a){var b=m.carouselIndex-1;0&gt;b&amp;&amp;(b=G.length-1),v(b,a)};var Q=!0;m.carouselIndex=0,s||(G=[],angular.forEach(q(),function(a,b){G.push({id:b})}));var R;if(void 0!==o.rnCarouselAutoSlide){var S=parseInt(o.rnCarouselAutoSlide,10)||I.autoSlideDuration;R=g(function(){O||D||m.nextSlide()},1e3*S)}if(o.rnCarouselIndex){var T=function(a){U.assign(m.$parent,a)},U=d(o.rnCarouselIndex);angular.isFunction(U.assign)?(m.$watch(&quot;carouselIndex&quot;,function(a){O||T(a)}),m.$parent.$watch(U,function(a){void 0!==a&amp;&amp;null!==a&amp;&amp;(G&amp;&amp;a&gt;=G.length?(a=G.length-1,T(a)):G&amp;&amp;0&gt;a&amp;&amp;(a=0,T(a)),O||v(a,{animate:!Q}),Q=!1)}),J=!0):isNaN(o.rnCarouselIndex)||v(parseInt(o.rnCarouselIndex,10),{animate:!1})}else v(0,{animate:!Q}),Q=!1;if(o.rnCarouselLocked&amp;&amp;m.$watch(o.rnCarouselLocked,function(a){O=a===!0?!0:!1}),s){var V=void 0!==o.rnCarouselDeepWatch;m[V?&quot;$watch&quot;:&quot;$watchCollection&quot;](p,function(a,b){(G||a).slice();if(G=a,V&amp;&amp;angular.isArray(a)){var c=b[m.carouselIndex],d=k(a,c,m.carouselIndex);v(d,{animate:!1})}else v(m.carouselIndex,{animate:!1})},!0)}m.$on(&quot;$destroy&quot;,function(){c.unbind(&quot;mouseup&quot;,r)}),m.carouselBufferIndex=0,m.carouselBufferSize=I.bufferSize;var W=angular.element(b);W.bind(&quot;orientationchange&quot;,C),W.bind(&quot;resize&quot;,C),m.$on(&quot;$destroy&quot;,function(){c.unbind(&quot;mouseup&quot;,r),W.unbind(&quot;orientationchange&quot;,C),W.unbind(&quot;resize&quot;,C)})}}}}])}(),angular.module(&quot;angular-carousel.shifty&quot;,[]).factory(&quot;Tweenable&quot;,function(){return function(a){var b=function(){&quot;use strict&quot;;function b(){}function c(a,b){var c;for(c in a)Object.hasOwnProperty.call(a,c)&amp;&amp;b(c)}function d(a,b){return c(b,function(c){a[c]=b[c]}),a}function e(a,b){c(b,function(c){&quot;undefined&quot;==typeof a[c]&amp;&amp;(a[c]=b[c])})}function f(a,b,c,d,e,f,h){var i,j=(a-f)/e;for(i in b)b.hasOwnProperty(i)&amp;&amp;(b[i]=g(c[i],d[i],l[h[i]],j));return b}function g(a,b,c,d){return a+(b-a)*c(d)}function h(a,b){var d=k.prototype.filter,e=a._filterArgs;c(d,function(c){&quot;undefined&quot;!=typeof d[c][b]&amp;&amp;d[c][b].apply(a,e)})}function i(a,b,c,d,e,g,i,j,k){s=b+c,t=Math.min(r(),s),u=t&gt;=s,v=c-(s-t),a.isPlaying()&amp;&amp;!u?(a._scheduleId=k(a._timeoutHandler,p),h(a,&quot;beforeTween&quot;),f(t,d,e,g,c,b,i),h(a,&quot;afterTween&quot;),j(d,a._attachment,v)):u&amp;&amp;(j(g,a._attachment,v),a.stop(!0))}function j(a,b){var d={};return&quot;string&quot;==typeof b?c(a,function(a){d[a]=b}):c(a,function(a){d[a]||(d[a]=b[a]||n)}),d}function k(a,b){this._currentState=a||{},this._configured=!1,this._scheduleFunction=m,&quot;undefined&quot;!=typeof b&amp;&amp;this.setConfig(b)}var l,m,n=&quot;linear&quot;,o=500,p=1e3/60,q=Date.now?Date.now:function(){return+new Date},r=&quot;undefined&quot;!=typeof SHIFTY_DEBUG_NOW?SHIFTY_DEBUG_NOW:q;m=&quot;undefined&quot;!=typeof window?window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||window.mozCancelRequestAnimationFrame&amp;&amp;window.mozRequestAnimationFrame||setTimeout:setTimeout;var s,t,u,v;return k.prototype.tween=function(a){return this._isTweening?this:(void 0===a&amp;&amp;this._configured||this.setConfig(a),this._timestamp=r(),this._start(this.get(),this._attachment),this.resume())},k.prototype.setConfig=function(a){a=a||{},this._configured=!0,this._attachment=a.attachment,this._pausedAtTime=null,this._scheduleId=null,this._start=a.start||b,this._step=a.step||b,this._finish=a.finish||b,this._duration=a.duration||o,this._currentState=a.from||this.get(),this._originalState=this.get(),this._targetState=a.to||this.get();var c=this._currentState,d=this._targetState;return e(d,c),this._easing=j(c,a.easing||n),this._filterArgs=[c,this._originalState,d,this._easing],h(this,&quot;tweenCreated&quot;),this},k.prototype.get=function(){return d({},this._currentState)},k.prototype.set=function(a){this._currentState=a},k.prototype.pause=function(){return this._pausedAtTime=r(),this._isPaused=!0,this},k.prototype.resume=function(){this._isPaused&amp;&amp;(this._timestamp+=r()-this._pausedAtTime),this._isPaused=!1,this._isTweening=!0;var a=this;return this._timeoutHandler=function(){i(a,a._timestamp,a._duration,a._currentState,a._originalState,a._targetState,a._easing,a._step,a._scheduleFunction)},this._timeoutHandler(),this},k.prototype.seek=function(a){return this._timestamp=r()-a,this.isPlaying()||(this._isTweening=!0,this._isPaused=!1,i(this,this._timestamp,this._duration,this._currentState,this._originalState,this._targetState,this._easing,this._step,this._scheduleFunction),this._timeoutHandler(),this.pause()),this},k.prototype.stop=function(c){return this._isTweening=!1,this._isPaused=!1,this._timeoutHandler=b,(a.cancelAnimationFrame||a.webkitCancelAnimationFrame||a.oCancelAnimationFrame||a.msCancelAnimationFrame||a.mozCancelRequestAnimationFrame||a.clearTimeout)(this._scheduleId),c&amp;&amp;(d(this._currentState,this._targetState),h(this,&quot;afterTweenEnd&quot;),this._finish.call(this,this._currentState,this._attachment)),this},k.prototype.isPlaying=function(){return this._isTweening&amp;&amp;!this._isPaused},k.prototype.setScheduleFunction=function(a){this._scheduleFunction=a},k.prototype.dispose=function(){var a;for(a in this)this.hasOwnProperty(a)&amp;&amp;delete this[a]},k.prototype.filter={},k.prototype.formula={linear:function(a){return a}},l=k.prototype.formula,d(k,{now:r,each:c,tweenProps:f,tweenProp:g,applyFilter:h,shallowCopy:d,defaults:e,composeEasingObject:j}),&quot;function&quot;==typeof SHIFTY_DEBUG_NOW&amp;&amp;(a.timeoutHandler=i),&quot;object&quot;==typeof exports?module.exports=k:&quot;function&quot;==typeof define&amp;&amp;define.amd?define(function(){return k}):&quot;undefined&quot;==typeof a.Tweenable&amp;&amp;(a.Tweenable=k),k}();!function(){b.shallowCopy(b.prototype.formula,{easeInQuad:function(a){return Math.pow(a,2)},easeOutQuad:function(a){return-(Math.pow(a-1,2)-1)},easeInOutQuad:function(a){return(a/=.5)&lt;1?.5*Math.pow(a,2):-.5*((a-=2)*a-2)},easeInCubic:function(a){return Math.pow(a,3)},easeOutCubic:function(a){return Math.pow(a-1,3)+1},easeInOutCubic:function(a){return(a/=.5)&lt;1?.5*Math.pow(a,3):.5*(Math.pow(a-2,3)+2)},easeInQuart:function(a){return Math.pow(a,4)},easeOutQuart:function(a){return-(Math.pow(a-1,4)-1)},easeInOutQuart:function(a){return(a/=.5)&lt;1?.5*Math.pow(a,4):-.5*((a-=2)*Math.pow(a,3)-2)},easeInQuint:function(a){return Math.pow(a,5)},easeOutQuint:function(a){return Math.pow(a-1,5)+1},easeInOutQuint:function(a){return(a/=.5)&lt;1?.5*Math.pow(a,5):.5*(Math.pow(a-2,5)+2)},easeInSine:function(a){return-Math.cos(a*(Math.PI/2))+1},easeOutSine:function(a){return Math.sin(a*(Math.PI/2))},easeInOutSine:function(a){return-.5*(Math.cos(Math.PI*a)-1)},easeInExpo:function(a){return 0===a?0:Math.pow(2,10*(a-1))},easeOutExpo:function(a){return 1===a?1:-Math.pow(2,-10*a)+1},easeInOutExpo:function(a){return 0===a?0:1===a?1:(a/=.5)&lt;1?.5*Math.pow(2,10*(a-1)):.5*(-Math.pow(2,-10*--a)+2)},easeInCirc:function(a){return-(Math.sqrt(1-a*a)-1)},easeOutCirc:function(a){return Math.sqrt(1-Math.pow(a-1,2))},easeInOutCirc:function(a){return(a/=.5)&lt;1?-.5*(Math.sqrt(1-a*a)-1):.5*(Math.sqrt(1-(a-=2)*a)+1)},easeOutBounce:function(a){return 1/2.75&gt;a?7.5625*a*a:2/2.75&gt;a?7.5625*(a-=1.5/2.75)*a+.75:2.5/2.75&gt;a?7.5625*(a-=2.25/2.75)*a+.9375:7.5625*(a-=2.625/2.75)*a+.984375},easeInBack:function(a){var b=1.70158;return a*a*((b+1)*a-b)},easeOutBack:function(a){var b=1.70158;return(a-=1)*a*((b+1)*a+b)+1},easeInOutBack:function(a){var b=1.70158;return(a/=.5)&lt;1?.5*a*a*(((b*=1.525)+1)*a-b):.5*((a-=2)*a*(((b*=1.525)+1)*a+b)+2)},elastic:function(a){return-1*Math.pow(4,-8*a)*Math.sin(2*(6*a-1)*Math.PI/2)+1},swingFromTo:function(a){var b=1.70158;return(a/=.5)&lt;1?.5*a*a*(((b*=1.525)+1)*a-b):.5*((a-=2)*a*(((b*=1.525)+1)*a+b)+2)},swingFrom:function(a){var b=1.70158;return a*a*((b+1)*a-b)},swingTo:function(a){var b=1.70158;return(a-=1)*a*((b+1)*a+b)+1},bounce:function(a){return 1/2.75&gt;a?7.5625*a*a:2/2.75&gt;a?7.5625*(a-=1.5/2.75)*a+.75:2.5/2.75&gt;a?7.5625*(a-=2.25/2.75)*a+.9375:7.5625*(a-=2.625/2.75)*a+.984375},bouncePast:function(a){return 1/2.75&gt;a?7.5625*a*a:2/2.75&gt;a?2-(7.5625*(a-=1.5/2.75)*a+.75):2.5/2.75&gt;a?2-(7.5625*(a-=2.25/2.75)*a+.9375):2-(7.5625*(a-=2.625/2.75)*a+.984375)},easeFromTo:function(a){return(a/=.5)&lt;1?.5*Math.pow(a,4):-.5*((a-=2)*Math.pow(a,3)-2)},easeFrom:function(a){return Math.pow(a,4)},easeTo:function(a){return Math.pow(a,.25)}})}(),function(){function a(a,b,c,d,e,f){function g(a){return((n*a+o)*a+p)*a}function h(a){return((q*a+r)*a+s)*a}function i(a){return(3*n*a+2*o)*a+p}function j(a){return 1/(200*a)}function k(a,b){return h(m(a,b))}function l(a){return a&gt;=0?a:0-a}function m(a,b){var c,d,e,f,h,j;for(e=a,j=0;8&gt;j;j++){if(f=g(e)-a,l(f)&lt;b)return e;if(h=i(e),l(h)&lt;1e-6)break;e-=f/h}if(c=0,d=1,e=a,c&gt;e)return c;if(e&gt;d)return d;for(;d&gt;c;){if(f=g(e),l(f-a)&lt;b)return e;a&gt;f?c=e:d=e,e=.5*(d-c)+c}return e}var n=0,o=0,p=0,q=0,r=0,s=0;return p=3*b,o=3*(d-b)-p,n=1-p-o,s=3*c,r=3*(e-c)-s,q=1-s-r,k(a,j(f))}function c(b,c,d,e){return function(f){return a(f,b,c,d,e,1)}}b.setBezierFunction=function(a,d,e,f,g){var h=c(d,e,f,g);return h.x1=d,h.y1=e,h.x2=f,h.y2=g,b.prototype.formula[a]=h},b.unsetBezierFunction=function(a){delete b.prototype.formula[a]}}(),function(){function a(a,c,d,e,f){return b.tweenProps(e,c,a,d,1,0,f)}var c=new b;c._filterArgs=[],b.interpolate=function(d,e,f,g){var h=b.shallowCopy({},d),i=b.composeEasingObject(d,g||&quot;linear&quot;);c.set({});var j=c._filterArgs;j.length=0,j[0]=h,j[1]=d,j[2]=e,j[3]=i,b.applyFilter(c,&quot;tweenCreated&quot;),b.applyFilter(c,&quot;beforeTween&quot;);var k=a(d,h,e,f,i);return b.applyFilter(c,&quot;afterTween&quot;),k}}(),function(a){function b(a,b){B.length=0;var c,d=a.length;for(c=0;d&gt;c;c++)B.push(&quot;_&quot;+b+&quot;_&quot;+c);return B}function c(a){var b=a.match(v);return b?(1===b.length||a[0].match(u))&amp;&amp;b.unshift(&quot;&quot;):b=[&quot;&quot;,&quot;&quot;],b.join(A)}function d(b){a.each(b,function(a){var c=b[a];&quot;string&quot;==typeof c&amp;&amp;c.match(z)&amp;&amp;(b[a]=e(c))})}function e(a){return i(z,a,f)}function f(a){var b=g(a);return&quot;rgb(&quot;+b[0]+&quot;,&quot;+b[1]+&quot;,&quot;+b[2]+&quot;)&quot;}function g(a){return a=a.replace(/#/,&quot;&quot;),3===a.length&amp;&amp;(a=a.split(&quot;&quot;),a=a[0]+a[0]+a[1]+a[1]+a[2]+a[2]),C[0]=h(a.substr(0,2)),C[1]=h(a.substr(2,2)),C[2]=h(a.substr(4,2)),C}function h(a){return parseInt(a,16)}function i(a,b,c){var d=b.match(a),e=b.replace(a,A);if(d)for(var f,g=d.length,h=0;g&gt;h;h++)f=d.shift(),e=e.replace(A,c(f));return e}function j(a){return i(x,a,k)}function k(a){for(var b=a.match(w),c=b.length,d=a.match(y)[0],e=0;c&gt;e;e++)d+=parseInt(b[e],10)+&quot;,&quot;;return d=d.slice(0,-1)+&quot;)&quot;}function l(d){var e={};return a.each(d,function(a){var f=d[a];if(&quot;string&quot;==typeof f){var g=r(f);e[a]={formatString:c(f),chunkNames:b(g,a)}}}),e}function m(b,c){a.each(c,function(a){for(var d=b[a],e=r(d),f=e.length,g=0;f&gt;g;g++)b[c[a].chunkNames[g]]=+e[g];delete b[a]})}function n(b,c){a.each(c,function(a){var d=b[a],e=o(b,c[a].chunkNames),f=p(e,c[a].chunkNames);d=q(c[a].formatString,f),b[a]=j(d)})}function o(a,b){for(var c,d={},e=b.length,f=0;e&gt;f;f++)c=b[f],d[c]=a[c],delete a[c];return d}function p(a,b){D.length=0;for(var c=b.length,d=0;c&gt;d;d++)D.push(a[b[d]]);return D}function q(a,b){for(var c=a,d=b.length,e=0;d&gt;e;e++)c=c.replace(A,+b[e].toFixed(4));return c}function r(a){return a.match(w)}function s(b,c){a.each(c,function(a){for(var d=c[a],e=d.chunkNames,f=e.length,g=b[a].split(&quot; &quot;),h=g[g.length-1],i=0;f&gt;i;i++)b[e[i]]=g[i]||h;delete b[a]})}function t(b,c){a.each(c,function(a){for(var d=c[a],e=d.chunkNames,f=e.length,g=&quot;&quot;,h=0;f&gt;h;h++)g+=&quot; &quot;+b[e[h]],delete b[e[h]];b[a]=g.substr(1)})}var u=/(\d|\-|\.)/,v=/([^\-0-9\.]+)/g,w=/[0-9.\-]+/g,x=new RegExp(&quot;rgb\\(&quot;+w.source+/,\s*/.source+w.source+/,\s*/.source+w.source+&quot;\\)&quot;,&quot;g&quot;),y=/^.*\(/,z=/#([0-9]|[a-f]){3,6}/gi,A=&quot;VAL&quot;,B=[],C=[],D=[];a.prototype.filter.token={tweenCreated:function(a,b,c){d(a),d(b),d(c),this._tokenData=l(a)},beforeTween:function(a,b,c,d){s(d,this._tokenData),m(a,this._tokenData),m(b,this._tokenData),m(c,this._tokenData)},afterTween:function(a,b,c,d){n(a,this._tokenData),n(b,this._tokenData),n(c,this._tokenData),t(d,this._tokenData)}}}(b)}(window),window.Tweenable}),function(){&quot;use strict&quot;;angular.module(&quot;angular-carousel&quot;).filter(&quot;carouselSlice&quot;,function(){return function(a,b,c){return angular.isArray(a)?a.slice(b,b+c):angular.isObject(a)?a:void 0}})}();
+
+
+// Adapted from https://gist.github.com/paulirish/1579671 which derived from 
+// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+
+// requestAnimationFrame polyfill by Erik Möller.
+// Fixes from Paul Irish, Tino Zijdel, Andrew Mao, Klemen Slavič, Darius Bacon
+
+// MIT license
+
+if (!Date.now)
+    Date.now = function() { return new Date().getTime(); };
+
+(function() {
+    'use strict';
+    
+    var vendors = ['webkit', 'moz'];
+    for (var i = 0; i &lt; vendors.length &amp;&amp; !window.requestAnimationFrame; ++i) {
+        var vp = vendors[i];
+        window.requestAnimationFrame = window[vp+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = (window[vp+'CancelAnimationFrame']
+                                   || window[vp+'CancelRequestAnimationFrame']);
+    }
+    if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) // iOS6 is buggy
+        || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
+        var lastTime = 0;
+        window.requestAnimationFrame = function(callback) {
+            var now = Date.now();
+            var nextTime = Math.max(lastTime + 16, now);
+            return setTimeout(function() { callback(lastTime = nextTime); },
+                              nextTime - now);
+        };
+        window.cancelAnimationFrame = clearTimeout;
+    }
+}());</code></pre>
+          <section id="ngMap">
+            <h1>ngMap</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>ngMap</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Angularjs-Google-Maps</p></div>
+          <pre><code class="language-javascript">var ngMap=angular.module(&quot;ngMap&quot;,[]);ngMap.service(&quot;Attr2Options&quot;,[&quot;$parse&quot;,&quot;NavigatorGeolocation&quot;,&quot;GeoCoder&quot;,function($parse,NavigatorGeolocation,GeoCoder){var SPECIAL_CHARS_REGEXP=/([\:\-\_]+(.))/g,MOZ_HACK_REGEXP=/^moz([A-Z])/,orgAttributes=function(e){e.length&gt;0&amp;&amp;(e=e[0]);for(var t={},n=0;n&lt;e.attributes.length;n++){var r=e.attributes[n];t[r.name]=r.value}return t},camelCase=function(e){return e.replace(SPECIAL_CHARS_REGEXP,function(e,t,n,r){return r?n.toUpperCase():n}).replace(MOZ_HACK_REGEXP,&quot;Moz$1&quot;)},JSONize=function(e){try{return JSON.parse(e),e}catch(t){return e.replace(/([\$\w]+)\s*:/g,function(e,t){return'&quot;'+t+'&quot;:'}).replace(/'([^']+)'/g,function(e,t){return'&quot;'+t+'&quot;'})}},toOptionValue=function(input,options){var output,key=options.key,scope=options.scope;try{var num=Number(input);if(isNaN(num))throw&quot;Not a number&quot;;output=num}catch(err){try{if(input.match(/^[\+\-]?[0-9\.]+,[ ]*\ ?[\+\-]?[0-9\.]+$/)&amp;&amp;(input=&quot;[&quot;+input+&quot;]&quot;),output=JSON.parse(JSONize(input)),output instanceof Array){var t1stEl=output[0];if(t1stEl.constructor==Object);else if(t1stEl.constructor==Array)output=output.map(function(e){return new google.maps.LatLng(e[0],e[1])});else if(!isNaN(parseFloat(t1stEl))&amp;&amp;isFinite(t1stEl))return new google.maps.LatLng(output[0],output[1])}}catch(err2){if(input.match(/^[A-Z][a-zA-Z0-9]+\(.*\)$/))try{var exp=&quot;new google.maps.&quot;+input;output=eval(exp)}catch(e){output=input}else if(input.match(/^([A-Z][a-zA-Z0-9]+)\.([A-Z]+)$/))try{var matches=input.match(/^([A-Z][a-zA-Z0-9]+)\.([A-Z]+)$/);output=google.maps[matches[1]][matches[2]]}catch(e){output=input}else if(input.match(/^[A-Z]+$/))try{var capitalizedKey=key.charAt(0).toUpperCase()+key.slice(1);key.match(/temperatureUnit|windSpeedUnit|labelColor/)?(capitalizedKey=capitalizedKey.replace(/s$/,&quot;&quot;),output=google.maps.weather[capitalizedKey][input]):output=google.maps[capitalizedKey][input]}catch(e){output=input}else output=input}}return output},setDelayedGeoLocation=function(e,t,n,r){r=r||{};var a=e.centered||r.centered,o=function(){var n=r.fallbackLocation||new google.maps.LatLng(0,0);e[t](n)};!n||n.match(/^current/i)?NavigatorGeolocation.getCurrentPosition().then(function(n){var r=n.coords.latitude,o=n.coords.longitude,i=new google.maps.LatLng(r,o);e[t](i),a&amp;&amp;e.map.setCenter(i)},o):GeoCoder.geocode({address:n}).then(function(n){e[t](n[0].geometry.location),a&amp;&amp;e.map.setCenter(n[0].geometry.location)},o)},getAttrsToObserve=function(e){var t=[];if(e[&quot;ng-repeat&quot;]||e.ngRepeat);else for(var n in e){var r=e[n];r&amp;&amp;r.match(/\{\{.*\}\}/)&amp;&amp;t.push(camelCase(n))}return t},observeAttrSetObj=function(e,t,n){var r=getAttrsToObserve(e);Object.keys(r).length;for(var a=0;a&lt;r.length;a++)observeAndSet(t,r[a],n)},observeAndSet=function(e,t,n){e.$observe(t,function(e){if(e){var r=camelCase(&quot;set-&quot;+t),a=toOptionValue(e,{key:t});n[r]&amp;&amp;(t.match(/center|position/)&amp;&amp;&quot;string&quot;==typeof a?setDelayedGeoLocation(n,r,a):n[r](a))}})};return{filter:function(e){var t={};for(var n in e)n.match(/^\$/)||n.match(/^ng[A-Z]/)||(t[n]=e[n]);return t},getOptions:function(e,t){var n={};for(var r in e)if(e[r]){if(r.match(/^on[A-Z]/))continue;if(r.match(/ControlOptions$/))continue;n[r]=toOptionValue(e[r],{scope:t,key:r})}return n},getEvents:function(e,t){var n={},r=function(e){return&quot;_&quot;+e.toLowerCase()},a=function(t){var n=t.match(/([^\(]+)\(([^\)]*)\)/),r=n[1],a=n[2].replace(/event[ ,]*/,&quot;&quot;),o=e.$eval(&quot;[&quot;+a+&quot;]&quot;);return function(t){e[r].apply(this,[t].concat(o)),e.$apply()}};for(var o in t)if(t[o]){if(!o.match(/^on[A-Z]/))continue;var i=o.replace(/^on/,&quot;&quot;);i=i.charAt(0).toLowerCase()+i.slice(1),i=i.replace(/([A-Z])/g,r);var s=t[o];n[i]=new a(s)}return n},getControlOptions:function(e){var t={};if(&quot;object&quot;!=typeof e)return!1;for(var n in e)if(e[n]){if(!n.match(/(.*)ControlOptions$/))continue;var r=e[n],a=r.replace(/'/g,'&quot;');a=a.replace(/([^&quot;]+)|(&quot;[^&quot;]+&quot;)/g,function(e,t,n){return t?t.replace(/([a-zA-Z0-9]+?):/g,'&quot;$1&quot;:'):n});try{var o=JSON.parse(a);for(var i in o)if(o[i]){var s=o[i];if(&quot;string&quot;==typeof s?s=s.toUpperCase():&quot;mapTypeIds&quot;===i&amp;&amp;(s=s.map(function(e){return e.match(/^[A-Z]+$/)?google.maps.MapTypeId[e.toUpperCase()]:e})),&quot;style&quot;===i){var p=n.charAt(0).toUpperCase()+n.slice(1),c=p.replace(/Options$/,&quot;&quot;)+&quot;Style&quot;;o[i]=google.maps[c][s]}else o[i]=&quot;position&quot;===i?google.maps.ControlPosition[s]:s}t[n]=o}catch(l){}}return t},toOptionValue:toOptionValue,camelCase:camelCase,setDelayedGeoLocation:setDelayedGeoLocation,getAttrsToObserve:getAttrsToObserve,observeAndSet:observeAndSet,observeAttrSetObj:observeAttrSetObj,orgAttributes:orgAttributes}}]),ngMap.service(&quot;GeoCoder&quot;,[&quot;$q&quot;,function(e){return{geocode:function(t){var n=e.defer(),r=new google.maps.Geocoder;return r.geocode(t,function(e,t){t==google.maps.GeocoderStatus.OK?n.resolve(e):n.reject(&quot;Geocoder failed due to: &quot;+t)}),n.promise}}}]),ngMap.service(&quot;NavigatorGeolocation&quot;,[&quot;$q&quot;,function(e){return{getCurrentPosition:function(){var t=e.defer();return navigator.geolocation?navigator.geolocation.getCurrentPosition(function(e){t.resolve(e)},function(e){t.reject(e)}):t.reject(&quot;Browser Geolocation service failed.&quot;),t.promise},watchPosition:function(){return&quot;TODO&quot;},clearWatch:function(){return&quot;TODO&quot;}}}]),ngMap.service(&quot;StreetView&quot;,[&quot;$q&quot;,function(e){return{getPanorama:function(t,n){n=n||t.getCenter();var r=e.defer(),a=new google.maps.StreetViewService;return a.getPanoramaByLocation(n||t.getCenter,100,function(e,t){t===google.maps.StreetViewStatus.OK?r.resolve(e.location.pano):r.resolve(!1)}),r.promise},setPanorama:function(e,t){var n=new google.maps.StreetViewPanorama(e.getDiv(),{enableCloseButton:!0});n.setPano(t)}}}]),ngMap.directive(&quot;bicyclingLayer&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,t){var n=new google.maps.BicyclingLayer(e);for(var r in t)google.maps.event.addListener(n,r,t[r]);return n};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.orgAttributes(r),s=t.filter(a),p=t.getOptions(s),c=t.getEvents(e,s),l=n(p,c);o.addObject(&quot;bicyclingLayers&quot;,l),t.observeAttrSetObj(i,a,l)}}}]),ngMap.directive(&quot;cloudLayer&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,t){var n=new google.maps.weather.CloudLayer(e);for(var r in t)google.maps.event.addListener(n,r,t[r]);return n};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.orgAttributes(r),s=t.filter(a),p=t.getOptions(s),c=t.getEvents(e,s),l=n(p,c);o.addObject(&quot;cloudLayers&quot;,l),t.observeAttrSetObj(i,a,l)}}}]),ngMap.directive(&quot;customControl&quot;,[&quot;Attr2Options&quot;,&quot;$compile&quot;,function(e,t){var n=e;return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){r.css(&quot;display&quot;,&quot;none&quot;);var i=(n.orgAttributes(r),n.filter(a)),s=n.getOptions(i,e),p=n.getEvents(e,i),c=t(r.html().trim())(e),l=c[0];for(var u in p)google.maps.event.addDomListener(l,u,p[u]);o.addObject(&quot;customControls&quot;,l),e.$on(&quot;mapInitialized&quot;,function(e,t){var n=s.position;t.controls[google.maps.ControlPosition[n]].push(l)})}}}]),ngMap.directive(&quot;dynamicMapsEngineLayer&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,t){var n=new google.maps.visualization.DynamicMapsEngineLayer(e);for(var r in t)google.maps.event.addListener(n,r,t[r]);return n};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.filter(a),s=t.getOptions(i),p=t.getEvents(e,i,p),c=n(s,p);o.addObject(&quot;mapsEngineLayers&quot;,c)}}}]),ngMap.directive(&quot;fusionTablesLayer&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,t){var n=new google.maps.FusionTablesLayer(e);for(var r in t)google.maps.event.addListener(n,r,t[r]);return n};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.filter(a),s=t.getOptions(i),p=t.getEvents(e,i,p),c=n(s,p);o.addObject(&quot;fusionTablesLayers&quot;,c)}}}]),ngMap.directive(&quot;heatmapLayer&quot;,[&quot;Attr2Options&quot;,&quot;$window&quot;,function(e,t){var n=e;return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=n.filter(a),s=n.getOptions(i);if(s.data=t[a.data]||e[a.data],!(s.data instanceof Array))throw&quot;invalid heatmap data&quot;;s.data=new google.maps.MVCArray(s.data);{var p=new google.maps.visualization.HeatmapLayer(s);n.getEvents(e,i)}o.addObject(&quot;heatmapLayers&quot;,p)}}}]),ngMap.directive(&quot;infoWindow&quot;,[&quot;Attr2Options&quot;,&quot;$compile&quot;,function(e,t){var n=e,r=function(e,t){var r;if(e.position instanceof google.maps.LatLng)r=new google.maps.InfoWindow(e);else{var a=e.position;e.position=new google.maps.LatLng(0,0),r=new google.maps.InfoWindow(e),n.setDelayedGeoLocation(r,&quot;setPosition&quot;,a)}Object.keys(t).length&gt;0;for(var o in t)o&amp;&amp;google.maps.event.addListener(r,o,t[o]);return r};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,a,o,i){a.css(&quot;display&quot;,&quot;none&quot;);var s=n.orgAttributes(a),p=n.filter(o),c=n.getOptions(p,e),l=n.getEvents(e,p),u=a.html().trim();if(1!=angular.element(u).length)throw&quot;info-window working as a template must have a container&quot;;var g=r(c,l);g.template=u.replace(/ng-non-/,&quot;&quot;),i.addObject(&quot;infoWindows&quot;,g),n.observeAttrSetObj(s,o,g),e.showInfoWindow=e.showInfoWindow||function(t,n,r){var a=i.map.infoWindows[n],o=a.template.trim(),s=o.replace(/{{([^}]+)}}/g,function(t,n){return e.$eval(n)});a.setContent(s),r?(a.setPosition(r),a.open(i.map)):this.getPosition?a.open(i.map,this):a.open(i.map)},g.visible&amp;&amp;e.$on(&quot;mapInitialized&quot;,function(){var n=t(g.template)(e);g.setContent(n.html()),g.open(i.map)}),g.visibleOnMarker&amp;&amp;e.$on(&quot;mapInitialized&quot;,function(){var n=i.map.markers[g.visibleOnMarker];if(!n)throw&quot;Invalid marker id&quot;;var r=t(g.template)(e);g.setContent(r.html()),g.open(i.map,n)})}}}]),ngMap.directive(&quot;kmlLayer&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,t){var n=new google.maps.KmlLayer(e);for(var r in t)google.maps.event.addListener(n,r,t[r]);return n};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.orgAttributes(r),s=t.filter(a),p=t.getOptions(s),c=t.getEvents(e,s),l=n(p,c);o.addObject(&quot;kmlLayers&quot;,l),t.observeAttrSetObj(i,a,l)}}}]),ngMap.directive(&quot;mapData&quot;,[&quot;Attr2Options&quot;,function(e){var t=e;return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,n,r){var a=t.filter(r),o=t.getOptions(a),i=t.getEvents(e,a,i);e.$on(&quot;mapInitialized&quot;,function(t,n){for(var r in o)if(r){var a=o[r];&quot;function&quot;==typeof e[a]?n.data[r](e[a]):n.data[r](a)}for(var s in i)i[s]&amp;&amp;n.data.addListener(s,i[s])})}}}]),ngMap.directive(&quot;mapType&quot;,[&quot;Attr2Options&quot;,&quot;$window&quot;,function(e,t){return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,n,r,a){var o,i=r.name;if(!i)throw&quot;invalid map-type name&quot;;if(r.object){var s=e[r.object]?e:t;o=s[r.object],&quot;function&quot;==typeof o&amp;&amp;(o=new o)}if(!o)throw&quot;invalid map-type object&quot;;e.$on(&quot;mapInitialized&quot;,function(e,t){t.mapTypes.set(i,o)}),a.addObject(&quot;mapTypes&quot;,o)}}}]),ngMap.directive(&quot;map&quot;,[&quot;Attr2Options&quot;,&quot;$timeout&quot;,function(e,t){function n(e,t){if(e.currentStyle)var n=e.currentStyle[t];else if(window.getComputedStyle)var n=document.defaultView.getComputedStyle(e,null).getPropertyValue(t);return n}var r=e;return{restrict:&quot;AE&quot;,controller:ngMap.MapController,link:function(a,o,i,s){var p=r.orgAttributes(o);a.google=google;var c=document.createElement(&quot;div&quot;);c.style.width=&quot;100%&quot;,c.style.height=&quot;100%&quot;,o.prepend(c),&quot;block&quot;!=n(o[0],&quot;display&quot;)&amp;&amp;o.css(&quot;display&quot;,&quot;block&quot;),n(o[0],&quot;height&quot;).match(/^0/)&amp;&amp;o.css(&quot;height&quot;,&quot;300px&quot;);var l=function(n,o){var l=new google.maps.Map(c,{});l.markers={},l.shapes={},t(function(){google.maps.event.trigger(l,&quot;resize&quot;)}),n.zoom=n.zoom||15;var u=n.center;u instanceof google.maps.LatLng||(delete n.center,e.setDelayedGeoLocation(l,&quot;setCenter&quot;,u,g.geoFallbackCenter)),l.setOptions(n);for(var m in o)m&amp;&amp;google.maps.event.addListener(l,m,o[m]);r.observeAttrSetObj(p,i,l),s.map=l,s.addObjects(s._objects),a.map=l,a.map.scope=a,a.$emit(&quot;mapInitialized&quot;,l),a.maps=a.maps||{},a.maps[g.id||Object.keys(a.maps).length]=l,a.$emit(&quot;mapsInitialized&quot;,a.maps)},u=r.filter(i),g=r.getOptions(u,a),m=r.getControlOptions(u),v=angular.extend(g,m),f=r.getEvents(a,u);i.initEvent?a.$on(i.initEvent,function(){!s.map&amp;&amp;l(v,f)}):l(v,f)}}}]),ngMap.MapController=function(){this.map=null,this._objects=[],this.addMarker=function(e){if(this.map){this.map.markers=this.map.markers||{},e.setMap(this.map),e.centered&amp;&amp;this.map.setCenter(e.position);var t=Object.keys(this.map.markers).length;this.map.markers[e.id||t]=e}else this._objects.push(e)},this.addShape=function(e){if(this.map){this.map.shapes=this.map.shapes||{},e.setMap(this.map);var t=Object.keys(this.map.shapes).length;this.map.shapes[e.id||t]=e}else this._objects.push(e)},this.addObject=function(e,t){if(this.map){this.map[e]=this.map[e]||{};var n=Object.keys(this.map[e]).length;this.map[e][t.id||n]=t,&quot;infoWindows&quot;!=e&amp;&amp;t.setMap&amp;&amp;t.setMap(this.map)}else t.groupName=e,this._objects.push(t)},this.addObjects=function(e){for(var t=0;t&lt;e.length;t++){var n=e[t];n instanceof google.maps.Marker?this.addMarker(n):n instanceof google.maps.Circle||n instanceof google.maps.Polygon||n instanceof google.maps.Polyline||n instanceof google.maps.Rectangle||n instanceof google.maps.GroundOverlay?this.addShape(n):this.addObject(n.groupName,n)}}},ngMap.directive(&quot;mapsEngineLayer&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,t){var n=new google.maps.visualization.MapsEngineLayer(e);for(var r in t)google.maps.event.addListener(n,r,t[r]);return n};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.filter(a),s=t.getOptions(i),p=t.getEvents(e,i,p),c=n(s,p);o.addObject(&quot;mapsEngineLayers&quot;,c)}}}]),ngMap.directive(&quot;marker&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,n){var r;if(e.icon instanceof Object){(&quot;&quot;+e.icon.path).match(/^[A-Z_]+$/)&amp;&amp;(e.icon.path=google.maps.SymbolPath[e.icon.path]);for(var a in e.icon){var o=e.icon[a];&quot;anchor&quot;==a||&quot;origin&quot;==a?e.icon[a]=new google.maps.Point(o[0],o[1]):(&quot;size&quot;==a||&quot;scaledSize&quot;==a)&amp;&amp;(e.icon[a]=new google.maps.Size(o[0],o[1]))}}if(e.position instanceof google.maps.LatLng)r=new google.maps.Marker(e);else{var i=e.position;e.position=new google.maps.LatLng(0,0),r=new google.maps.Marker(e),t.setDelayedGeoLocation(r,&quot;setPosition&quot;,i)}Object.keys(n).length&gt;0;for(var s in n)s&amp;&amp;google.maps.event.addListener(r,s,n[s]);return r};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.orgAttributes(r),s=t.filter(a),p=t.getOptions(s,e),c=t.getEvents(e,s);r.bind(&quot;$destroy&quot;,function(){var e=l.map.markers;for(var t in e)e[t]==l&amp;&amp;delete e[t];l.setMap(null)});var l=n(p,c);o.addMarker(l),t.observeAttrSetObj(i,a,l)}}}]),ngMap.directive(&quot;overlayMapType&quot;,[&quot;Attr2Options&quot;,&quot;$window&quot;,function(e,t){return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,n,r,a){var o,i=r.initMethod||&quot;insertAt&quot;;if(r.object){var s=e[r.object]?e:t;o=s[r.object],&quot;function&quot;==typeof o&amp;&amp;(o=new o)}if(!o)throw&quot;invalid map-type object&quot;;e.$on(&quot;mapInitialized&quot;,function(e,t){if(&quot;insertAt&quot;==i){var n=parseInt(r.index,10);t.overlayMapTypes.insertAt(n,o)}else&quot;push&quot;==i&amp;&amp;t.overlayMapTypes.push(o)}),a.addObject(&quot;overlayMapTypes&quot;,o)}}}]),ngMap.directive(&quot;shape&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e){return new google.maps.LatLngBounds(e[0],e[1])},r=function(e,r){var a,o=e.name;if(delete e.name,e.icons)for(var i=0;i&lt;e.icons.length;i++){var s=e.icons[i];s.icon.path.match(/^[A-Z_]+$/)&amp;&amp;(s.icon.path=google.maps.SymbolPath[s.icon.path])}switch(o){case&quot;circle&quot;:if(e.center instanceof google.maps.LatLng)a=new google.maps.Circle(e);else{var p=e.center;e.center=new google.maps.LatLng(0,0),a=new google.maps.Circle(e),t.setDelayedGeoLocation(a,&quot;setCenter&quot;,p)}break;case&quot;polygon&quot;:a=new google.maps.Polygon(e);break;case&quot;polyline&quot;:a=new google.maps.Polyline(e);break;case&quot;rectangle&quot;:e.bounds&amp;&amp;(e.bounds=n(e.bounds)),a=new google.maps.Rectangle(e);break;case&quot;groundOverlay&quot;:case&quot;image&quot;:var c=e.url,l=n(e.bounds),u={opacity:e.opacity,clickable:e.clickable,id:e.id};a=new google.maps.GroundOverlay(c,l,u)}for(var g in r)r[g]&amp;&amp;google.maps.event.addListener(a,g,r[g]);return a};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,n,a,o){var i=t.orgAttributes(n),s=t.filter(a),p=t.getOptions(s),c=t.getEvents(e,s),l=r(p,c);o.addShape(l),t.observeAttrSetObj(i,a,l)}}}]),ngMap.directive(&quot;trafficLayer&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,t){var n=new google.maps.TrafficLayer(e);for(var r in t)google.maps.event.addListener(n,r,t[r]);return n};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.orgAttributes(r),s=t.filter(a),p=t.getOptions(s),c=t.getEvents(e,s),l=n(p,c);o.addObject(&quot;trafficLayers&quot;,l),t.observeAttrSetObj(i,a,l)}}}]),ngMap.directive(&quot;transitLayer&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,t){var n=new google.maps.TransitLayer(e);for(var r in t)google.maps.event.addListener(n,r,t[r]);return n};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.orgAttributes(r),s=t.filter(a),p=t.getOptions(s),c=t.getEvents(e,s),l=n(p,c);o.addObject(&quot;transitLayers&quot;,l),t.observeAttrSetObj(i,a,l)}}}]),ngMap.directive(&quot;weatherLayer&quot;,[&quot;Attr2Options&quot;,function(e){var t=e,n=function(e,t){var n=new google.maps.weather.WeatherLayer(e);for(var r in t)google.maps.event.addListener(n,r,t[r]);return n};return{restrict:&quot;E&quot;,require:&quot;^map&quot;,link:function(e,r,a,o){var i=t.orgAttributes(r),s=t.filter(a),p=t.getOptions(s),c=t.getEvents(e,s),l=n(p,c);o.addObject(&quot;weatherLayers&quot;,l),t.observeAttrSetObj(i,a,l)}}}]);</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

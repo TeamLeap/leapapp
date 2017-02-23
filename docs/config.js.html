@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>My Project</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>My Project</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="app.js.html">app.js</a></li>
+            <li class="active"><a href="config.js.html">config.js</a></li>
+            <li><a href="map-icons.js.html">map-icons.js</a></li>
+            <li><a href="ng-cordova.js.html">ng-cordova.js</a></li>
+            <li><a href="oauth.js.html">oauth.js</a></li>
+            <li><a href="plugins.js.html">plugins.js</a></li>
+            <li><a href="ui-bootstrap-tpls-2.1.1.js.html">ui-bootstrap-tpls-2.1.1.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <div class="description"><p>global app</p></div>
+          <pre><code class="language-javascript">'use strict';
+app
+.constant('appConfig', {
+  municloudapiEndPoint: 'http://munipoiapp.herokuapp.com/api/',
+  nearbysearchapiEndPoint : 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=',
+  poiapiEndPoint : 'http://munipoiapp.herokuapp.com/api/pois',
+  googledirectionapiEndPoint : 'http://maps.google.com/maps?saddr=',
+  
+  emmclinicapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMLocation/resources/getClinicData',
+  emmvoterspersondetailsapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMPerson/resources/getVotersPersonDetails/',
+  emmmetersapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMSuprema/resources/getMeterDetails/64010',
+  emmcasehistoryapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMMobiApp/resource/getCaseHistory/{',
+  emmvotingstatsapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMPerson/resources/getLatestResultIn',
+  emmcreateincidentapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMMobiApp/resource/createIncidentReport/',
+  emmcomplainsapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMMobiApp/resource/complaints/',
+  emmregistercustomerapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMPerson/resources/customer/{',
+  emmloginapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMPerson/resources/customerLogIn/{',
+  emmpasswordrecoveryapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMPerson/resources/recoverPassword/{',
+  emmretrievecomplaintapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMMobiApp/resource/retrieveComplaint',
+  emmsupremaEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMSuprema/resources/getPrepaidVending/',
+  emmlocationEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMLocation/resources/location/',
+  emmfleetEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMLocation/resources/fleet/',
+  emmemployeeEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMPerson/resources/person/',
+  emmpurchaseorderEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMTransactionalEvents/resources/fleet/',    
+  emmtransactionaleventsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMTransactionalEvents/resources/transactionalEvents/',
+  emmIdigentEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMReporting/resources/indigentMonthlyReports',
+  emmHRinfoEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMHR/resources/getEmployeesPerDept/',
+  emmEhealthinfoEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMEHealth/resources/getMedAssetAmount',
+  emmcemetryEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMCemetery/resources/personDetails/',
+  notificationapiEndPoint : 'https://onesignal.com/api/v1/notifications'
+
+  
+})
+.value('curSymbol', {
+	symbol: 'R'
+});</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>
