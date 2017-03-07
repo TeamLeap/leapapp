@@ -1,6 +1,10 @@
 {
     "jscodehints.detectedExclusions": [
         "C:/Users/Skhomo1/Documents/leapapp/ehealth/ehealth.controller.js",
-        "C:/Users/Skhomo1/Documents/leapapp/hr/hr.controller.js"
+        "C:/Users/Skhomo1/Documents/leapapp/hr/hr.controller.js",
+        "C:/Users/Skhomo1/Documents/leapapp/docs/js/bootstrap-collapse.min.js",
+        "C:/Users/Skhomo1/Documents/leapapp/docs/js/bootstrap-dropdown.min.js",
+        "C:/Users/Skhomo1/Documents/leapapp/docs/js/bootstrap-scrollspy.min.js",
+        "C:/Users/Skhomo1/Documents/leapapp/docs/js/bootstrap-transition.min.js"
     ]
 }
