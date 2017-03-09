@@ -22,7 +22,9 @@
 
     <ons-scroller style="height: 100%; width: 100%">
         
-    <ons-list modifier="inset" style="margin-top: 10px">
+     <form name="profileForm" class="elegant-aero">
+        <ons-list modifier="inset" style="margin-top: 10px">
+            
         <div style="margin: 0 0 0 10px;"> Department</div>
         <ons-list-item>
             <select ng-model="selectedDepartment" ng-options="department as department for department in departmentList"><option value=''>Select</option></select>
@@ -37,11 +39,17 @@
         <ons-list-item>
             <select ng-model="selectedMedicalType" ng-options="medicalType as medicalType for medicalType in typeList"><option value=''>Select</option></select>
         </ons-list-item>
-
-    </ons-list>
-    <ons-button class="btn-distance" ng-click="getEHealthInfo()">
+            
+         </ons-list>
+         
+        <ons-list-item>
+           <ons-button class="btn-distance" ng-click="getEHealthInfo()">
         Submit
-    </ons-button>
+        </ons-button>
+        </ons-list-item>
+
+  </form>
+    
     <br/>    
         
    <ons-list modifier="aggregatedList">
@@ -60,6 +68,12 @@
         </ons-list-item>
 
     </ons-list>
+        
+   <ons-list-item ng-show="aggregatedList.length == 0">
+        <ons-row>
+            No data available.
+        </ons-row>
+    </ons-list-item>
    
     </ons-scroller>
 

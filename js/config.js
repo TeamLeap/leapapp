@@ -1,12 +1,10 @@
 /*global app */
 'use strict';
-app
-.constant('appConfig', {
+app.constant('appConfig', {
   municloudapiEndPoint: 'http://munipoiapp.herokuapp.com/api/',
   nearbysearchapiEndPoint : 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=',
   poiapiEndPoint : 'http://munipoiapp.herokuapp.com/api/pois',
   googledirectionapiEndPoint : 'http://maps.google.com/maps?saddr=',
-  
   emmclinicapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMLocation/resources/getClinicData',
   emmvoterspersondetailsapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMPerson/resources/getVotersPersonDetails/',
   emmmetersapiEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMSuprema/resources/getMeterDetails/64010',
@@ -27,15 +25,10 @@ app
   emmIdigentEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMReporting/resources/indigentMonthlyReports',
   emmHRinfoEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMHR/resources/getEmployeesPerDept/',
   emmEhealthinfoEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMEHealth/resources/getMedAssetAmount',
- emmcemetryEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMCemetery/resources/personDetails/',
   emmcemetryEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMCemetery/resources/personDetails/',
-<<<<<<< HEAD
   emmreviewsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMLeapNotification/resources/getReviewListing/',
-=======
-  emmwaterpotablepointsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMWater/waterLongLati/',
->>>>>>> origin/WaterPointsMap
-  notificationapiEndPoint : 'https://onesignal.com/api/v1/notifications'
-
+  notificationapiEndPoint : 'https://onesignal.com/api/v1/notifications',
+  emmwaterpotablepointsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMMobility/resources/waterLongLati'
   
 })
 .value('curSymbol', {

@@ -20,7 +20,7 @@
         };
     });
 
-    app.controller('networkController', function ($scope, $q, $rootScope) {
+    app.controller('networkController', function ($scope, $q, $rootScope,appConfig) {
 
         document.addEventListener('deviceready', function () {
 
@@ -109,7 +109,7 @@
 
         document.addEventListener("online", function () {
             // If you remove the "setTimeout('offlineMessage.hide()', 8000);" you must remove the comment for the line above      
-            // offlineMessage.hide();
+             offlineMessage.hide();
         });
 
 
@@ -1125,7 +1125,7 @@
         }
 
     }]);
-    
+
     app.controller('logCallsController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', function ($http, $scope, $rootScope, $sce, appConfig) {
 
         $scope.numOfCalls = 0;
@@ -1266,507 +1266,9 @@
 
         };
     }]);
-    
-    
-    
-    
-     app.controller('ReviewsController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
 
-        $scope.Reviews = {}
 
-        $scope.ReviewsList = [];
-          
-        $scope.getReviews = function () {
-            $scope.API = appConfig. emmreviewsEndPoint;
-
-            $scope.isFetching = true;
-            $rootScope.didYouKnowMessage = loadingMessageService.showMessage();
-            modal.show();
-          
-            console.log($scope.API);
-            $http.get($scope.API).success(function (data) {
-                $scope.ReviewsList = data.data;
-                
-
-                $scope.isFetching = false;
-                modal.hide();
-            }).error(function (data, status, headers, config) {
-                $scope.isFetching = false;
-                modal.hide();
-                ons.notification.alert({
-                    message: JSON.stringify('Something went wrong'),
-                    modifier: 'material'
-                });
-            });
-
-        };
-         
-          $scope.loadReviewsDetails = function (index, ReviewsList) {
-
-            appNavigator.pushPage('reviews.html', {
-                ID: ReviewsList.review_id
-            });
-
-        };
-
-        $scope.showReviewsDetails = function () {
-
-            $rootScope.didYouKnowMessage = loadingMessageService.showMessage();
-            modal.show();
-
-           var ID = appNavigator.getCurrentPage().options.ID;
-
-            $scope.API = appConfig.emmreviewsEndPoint;
-
-            $scope.API = $scope.API + '{"ReviewNumber":"' + ID + '"}';
-
-            console.log($scope.API);
-
-            $http.get($scope.API).success(function (data) {
-
-                 $scope.ReviewsList = data[0];
-
-                    $scope.isFetching = false;
-                    modal.hide();
-
-                },
-                function (error) {
-
-                    console.log("Couldn't get the location details.");
-
-                    ons.notification.alert({
-                        message: 'Something wrong with your connection.!',
-                        modifier: 'material'
-                    });
-
-                    modal.hide();
-
-                    console.log(error.code);
-
-                });
-
-        }
-         
-
-    }]);
-    
-    
-    
- app.controller('WaterPotablePointsController', ['$http', '$scope', '$rootScope', '$compile', 'appConfig', function ($http, $scope, $rootScope, $compile, appConfig) {
-
-    
-           
-        $scope.map;
-        $scope.overlay;
-        $scope.markers = [];
-        $scope.markerId = 1;
    
-
-        //Map initialization  
-        $scope.start = function () {
-
-            navigator.geolocation.getCurrentPosition(function (position) {
-
-                $scope.userLat = position.coords.latitude;
-                $scope.userLng = position.coords.longitude;
-
-                var latlng = new google.maps.LatLng($scope.userLat, $scope.userLng);
-
-                var myOptions = {
-                    zoom: 11,
-                    center: latlng,
-                    //mapTypeId: google.maps.MapTypeId.SATELLITE
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-
-                $scope.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-                $scope.overlay = new google.maps.OverlayView();
-                $scope.overlay.draw = function () {}; // empty function required
-
-                $scope.overlay.setMap($scope.map);
-                $scope.element = document.getElementById('map_canvas');
-                $scope.hammertime = Hammer($scope.element).on("hold", function (event) {
-                    $scope.addOnClick(event);
-                });
-
-            }, function (error) {
-
-                console.log("Couldn't get the location of the user.");
-
-
-                ons.notification.alert({
-                    message: 'Please enable you GPS and try again.! ' + error.message,
-                    modifier: 'material'
-                });
-
-                console.log(error.code);
-
-            }, {
-                maximumAge: Infinity,
-                timeout: 60000,
-                enableHighAccuracy: true
-            });
-
-        };
-
-        
-        //Delete all Markers
-        $scope.resetAllMarkers = function () {
-
-
-            if ($scope.markers.length == 0) {
-                return;
-            }
-
-            for (var i = 0; i < $scope.markers.length; i++) {
-
-                //Remove the marker from Map                  
-                $scope.markers[i].setMap(null);
-            }
-        };
-
-        //show all Markers
-        $scope.showMarkers = function (type) {
-
-            //var image;
-            modal.show();
-
-            //reset what is on the map currently
-            $scope.resetAllMarkers();
-
-            if (type == "poi")
-                $scope.loadPOIMarkers();
-            else
-                $scope.loadMarkers(type);
-
-            modal.hide();
-
-        };
-
-
-        $scope.loadMarkers = function (type) {
-
-            $scope.API = appConfig.emmwaterpotablepointsEndPoint; //"http://wmdev.ekurhuleni.gov.za:5555/rest/EMMWater/waterLongLati";
-
-            $scope.API = $scope.API + '?' + type + '=true'
-
-            $scope.markers = [];
-
-            $http.get($scope.API).success(function (response) {
-
-                /*  $.each(response.poi, function (key, value) {
-
-                      var latLng = new google.maps.LatLng(value.lat, value.lon);
-                      var marker = new google.maps.Marker({
-                          'position': latLng
-                      });
-                      markers.push(marker);
-                  });*/
-
-                for (var i = 0; i < response.poi.length; i++) {
-
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(response.poi[i].geometry.location.lat, response.poi[i].geometry.location.lng),
-                        map: $scope.map,
-                        title: response.poi[i].name
-
-                    });
-
-                    $scope.markers.push(marker);
-
-                    marker.content = "<div><p>" + marker.title + "</p><input type='submit' ng-click='getDirections(" + marker.position.lat() + "," + marker.position.lng() + ")' class='btn-distance' value='Directions' /></div>";
-
-                    google.maps.event.addListener(marker, 'click', (function (marker, i, $scope) {
-                        return function () {
-                            var compiled = $compile(marker.content)($scope);
-                            $scope.$apply();
-                            infowindow.setContent(compiled[0]);
-                            infowindow.open(map, marker);
-                        }
-                    })(marker, i, $scope));
-
-                }
-
-            });
-
-        }
-
-        $scope.loadPOIMarkers = function (type) {
-
-            modal.show();
-
-            navigator.geolocation.getCurrentPosition(function (position) {
-
-                $scope.userLat = position.coords.latitude;
-                $scope.userLng = position.coords.longitude;
-
-                $scope.API = appConfig.nearbysearchapiEndPoint + $scope.userLat + "," + $scope.userLng + "&radius=25000&type=point_of_interest&key=AIzaSyD8Or6tO3h801EW-QtIDI_VG-93B5OnoIM";
-
-                $http.get($scope.API).success(function (response) {
-
-                    $scope.locations = response.results;
-
-                    $scope.markers = [];
-
-                    $.each($scope.locations, function (index, value) {
-
-                        var marker = new google.maps.Marker({
-                            position: new google.maps.LatLng($scope.locations[index].geometry.location.lat, $scope.locations[index].geometry.location.lng),
-                            map: $scope.map,
-                            title: $scope.locations[index].name
-                        });
-
-                        $scope.markers.push(marker);
-
-                        marker.content = "<div><h3>" + marker.title + "</h3><input type='submit' ng-click='getDirections(" + marker.position.lat() + "," + marker.position.lng() + ")' class='btn-distance' value='Directions' /></div>";
-
-                        google.maps.event.addListener(marker, 'click', (function (marker, index) {
-                            return function () {
-                                //infowindow.setContent($scope.locations[index].name);
-                                var compiled = $compile(marker.content)($scope);
-                                $scope.$apply();
-                                infowindow.setContent(compiled[0]);
-                                infowindow.open(map, marker);
-                            }
-                        })(marker, index));
-
-                    });
-
-                    modal.hide();
-
-
-                });
-
-            }, function (error) {
-
-                console.log("Couldn't get the location of the user.");
-
-
-                ons.notification.alert({
-                    message: 'Please enable you GPS and try again.! ' + error.message,
-                    modifier: 'material'
-                });
-
-                console.log(error.code);
-
-            }, {
-                maximumAge: Infinity,
-                timeout: 60000,
-                enableHighAccuracy: true
-            });
-
-        }
-
-        $scope.loadWaterPotablePointsMarkers = function () {
-
-            modal.show();
-
-            navigator.geolocation.getCurrentPosition(function (position) {
-
-                $scope.userLat = position.coords.latitude;
-                $scope.userLng = position.coords.longitude;
-
-                $scope.API = appConfig.emmwaterpotablepointsEndPoint;
-
-                $http.get($scope.API).success(function (response) {
-
-                    $scope.locations = response.GPS;
-
-                    $scope.markers = [];
-
-                    $.each($scope.locations, function (index, value) {
-
-                        var marker = new google.maps.Marker({
-                            position: new google.maps.LatLng($scope.locations[index].Lat, $scope.locations[index].Long),
-                            map: $scope.map,
-                            title: $scope.locations[index].ClinicAddress
-                        });
-
-                        $scope.markers.push(marker);
-
-                        marker.content = "<div><h3>" + marker.title + "</h3><input type='submit' ng-click='getDirections(" + marker.position.lat() + "," + marker.position.lng() + ")' class='btn-distance' value='Directions' /></div>";
-
-                        google.maps.event.addListener(marker, 'click', (function (marker, index) {
-                            return function () {
-                                //infowindow.setContent($scope.locations[index].ClinicAddress);
-                                var compiled = $compile(marker.content)($scope);
-                                $scope.$apply();
-                                infowindow.setContent(compiled[0]);
-                                infowindow.open(map, marker);
-                            }
-                        })(marker, index));
-
-                    });
-
-                    modal.hide();
-
-
-                });
-
-            }, function (error) {
-
-                console.log("Couldn't get the location of the user.");
-
-
-                ons.notification.alert({
-                    message: 'Please enable you GPS and try again.! ' + error.message,
-                    modifier: 'material'
-                });
-
-                console.log(error.code);
-
-            }, {
-                maximumAge: Infinity,
-                timeout: 60000,
-                enableHighAccuracy: true
-            });
-
-        }
-
-        $scope.getDirections = function (lat, lot) {
-
-            var link = appConfig.googledirectionapiEndPoint + $scope.userLat + "," + $scope.userLng + "&daddr=" + lat + "," + lot;
-            console.log(link);
-
-            window.location = link;
-        }
-
-        $scope.rad = function (x) {
-            return x * Math.PI / 180;
-        };
-
-        //Calculate the distance between the Markers
-        $scope.calculateDistance = function () {
-
-            if ($scope.markers.length < 2) {
-                ons.notification.alert({
-                    message: 'Insert at least 2 markers!!!'
-                });
-            } else {
-                var totalDistance = 0;
-                var partialDistance = [];
-                partialDistance.length = $scope.markers.length - 1;
-
-                for (var i = 0; i < partialDistance.length; i++) {
-                    var p1 = $scope.markers[i];
-                    var p2 = $scope.markers[i + 1];
-
-                    var R = 6378137; // Earth’s mean radius in meter
-                    var dLat = $scope.rad(p2.position.lat() - p1.position.lat());
-                    var dLong = $scope.rad(p2.position.lng() - p1.position.lng());
-                    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                        Math.cos($scope.rad(p1.position.lat())) * Math.cos($scope.rad(p2.position.lat())) *
-                        Math.sin(dLong / 2) * Math.sin(dLong / 2);
-                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                    totalDistance += R * c / 1000; //distance in Km
-                    partialDistance[i] = R * c / 1000;
-                }
-
-
-                ons.notification.confirm({
-                    message: 'Do you want to see the partial distances?',
-                    callback: function (idx) {
-
-                        ons.notification.alert({
-                            message: "The total distance is " + totalDistance.toFixed(1) + " km"
-                        });
-
-                        switch (idx) {
-                        case 0:
-
-                            break;
-                        case 1:
-                            for (var i = (partialDistance.length - 1); i >= 0; i--) {
-
-                                ons.notification.alert({
-                                    message: "The partial distance from point " + (i + 1) + " to point " + (i + 2) + " is " + partialDistance[i].toFixed(1) + " km"
-                                });
-                            }
-                            break;
-                        }
-                    }
-                });
-            }
-        };
-
-        //Add single Marker
-        $scope.addOnClick = function (event) {
-            var x = event.gesture.center.pageX;
-            var y = event.gesture.center.pageY - 44;
-            var point = new google.maps.Point(x, y);
-            var coordinates = $scope.overlay.getProjection().fromContainerPixelToLatLng(point);
-
-            var marker = new google.maps.Marker({
-                position: coordinates,
-                map: $scope.map
-            });
-
-            marker.id = $scope.markerId;
-            $scope.markerId++;
-            $scope.markers.push(marker);
-
-
-            //Creation of the listener associated to the Markers click
-
-            google.maps.event.addListener(marker, "click", function (e) {
-                ons.notification.confirm({
-                    message: 'Do you want to delete the marker?',
-                    callback: function (idx) {
-                        switch (idx) {
-                        case 0:
-                            ons.notification.alert({
-                                message: 'You pressed "Cancel".'
-                            });
-                            break;
-                        case 1:
-                            for (var i = 0; i < $scope.markers.length; i++) {
-                                if ($scope.markers[i].id == marker.id) {
-                                    //Remove the marker from Map                  
-                                    $scope.markers[i].setMap(null);
-
-                                    //Remove the marker from array.
-                                    $scope.markers.splice(i, 1);
-                                }
-                            }
-                            ons.notification.alert({
-                                message: 'Marker deleted.'
-                            });
-                            break;
-                        }
-                    }
-                });
-            });
-
-        }
-    }]);
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     app.controller('employeeController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
 
         $scope.employee = {}
@@ -2038,455 +1540,6 @@
 
 
     }]);
-    
-    
-    
-    
-      app.controller('WaterPotablePointsController', ['$http', '$scope', '$rootScope', '$compile', 'appConfig', function ($http, $scope, $rootScope, $compile, appConfig) {
-
-    
-           
-        $scope.map;
-        $scope.overlay;
-        $scope.markers = [];
-        $scope.markerId = 1;
-   
-
-        //Map initialization  
-        $scope.start = function () {
-
-            navigator.geolocation.getCurrentPosition(function (position) {
-
-                $scope.userLat = position.coords.latitude;
-                $scope.userLng = position.coords.longitude;
-
-                var latlng = new google.maps.LatLng($scope.userLat, $scope.userLng);
-
-                var myOptions = {
-                    zoom: 11,
-                    center: latlng,
-                    //mapTypeId: google.maps.MapTypeId.SATELLITE
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-
-                $scope.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-                $scope.overlay = new google.maps.OverlayView();
-                $scope.overlay.draw = function () {}; // empty function required
-
-                $scope.overlay.setMap($scope.map);
-                $scope.element = document.getElementById('map_canvas');
-                $scope.hammertime = Hammer($scope.element).on("hold", function (event) {
-                    $scope.addOnClick(event);
-                });
-
-            }, function (error) {
-
-                console.log("Couldn't get the location of the user.");
-
-
-                ons.notification.alert({
-                    message: 'Please enable you GPS and try again.! ' + error.message,
-                    modifier: 'material'
-                });
-
-                console.log(error.code);
-
-            }, {
-                maximumAge: Infinity,
-                timeout: 60000,
-                enableHighAccuracy: true
-            });
-
-        };
-
-        
-        //Delete all Markers
-        $scope.resetAllMarkers = function () {
-
-
-            if ($scope.markers.length == 0) {
-                return;
-            }
-
-            for (var i = 0; i < $scope.markers.length; i++) {
-
-                //Remove the marker from Map                  
-                $scope.markers[i].setMap(null);
-            }
-        };
-
-        //show all Markers
-        $scope.showMarkers = function (type) {
-
-            //var image;
-            modal.show();
-
-            //reset what is on the map currently
-            $scope.resetAllMarkers();
-
-            if (type == "poi")
-                $scope.loadPOIMarkers();
-            else
-                $scope.loadMarkers(type);
-
-            modal.hide();
-
-        };
-
-
-        $scope.loadMarkers = function (type) {
-
-            $scope.API = appConfig.emmwaterpotablepointsEndPoint; //"http://wmdev.ekurhuleni.gov.za:5555/rest/EMMWater/waterLongLati";
-
-            $scope.API = $scope.API + '?' + type + '=true'
-
-            $scope.markers = [];
-
-            $http.get($scope.API).success(function (response) {
-
-                /*  $.each(response.poi, function (key, value) {
-
-                      var latLng = new google.maps.LatLng(value.lat, value.lon);
-                      var marker = new google.maps.Marker({
-                          'position': latLng
-                      });
-                      markers.push(marker);
-                  });*/
-
-                for (var i = 0; i < response.poi.length; i++) {
-
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(response.poi[i].geometry.location.lat, response.poi[i].geometry.location.lng),
-                        map: $scope.map,
-                        title: response.poi[i].name
-
-                    });
-
-                    $scope.markers.push(marker);
-
-                    marker.content = "<div><p>" + marker.title + "</p><input type='submit' ng-click='getDirections(" + marker.position.lat() + "," + marker.position.lng() + ")' class='btn-distance' value='Directions' /></div>";
-
-                    google.maps.event.addListener(marker, 'click', (function (marker, i, $scope) {
-                        return function () {
-                            var compiled = $compile(marker.content)($scope);
-                            $scope.$apply();
-                            infowindow.setContent(compiled[0]);
-                            infowindow.open(map, marker);
-                        }
-                    })(marker, i, $scope));
-
-                }
-
-            });
-
-        }
-
-        $scope.loadPOIMarkers = function (type) {
-
-            modal.show();
-
-            navigator.geolocation.getCurrentPosition(function (position) {
-
-                $scope.userLat = position.coords.latitude;
-                $scope.userLng = position.coords.longitude;
-
-                $scope.API = appConfig.nearbysearchapiEndPoint + $scope.userLat + "," + $scope.userLng + "&radius=25000&type=point_of_interest&key=AIzaSyD8Or6tO3h801EW-QtIDI_VG-93B5OnoIM";
-
-                $http.get($scope.API).success(function (response) {
-
-                    $scope.locations = response.results;
-
-                    $scope.markers = [];
-
-                    $.each($scope.locations, function (index, value) {
-
-                        var marker = new google.maps.Marker({
-                            position: new google.maps.LatLng($scope.locations[index].geometry.location.lat, $scope.locations[index].geometry.location.lng),
-                            map: $scope.map,
-                            title: $scope.locations[index].name
-                        });
-
-                        $scope.markers.push(marker);
-
-                        marker.content = "<div><h3>" + marker.title + "</h3><input type='submit' ng-click='getDirections(" + marker.position.lat() + "," + marker.position.lng() + ")' class='btn-distance' value='Directions' /></div>";
-
-                        google.maps.event.addListener(marker, 'click', (function (marker, index) {
-                            return function () {
-                                //infowindow.setContent($scope.locations[index].name);
-                                var compiled = $compile(marker.content)($scope);
-                                $scope.$apply();
-                                infowindow.setContent(compiled[0]);
-                                infowindow.open(map, marker);
-                            }
-                        })(marker, index));
-
-                    });
-
-                    modal.hide();
-
-
-                });
-
-            }, function (error) {
-
-                console.log("Couldn't get the location of the user.");
-
-
-                ons.notification.alert({
-                    message: 'Please enable you GPS and try again.! ' + error.message,
-                    modifier: 'material'
-                });
-
-                console.log(error.code);
-
-            }, {
-                maximumAge: Infinity,
-                timeout: 60000,
-                enableHighAccuracy: true
-            });
-
-        }
-
-        $scope.loadWaterPotablePointsMarkers = function () {
-
-            modal.show();
-
-            navigator.geolocation.getCurrentPosition(function (position) {
-
-                $scope.userLat = position.coords.latitude;
-                $scope.userLng = position.coords.longitude;
-
-                $scope.API = appConfig.emmwaterpotablepointsEndPoint;
-
-                $http.get($scope.API).success(function (response) {
-
-                    $scope.locations = response.GPS;
-
-                    $scope.markers = [];
-
-                    $.each($scope.locations, function (index, value) {
-
-                        var marker = new google.maps.Marker({
-                            position: new google.maps.LatLng($scope.locations[index].Lat, $scope.locations[index].Long),
-                            map: $scope.map,
-                            title: $scope.locations[index].ClinicAddress
-                        });
-
-                        $scope.markers.push(marker);
-
-                        marker.content = "<div><h3>" + marker.title + "</h3><input type='submit' ng-click='getDirections(" + marker.position.lat() + "," + marker.position.lng() + ")' class='btn-distance' value='Directions' /></div>";
-
-                        google.maps.event.addListener(marker, 'click', (function (marker, index) {
-                            return function () {
-                                //infowindow.setContent($scope.locations[index].ClinicAddress);
-                                var compiled = $compile(marker.content)($scope);
-                                $scope.$apply();
-                                infowindow.setContent(compiled[0]);
-                                infowindow.open(map, marker);
-                            }
-                        })(marker, index));
-
-                    });
-
-                    modal.hide();
-
-
-                });
-
-            }, function (error) {
-
-                console.log("Couldn't get the location of the user.");
-
-
-                ons.notification.alert({
-                    message: 'Please enable you GPS and try again.! ' + error.message,
-                    modifier: 'material'
-                });
-
-                console.log(error.code);
-
-            }, {
-                maximumAge: Infinity,
-                timeout: 60000,
-                enableHighAccuracy: true
-            });
-
-        }
-
-        $scope.getDirections = function (lat, lot) {
-
-            var link = appConfig.googledirectionapiEndPoint + $scope.userLat + "," + $scope.userLng + "&daddr=" + lat + "," + lot;
-            console.log(link);
-
-            window.location = link;
-        }
-
-        $scope.rad = function (x) {
-            return x * Math.PI / 180;
-        };
-
-        //Calculate the distance between the Markers
-        $scope.calculateDistance = function () {
-
-            if ($scope.markers.length < 2) {
-                ons.notification.alert({
-                    message: 'Insert at least 2 markers!!!'
-                });
-            } else {
-                var totalDistance = 0;
-                var partialDistance = [];
-                partialDistance.length = $scope.markers.length - 1;
-
-                for (var i = 0; i < partialDistance.length; i++) {
-                    var p1 = $scope.markers[i];
-                    var p2 = $scope.markers[i + 1];
-
-                    var R = 6378137; // Earth’s mean radius in meter
-                    var dLat = $scope.rad(p2.position.lat() - p1.position.lat());
-                    var dLong = $scope.rad(p2.position.lng() - p1.position.lng());
-                    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                        Math.cos($scope.rad(p1.position.lat())) * Math.cos($scope.rad(p2.position.lat())) *
-                        Math.sin(dLong / 2) * Math.sin(dLong / 2);
-                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                    totalDistance += R * c / 1000; //distance in Km
-                    partialDistance[i] = R * c / 1000;
-                }
-
-
-                ons.notification.confirm({
-                    message: 'Do you want to see the partial distances?',
-                    callback: function (idx) {
-
-                        ons.notification.alert({
-                            message: "The total distance is " + totalDistance.toFixed(1) + " km"
-                        });
-
-                        switch (idx) {
-                        case 0:
-
-                            break;
-                        case 1:
-                            for (var i = (partialDistance.length - 1); i >= 0; i--) {
-
-                                ons.notification.alert({
-                                    message: "The partial distance from point " + (i + 1) + " to point " + (i + 2) + " is " + partialDistance[i].toFixed(1) + " km"
-                                });
-                            }
-                            break;
-                        }
-                    }
-                });
-            }
-        };
-
-        //Add single Marker
-        $scope.addOnClick = function (event) {
-            var x = event.gesture.center.pageX;
-            var y = event.gesture.center.pageY - 44;
-            var point = new google.maps.Point(x, y);
-            var coordinates = $scope.overlay.getProjection().fromContainerPixelToLatLng(point);
-
-            var marker = new google.maps.Marker({
-                position: coordinates,
-                map: $scope.map
-            });
-
-            marker.id = $scope.markerId;
-            $scope.markerId++;
-            $scope.markers.push(marker);
-
-
-            //Creation of the listener associated to the Markers click
-
-            google.maps.event.addListener(marker, "click", function (e) {
-                ons.notification.confirm({
-                    message: 'Do you want to delete the marker?',
-                    callback: function (idx) {
-                        switch (idx) {
-                        case 0:
-                            ons.notification.alert({
-                                message: 'You pressed "Cancel".'
-                            });
-                            break;
-                        case 1:
-                            for (var i = 0; i < $scope.markers.length; i++) {
-                                if ($scope.markers[i].id == marker.id) {
-                                    //Remove the marker from Map                  
-                                    $scope.markers[i].setMap(null);
-
-                                    //Remove the marker from array.
-                                    $scope.markers.splice(i, 1);
-                                }
-                            }
-                            ons.notification.alert({
-                                message: 'Marker deleted.'
-                            });
-                            break;
-                        }
-                    }
-                });
-            });
-
-        }
-    }]);
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     app.controller('purchaseOrderController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
 
@@ -2897,17 +1950,17 @@
                         });
 
                         switch (idx) {
-                        case 0:
+                            case 0:
 
-                            break;
-                        case 1:
-                            for (var i = (partialDistance.length - 1); i >= 0; i--) {
+                                break;
+                            case 1:
+                                for (var i = (partialDistance.length - 1); i >= 0; i--) {
 
-                                ons.notification.alert({
-                                    message: "The partial distance from point " + (i + 1) + " to point " + (i + 2) + " is " + partialDistance[i].toFixed(1) + " km"
-                                });
-                            }
-                            break;
+                                    ons.notification.alert({
+                                        message: "The partial distance from point " + (i + 1) + " to point " + (i + 2) + " is " + partialDistance[i].toFixed(1) + " km"
+                                    });
+                                }
+                                break;
                         }
                     }
                 });
@@ -2938,25 +1991,25 @@
                     message: 'Do you want to delete the marker?',
                     callback: function (idx) {
                         switch (idx) {
-                        case 0:
-                            ons.notification.alert({
-                                message: 'You pressed "Cancel".'
-                            });
-                            break;
-                        case 1:
-                            for (var i = 0; i < $scope.markers.length; i++) {
-                                if ($scope.markers[i].id == marker.id) {
-                                    //Remove the marker from Map                  
-                                    $scope.markers[i].setMap(null);
+                            case 0:
+                                ons.notification.alert({
+                                    message: 'You pressed "Cancel".'
+                                });
+                                break;
+                            case 1:
+                                for (var i = 0; i < $scope.markers.length; i++) {
+                                    if ($scope.markers[i].id == marker.id) {
+                                        //Remove the marker from Map                  
+                                        $scope.markers[i].setMap(null);
 
-                                    //Remove the marker from array.
-                                    $scope.markers.splice(i, 1);
+                                        //Remove the marker from array.
+                                        $scope.markers.splice(i, 1);
+                                    }
                                 }
-                            }
-                            ons.notification.alert({
-                                message: 'Marker deleted.'
-                            });
-                            break;
+                                ons.notification.alert({
+                                    message: 'Marker deleted.'
+                                });
+                                break;
                         }
                     }
                 });
@@ -3024,28 +2077,28 @@
 
             //check which dataset to load
             switch ($scope.category) {
-            case 'votingstations':
-                $rootScope.optionselected = 'votingstations';
-                break;
-            case 'parks':
-                $rootScope.optionselected = 'parks';
-                break;
-            case 'schools':
-                $rootScope.optionselected = 'schools';
-                break;
-            case 'artcentres':
-                $rootScope.optionselected = 'artcentres';
-                break;
-            case 'ccc':
-                $rootScope.optionselected = 'ccc';
-                break;
-                /*case 'police':
-                    $rootScope.optionselected = 'police';
-                    break;*/
-            case 'clinics':
-                $rootScope.optionselected = 'clinics';
-                break;
-            default:
+                case 'votingstations':
+                    $rootScope.optionselected = 'votingstations';
+                    break;
+                case 'parks':
+                    $rootScope.optionselected = 'parks';
+                    break;
+                case 'schools':
+                    $rootScope.optionselected = 'schools';
+                    break;
+                case 'artcentres':
+                    $rootScope.optionselected = 'artcentres';
+                    break;
+                case 'ccc':
+                    $rootScope.optionselected = 'ccc';
+                    break;
+                    /*case 'police':
+                        $rootScope.optionselected = 'police';
+                        break;*/
+                case 'clinics':
+                    $rootScope.optionselected = 'clinics';
+                    break;
+                default:
             }
 
             if ($rootScope.optionselected === 'police' || $rootScope.optionselected === 'clinics')
@@ -3062,25 +2115,25 @@
 
             //check which dataset to load
             switch ($scope.category) {
-            case 'votingstations':
-                $rootScope.optionselected = 'votingstations';
-                break;
-            case 'parks':
-                $rootScope.optionselected = 'parks';
-                break;
-            case 'schools':
-                $rootScope.optionselected = 'schools';
-                break;
-            case 'artcentres':
-                $rootScope.optionselected = 'artcentres';
-                break;
-            case 'ccc':
-                $rootScope.optionselected = 'ccc';
-                break;
-            case 'clinics':
-                $rootScope.optionselected = 'clinics';
-                break;
-            default:
+                case 'votingstations':
+                    $rootScope.optionselected = 'votingstations';
+                    break;
+                case 'parks':
+                    $rootScope.optionselected = 'parks';
+                    break;
+                case 'schools':
+                    $rootScope.optionselected = 'schools';
+                    break;
+                case 'artcentres':
+                    $rootScope.optionselected = 'artcentres';
+                    break;
+                case 'ccc':
+                    $rootScope.optionselected = 'ccc';
+                    break;
+                case 'clinics':
+                    $rootScope.optionselected = 'clinics';
+                    break;
+                default:
             }
 
             appNavigator.pushPage('stats.html');
@@ -3102,28 +2155,28 @@
 
             //check which dataset to load
             switch ($scope.category) {
-            case 'votingstations':
-                $rootScope.optionselected = 'votingstations';
-                break;
-            case 'parks':
-                $rootScope.optionselected = 'parks';
-                break;
-            case 'schools':
-                $rootScope.optionselected = 'schools';
-                break;
-            case 'artcentres':
-                $rootScope.optionselected = 'artcentres';
-                break;
-            case 'ccc':
-                $rootScope.optionselected = 'ccc';
-                break;
-                /*case 'police':
-                    $rootScope.optionselected = 'police';
-                    break;*/
-            case 'clinics':
-                $rootScope.optionselected = 'clinics';
-                break;
-            default:
+                case 'votingstations':
+                    $rootScope.optionselected = 'votingstations';
+                    break;
+                case 'parks':
+                    $rootScope.optionselected = 'parks';
+                    break;
+                case 'schools':
+                    $rootScope.optionselected = 'schools';
+                    break;
+                case 'artcentres':
+                    $rootScope.optionselected = 'artcentres';
+                    break;
+                case 'ccc':
+                    $rootScope.optionselected = 'ccc';
+                    break;
+                    /*case 'police':
+                        $rootScope.optionselected = 'police';
+                        break;*/
+                case 'clinics':
+                    $rootScope.optionselected = 'clinics';
+                    break;
+                default:
             }
 
             if ($rootScope.optionselected === 'police' || $rootScope.optionselected === 'clinics')
@@ -3704,10 +2757,10 @@
         }
 
     }]);
-    
-    
-    
-     app.controller('cemetryController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
+
+
+
+    app.controller('cemetryController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
 
         $scope.cemetryList = [];
         $scope.isShowing = false;
@@ -3729,20 +2782,20 @@
                 $scope.isFetching = true;
                 $rootScope.didYouKnowMessage = loadingMessageService.showMessage();
                 modal.show();
-                
+
                 if (typeof $scope.firstname === 'undefined')
                     $scope.firstname = '';
-                else if(typeof $scope.lastname === 'undefined')
+                else if (typeof $scope.lastname === 'undefined')
                     $scope.lastname = '';
                 else
                     $scope.idno = '';
-                
+
                 $scope.API = $scope.API + '{"FIRSTNAME":"' + $scope.firstname + '","SURNAME":"' + $scope.lastname + '","IDNO":"' + $scope.idno + '"}}';
 
                 $http.get($scope.API).success(function (data) {
 
                     $scope.cemetryList = [];
-                    
+
                     if (typeof data.results === 'undefined')
                         $scope.cemetryList = [data];
                     else
@@ -3769,30 +2822,13 @@
 
     }]);
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 
     app.controller('statsController', ['$scope', '$rootScope', '$sce', '$http', 'appConfig', function ($scope, $rootScope, $sce, $http, appConfig) {
 
@@ -4303,49 +3339,49 @@
 
             switch ($rootScope.optionselected) {
 
-            case 'votingstations':
+                case 'votingstations':
 
-                $scope.data = $scope.votesStats;
-                $scope.title = "Voting Stations";
-                $scope.graphtitle = " votes";
-                break;
+                    $scope.data = $scope.votesStats;
+                    $scope.title = "Voting Stations";
+                    $scope.graphtitle = " votes";
+                    break;
 
-            case 'parks':
+                case 'parks':
 
-                $scope.data = $scope.parksStats;
-                $scope.title = "Parks";
-                $scope.graphtitle = " parks";
-                break;
+                    $scope.data = $scope.parksStats;
+                    $scope.title = "Parks";
+                    $scope.graphtitle = " parks";
+                    break;
 
-            case 'schools':
+                case 'schools':
 
-                $scope.data = $scope.schoolsStats;
-                $scope.title = "Schools";
-                $scope.graphtitle = " schools";
-                break;
+                    $scope.data = $scope.schoolsStats;
+                    $scope.title = "Schools";
+                    $scope.graphtitle = " schools";
+                    break;
 
-            case 'artcentres':
+                case 'artcentres':
 
-                $scope.title = "Art Centres";
-                $scope.data = [];
-                $scope.graphtitle = " art centers";
-                break;
+                    $scope.title = "Art Centres";
+                    $scope.data = [];
+                    $scope.graphtitle = " art centers";
+                    break;
 
-            case 'ccc':
+                case 'ccc':
 
-                $scope.title = "Customer Care Centres";
-                $scope.data = [];
-                $scope.graphtitle = " customer care centres";
-                break;
+                    $scope.title = "Customer Care Centres";
+                    $scope.data = [];
+                    $scope.graphtitle = " customer care centres";
+                    break;
 
-            case 'latest':
+                case 'latest':
 
-                $scope.data = $scope.partyBallotResults;
-                $scope.title = "Latest Results for the National Election for Province and Municipality";
-                $scope.graphtitle = "% Of Votes";
-                break;
+                    $scope.data = $scope.partyBallotResults;
+                    $scope.title = "Latest Results for the National Election for Province and Municipality";
+                    $scope.graphtitle = "% Of Votes";
+                    break;
 
-            default:
+                default:
 
             }
 
@@ -4416,7 +3452,7 @@
 
     }]);
 
-    
+
     /*app.controller('speachSearchController', ['$scope', '$rootScope', '$sce', '$http', function ($scope, $rootScope, $sce, $http) {
 
         function recognizeSpeech() {

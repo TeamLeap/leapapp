@@ -44,11 +44,7 @@
         .btn-delete {
             z-index: 1
         }
-        .btn-distance {
-            z-index: 1;
-            padding: 0px;
-            margin: 5px;
-        }
+        
         .settings-header {
             font-weight: 500;
             font-size: 14px;
@@ -157,6 +153,8 @@
         }
         .btn-distance {
             width: 110px;
+            margin: 5px;
+            padding: 5px;
         }
         .living-conditions {
             padding: 5px;
@@ -209,6 +207,7 @@
             padding-top: 10px;
         }
         .btn-distance {
+            z-index: 1;
             position: relative;
             display: inline-block;
             vertical-align: top;
@@ -218,7 +217,7 @@
             -webkit-background-clip: padding-box;
             background-clip: padding-box;
             padding: 5px;
-            margin: 0;
+            margin: 2px;
             font: inherit;
             color: inherit;
             background: transparent;

@@ -1,39 +1,38 @@
 <ons-page ng-controller="waterPotablePointsController" ng-init="init()">
 
-  <ons-toolbar>
-    <div class="left">
-      <ons-back-button>Back</ons-back-button>
-    </div>
-    <div class="center">All Water Points</div>
-  </ons-toolbar>
-        
- <div  class="map-fullscreen-container">
-      
-    <map zoom="10" center="{{ centerMap }}" class="fullscreen" zoom-control-options="{position:'RIGHT_TOP'}">
-           
-     <info-window id="marker-info">
-        <div>
-          <strong class="markerTitle">{{ infoWindow.title }}</strong>
-          <div class="markerContent">
-            <p>{{ infoWindow.content }}</p>
-            <ul>
-              <img width="64" src="images/icons/waterpoint.png"/><br/>
-            </ul>
-            <a class="button get-directions" data-marker="{{ infoWindow.id }}" ng-click="showMap(marker.location[0],marker.location[1])">Get Directions</a><br><br>
-            </div>
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Back</ons-back-button>
         </div>
-    </info-window>
-     
-    <marker ng-repeat="(id, marker) in markers" 
-            id="{{ id }}" 
-            position="{{marker.location}}"
-            on-click="showMarker(event, $index)" 
-            icon="images/icons/waterpoint.png" >
-    </marker>
-       
-    </map>
-       
-</div>
+        <div class="center">All Water Points</div>
+    </ons-toolbar>
+
+    <div class="map-fullscreen-container">
+
+        <map zoom="13" center="{{ centerMap }}" class="fullscreen" zoom-control-options="{position:'RIGHT_TOP'}">
+
+            <info-window id="marker-info">
+                <div>
+                    <strong class="markerTitle">{{ infoWindow.title }}</strong>
+                    <div class="markerContent">
+                        <p>{{ infoWindow.content }}</p>
+                        <ul>
+                            <img width="64" src="images/icons/waterpoint.png" />
+                            <br/>
+                        </ul>
+                        <a class="button get-directions" data-marker="{{ infoWindow.id }}" ng-click="showMap(marker.location[0],marker.location[1])">Get Directions</a>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </info-window>
+
+            <marker ng-repeat="(id, marker) in markers" id="{{ id }}" position="{{marker.location}}" on-click="showMarker(event, $index)" icon="images/icons/waterpoint.png">
+            </marker>
+
+        </map>
+
+    </div>
 
 
 </ons-page>

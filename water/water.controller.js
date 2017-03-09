@@ -15,6 +15,9 @@
 
              $scope.userLat = position.coords.latitude;
              $scope.userLng = position.coords.longitude;
+             
+            window.localStorage.setItem("lat",JSON.stringify($scope.userLat));
+            window.localStorage.setItem("lng",JSON.stringify($scope.userLng));
 
              $scope.centerMap = [$scope.userLat, $scope.userLng]; // Start Position
 
@@ -42,6 +45,8 @@
                          });
 
                  });
+                 
+                window.localStorage.setItem("markers", JSON.stringify($scope.markers));
 
                  modal.hide();
                  poiDialog.hide();
@@ -68,6 +73,8 @@
              timeout: 60000,
              enableHighAccuracy: true
          });
+         
+        }
 
          $scope.showMarker = function (event) {
 
@@ -90,5 +97,5 @@
 
          }
 
-     }
+
     }]);
