@@ -32,14 +32,9 @@
         <ons-list class="timeline" modifier="inset">
           <ons-list-item class="list-location-container" ng-repeat="(id, Reviews) in ReviewsList" id="{{ id }}" ng-click="loadReviewsDetails($index,Reviews)">
             <ons-row>
-              <ons-col width="50px">
-              
-                  <ons-icon icon="ion-ios-star" class="tab-icon"></ons-icon>
-                 
-              </ons-col>
-
+            
               <ons-col>
-                  <div class="timeline-date" style="padding-left:420px"><i class="ion-clock"></i>{{Reviews.review_date}}</div>
+                  <div class="timeline-date"><i class="ion-clock"></i>{{Reviews.review_date}}</div>
                   
                   <div class="name">  <span class="label label-default">Service Rating : {{Reviews.review_title}}</span></div>
                 

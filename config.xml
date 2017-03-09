@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
     <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
-    <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.leap" versionCode="1347" version="0.1.0">
+    <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.leap" versionCode="1348" version="0.1.0">
 
         <name>LEAP</name>
 
@@ -13,12 +13,6 @@
             Tsheko Mashego
         </author>
 
-        <!--
-        If you do not want any permissions to be added to your app, add the
-        following tag to your config.xml; you will still have the INTERNET
-        permission on your app, which PhoneGap requires.
-    -->
-       
         <feature name="http://api.phonegap.com/1.0/device" />
         <feature name="http://api.phonegap.com/1.0/geolocation" />
 

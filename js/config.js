@@ -29,7 +29,11 @@ app
   emmEhealthinfoEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMEHealth/resources/getMedAssetAmount',
  emmcemetryEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMCemetery/resources/personDetails/',
   emmcemetryEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMCemetery/resources/personDetails/',
+<<<<<<< HEAD
   emmreviewsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMLeapNotification/resources/getReviewListing/',
+=======
+  emmwaterpotablepointsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMWater/waterLongLati/',
+>>>>>>> origin/WaterPointsMap
   notificationapiEndPoint : 'https://onesignal.com/api/v1/notifications'
 
   
