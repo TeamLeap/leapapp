@@ -26,7 +26,23 @@
 
             navigator.splashscreen.hide();
 
-            datePicker = window.plugins.datePicker;
+           
+            //checkinng if the server is offline 
+            
+            
+              
+            $http.get('http://wmdev.ekurhuleni.gov.za:5558').then(function(response) {
+                
+                datePicker = window.plugins.datePicker;
+           
+            }, function(errResponse){
+               
+                 appNavigator.pushPage('offline.html');
+                
+                
+            });
+            
+            
 
             //OAuth.initialize('cxhwciIvEZEjw2e5pVe8ucOB6H8')
 
