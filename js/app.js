@@ -331,6 +331,247 @@
             }
         };
     });
+    
+    
+    
+    
+    
+    app.controller('TrafficIncidentsController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
+
+        $scope.TrafficIncidents = {}
+
+        $scope.IncidentsList = [];
+         
+         
+          var Roadwaycount = 0,
+           
+            DirectionOfTravel = 0;
+         
+         
+
+        $scope.getTrafficIncidents = function () {
+            $scope.API = appConfig.emmsanralEndPoint;
+
+            $scope.isFetching = true;
+            $rootScope.didYouKnowMessage = loadingMessageService.showMessage();
+            modal.show();
+           // $scope.API = $scope.API + '{"serviceProperties":{"systemCode":"code","key":"key"},"serviceRequest"{"searchType":"details","transactionalEventsType":"goodsReturnedNotes"}}';
+            console.log($scope.API);
+            $http.get($scope.API).success(function (data) {
+                $scope.IncidentsList = data;
+
+                $scope.isFetching = false;
+                modal.hide();
+            }).error(function (data, status, headers, config) {
+                $scope.isFetching = false;
+                modal.hide();
+                ons.notification.alert({
+                    message: JSON.stringify('Something went wrong'),
+                    modifier: 'material'
+                });
+            });
+
+        };
+         
+          $scope.loadIncidentsDetails = function (index, IncidentsList) {
+
+            appNavigator.pushPage('trafficincidentdetails.html', {
+                ID: IncidentsList.ID
+            });
+
+        };
+
+        $scope.showIncidentsDetails = function () {
+
+            $rootScope.didYouKnowMessage = loadingMessageService.showMessage();
+            modal.show();
+
+           var ID = appNavigator.getCurrentPage().options.ID;
+
+            $scope.API = appConfig.emmsanralEndPoint;
+
+            $scope.API = $scope.API + '{"IncidentNumber":"' + ID + '"}';
+
+            console.log($scope.API);
+
+            $http.get($scope.API).success(function (data) {
+
+                 $scope.IncidentsList = data[0];
+
+                    $scope.isFetching = false;
+                    modal.hide();
+
+                },
+                function (error) {
+
+                    console.log("Couldn't get the location details.");
+
+                    ons.notification.alert({
+                        message: 'Something wrong with your connection.!',
+                        modifier: 'material'
+                    });
+
+                    modal.hide();
+
+                    console.log(error.code);
+
+                });
+
+        }
+         
+         
+        
+        
+        
+        
+         // Show latest stats
+        $scope.showTrafficIncidents = function () {
+
+            $scope.options = {
+
+                chart: {
+
+                    type: 'pieChart',
+
+                    height: 500,
+
+                    x: function (data) {
+                        return data.Name;
+                    },
+
+                    y: function (data) {
+
+                        return data.PercTrafficIncidents;
+                    },
+
+                    showLabels: true,
+                    showLegend: true,
+
+                    duration: 500,
+
+                    labelThreshold: 0.01,
+
+                    labelSunbeamLayout: true,
+
+                    valueFormat: function (d) {
+
+                        return d3.format(',.0f')(d) + ' ' + $scope.graphtitle;
+
+                    },
+
+                    legend: {
+
+                        margin: {
+
+                            top: 5,
+
+                            right: 35,
+
+                            bottom: 5,
+
+                            left: 0
+
+                        }
+
+                    },
+
+                    "title": {
+
+                        "enable": true,
+
+                        "text": "Latest Stats"
+
+                    },
+
+                    "subtitle": {
+
+                        "enable": true,
+
+                        "text": "This information was provided by the Sanral",
+
+                        "css": {
+
+                            "text-align": "right",
+
+                            "margin": "10px 13px 0px 7px"
+
+                        }
+
+                    },
+
+                    caption: {
+
+                        enable: true,
+
+                        html: 'Click on the legend to show/hide',
+
+                        css: {
+
+                            'text-align': 'justify',
+
+                            'margin': '10px 13px 0px 7px'
+
+                        }
+
+                    }
+
+                }
+
+            };
+
+            var page = appNavigator.getCurrentPage();
+            
+            $scope.Roadwaycount = page.options.Roadwaycount;
+            $scope.DirectionOfTravel = page.options.DirectionOfTravel;
+            $scope.graphtitle = "Incidents";
+
+            $scope.data = [{
+                    Name: 'Roadway',
+                    PercTrafficIncidents: $scope.Roadwaycount
+                                      },
+                {
+                    Name: 'DirectionOfTravel',
+                    PercTrafficIncidents: $scope.DirectionOfTravel
+                                      }
+                                    ];
+
+        };
+
+    }]);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     app.controller('branchesController', function ($http, $scope, $filter, $rootScope, $compile, $sce, loadingMessageService, appConfig) {
 

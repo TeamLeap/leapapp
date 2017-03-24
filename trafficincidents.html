@@ -1,0 +1,66 @@
+<ons-page ng-controller="TrafficIncidentsController" ng-init="getTrafficIncidents()">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Cancel</ons-back-button>
+        </div>
+        <div class="center">Traffic incidents ({{IncidentsList.length}})</div>
+        
+        
+        <div class="right">Traffic incidents ({{IncidentsList.length}})</div>
+        
+        
+    </ons-toolbar>
+ 
+    <br/>
+
+
+    
+    <ons-list modifier="meterlist">
+
+        <ons-list-item class="list-location-container" ng-repeat="(id, incidents) in IncidentsList" id="{{ id }}" ng-click="loadIncidentsDetails($index,incidents)">
+            
+            <ons-row>
+              
+                <ons-col>
+                    
+                     <div class="name">  <span class="label label-default">{{incidents.ID}}</span></div>
+
+                   
+                    <div class="name"><i class="ion-ios-navigate"></i> Direction Of Travel:
+                        {{incidents.DirectionOfTravel}}</div>
+                    
+
+                     
+                    <div class="name"><i class="ion-ios-location"></i> Location: {{incidents.Name
+
+                         }}</div>
+                    
+                    <div class="name"><i class="ion-android-locate"></i> Roadway: {{incidents.RoadwayName
+
+                         }}</div>
+        
+                    <div class="clearfix"></div>
+                </ons-col>
+                                
+            </ons-row>
+           
+        </ons-list-item>
+
+    </ons-list>
+
+    <ons-list-item ng-show="IncidentsList.length === 0">
+        <ons-row>
+            No data available.
+        </ons-row>
+    </ons-list-item>
+
+    
+     <ons-button id="moreButton" modifier="large" ng-show="IncidentsList.length > 20" should-spin="{{isFetching}}" ng-click="nextPage()">
+        <ons-icon icon="ion-ios-download"></ons-icon>
+        Load More
+    </ons-button>
+    
+    
+    
+
+</ons-page>
