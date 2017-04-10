@@ -5,8 +5,8 @@ app.controller('ehealthController', ['$http', '$scope', '$rootScope', '$sce', 'a
         $scope.divisionList = [];
         $scope.typeList = [];
         var responseData = [];
-        
-        $scope.selectedDepartment = 'undefined', $scope.selectedDivision ='undefined', $scope.selectedMedicalType = 'undefined';
+
+        $scope.selectedDepartment = 'undefined', $scope.selectedDivision = 'undefined', $scope.selectedMedicalType = 'undefined';
 
         $scope.initEHealthInfo = function () {
 
@@ -19,14 +19,13 @@ app.controller('ehealthController', ['$http', '$scope', '$rootScope', '$sce', 'a
             $scope.API = appConfig.emmEhealthinfoEndPoint;
 
             $http.get($scope.API).success(function (response) {
-                
+
                 responseData = response.results;
 
                 for (var i = 0; i < responseData.length; i++) {
 
                     if ($scope.departmentList.indexOf(responseData[i].DEPDESCR) < 0)
                         $scope.departmentList.push(responseData[i].DEPDESCR);
-
                 }
 
                 $scope.isFetching = false;
@@ -37,9 +36,9 @@ app.controller('ehealthController', ['$http', '$scope', '$rootScope', '$sce', 'a
             $scope.$watch('selectedDepartment', function (newVal) {
 
                 $scope.divisionList = [];
-                
+
                 $scope.typeList = [];
-                
+
                 for (var i = 0; i < responseData.length; i++) {
 
                     if (newVal === responseData[i].DEPDESCR) {
@@ -50,11 +49,11 @@ app.controller('ehealthController', ['$http', '$scope', '$rootScope', '$sce', 'a
 
                 }
             });
-            
+
             $scope.$watch('selectedDivision', function (newVal) {
 
                 $scope.typeList = [];
-                
+
                 for (var i = 0; i < responseData.length; i++) {
 
                     if (newVal === responseData[i].BLDGDESCR) {
@@ -67,11 +66,11 @@ app.controller('ehealthController', ['$http', '$scope', '$rootScope', '$sce', 'a
             });
 
         }
-        
+
         $scope.getEHealthInfo = function () {
-            
+
             $scope.aggregatedList = [];
-            
+
             if (($scope.selectedDepartment === "undefined") || ($scope.selectedDivision === "undefined") || ($scope.selectedMedicalType) === "undefined") {
 
                 ons.notification.alert({
@@ -81,18 +80,17 @@ app.controller('ehealthController', ['$http', '$scope', '$rootScope', '$sce', 'a
 
 
             } else {
-            
-            for (var i = 0; i < responseData.length; i++) {
+
+                for (var i = 0; i < responseData.length; i++) {
 
                     if ($scope.selectedDepartment === responseData[i].DEPDESCR && $scope.selectedDivision === responseData[i].BLDGDESCR && $scope.selectedMedicalType === responseData[i].DESCR) {
 
-                            $scope.aggregatedList.push({amount:responseData[i].PURCHPRICE, datepurchased:responseData[i].PURCHDATE, device:responseData[i].DESCR});
+                        $scope.aggregatedList.push({amount: responseData[i].PURCHPRICE, datepurchased: responseData[i].PURCHDATE, device: responseData[i].DESCR});
                     }
 
                 }
             }
-            
+
         }
 
     }]);
-   
