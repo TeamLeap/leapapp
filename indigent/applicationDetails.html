@@ -1,0 +1,63 @@
+<ons-page ng-controller="indigentController" ng-init="loadApplicationDetails()">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Cancel</ons-back-button>
+        </div>
+        <div class="center">Application Documents</div>
+    </ons-toolbar>
+
+    <ons-list modifier="imageNameList">
+
+        <ons-list-item ng-show="imageNameList.length == 0">
+            <ons-row>
+                <ons-col>
+                    Application Document Details
+                </ons-col>
+            </ons-row>
+        </ons-list-item>
+
+
+
+        <ons-list-item class="list-location-container" ng-repeat="applicationDoc in pdfDocumentList">
+
+            <ons-row>
+                <ons-col>
+
+                    <button class="btn btn-positive fa fa-file-pdf-o" ng-click="myViewer.loadDocument(applicationDoc.url)">
+                        {{applicationDoc.name}}
+                    </button>
+                    <!--                   
+                    <a ng-click="myViewer.loadDocument(applicationDoc.url)">{{applicationDoc}}</a>
+
+                    <a href="https://munipoiapp.herokuapp.com/api/assigments/imagelist/{{applicationRefNo}}/index/{{_id}}">{{applicationDoc}}</a>-->
+
+                    <div class="clearfix"></div>
+                </ons-col>
+            </ons-row>
+
+        </ons-list-item>
+
+    </ons-list>
+    
+    <button ng-click="myViewer.previousPage()"><span>&lt;</span></button>
+  <button ng-click="myViewer.nextPage()"><span>&gt;</span></button>
+
+  <button ng-click="myViewer.zoomIn()"><span>+</span></button>
+  <button ng-click="myViewer.zoomTo(1)"><span>100%</span></button>
+  <button ng-click="myViewer.zoomOut()"><span>-</span></button>
+
+  <button ng-click="myViewer.rotateLeft()"><span><li class="btn btn-positive fa fa-rotate-left"></li></span></button>
+  <button ng-click="myViewer.rotateRight()"><span><li class="btn btn-positive fa fa-rotate-right"></li></span></button>
+  <input type="number" ng-model="myViewer.page" min="1" max="{{myViewer.total}}" /> / {{myViewer.total}}
+  <!--<span style='opacity: 0.7;' ng-show="message=='loading'"><ons-icon icon='fa-spinner' spin='true'></ons-icon>Loading...</span>-->
+
+    <div pdf-viewer pdf-url="pdfUrl" id="my-viewer" class="col-sm-9 content"></div>
+
+    <ons-list-item ng-show="imageNameList.length == 0">
+        <ons-row>
+            No data available.
+        </ons-row>
+    </ons-list-item>
+
+
+</ons-page>

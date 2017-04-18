@@ -16,7 +16,7 @@
             </ons-row>
         </ons-list-item>
 
-        <ons-list-item class="list-location-container" ng-repeat="(_id, household) in householdList.householdDetail" id="{{ _id }}" ng-click="viewHouseholdDetails($index, household)">
+        <ons-list-item modifier="chevron" tappable ng-repeat="(_id, household) in householdList.householdDetail" id="{{ _id }}" ng-click="viewHouseholdDetails($index, household)">
             <ons-row>
                 <ons-col>
 
@@ -27,6 +27,8 @@
                     <div class="name">{{household.personDetail.surname}}</div>
 
                     <div class="name">{{household.personDetail.totalPersonIncome}}</div>
+                    
+<!--                    <span class="label label-danger">{{household.personDetail.firstNames}}</span>-->
 
                     <div class="clearfix"></div>
                 </ons-col>
@@ -38,7 +40,7 @@
 
     <ons-list-item ng-show="householdList.length == 0">
         <ons-row>
-            No data available.
+            No household members found.
         </ons-row>
     </ons-list-item>
 

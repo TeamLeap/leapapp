@@ -1,16 +1,16 @@
-<ons-page ng-controller="indigentController" ng-init="loadAssigments()">
+<ons-page ng-controller="indigentController" ng-init="loadAccepted()">
     <ons-toolbar>
         <div class="right">
             <ons-toolbar-button ng-click="appNavigator.pushPage('main-menu.html')">
                 <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
             </ons-toolbar-button>
         </div>
-        <div class="center">Assigments ({{assignmentList.length}})</div>
+        <div class="center">Accepted ({{assignmentList.length}})</div>
     </ons-toolbar>
 
     <ons-list modifier="assignments">
 
-        <ons-list-item modifier="chevron" tappable ng-repeat="(_id, assignment) in assignmentList" id="{{ _id }}" ng-click="loadAssigmentDetails($index, assignment, 'New')">
+        <ons-list-item  modifier="chevron" tappable ng-repeat="(_id, assignment) in assignmentList" id="{{ _id }}" ng-click="loadAssigmentDetails($index, assignment, 'Accepted')">
             <ons-row>
                 <ons-col>
 
@@ -23,7 +23,7 @@
                     <div class="clearfix"></div>
                 </ons-col>
             </ons-row>
-
+            
         </ons-list-item>
 
     </ons-list>

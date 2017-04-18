@@ -1,44 +1,56 @@
-<ons-page ng-controller="indigentController" ng-init="showAssigmentDetails()">
+<ons-page ng-controller="indigentController" ng-init="showApplicationDetails()">
     <ons-toolbar>
         <div class="left">
             <ons-back-button>Back</ons-back-button>
         </div>
-        <div class="center">Assignment</div>
-        <div class="right">
-            <ons-toolbar-button ng-click="loadAcceptDialog()">
+        <div class="center">Application Detail</div>
+        <div class="right" ng-show="!isAccepted">
+
+            <ons-toolbar-button ng-click="setApplicationAccepted()"><i class="fa fa-check-square-o" aria-hidden="true"></i>Accept</ons-toolbar-button>
+
+            <ons-toolbar-button ng-click="loadAcceptDialog()"><i class="fa fa-ban" aria-hidden="true"></i>Decline</ons-toolbar-button>
+
+        </div>
+        <!-- <div class="right">
+            <ons-toolbar-button ng-click="acceptButtonDialog()">
                 <ons-icon icon="md-star-outline">Accept</ons-icon>
             </ons-toolbar-button>
-            <ons-toolbar-button>
+            <ons-toolbar-button ng-click="loadAcceptDialog()">
                 <ons-icon icon="md-edit">Decline</ons-icon>
             </ons-toolbar-button>
             <ons-toolbar-button>
                 <ons-icon icon="md-more-vert"></ons-icon>
             </ons-toolbar-button>
-        </div>
+        </div> -->
     </ons-toolbar>
 
     <ons-scroller style="height: 100%; width: 100%">
         <div class="app-page">
             <div class="app-page-photo">
 
-                <p align="center">
+                <p align="center" ng-show="isAccepted">
 
+                    <button class="button button-block button-linkedin" ng-click="appNavigator.pushPage('indigent/applicationDetails.html')">
+                        {{ isAccepted == true ? "View Document":"View Application" }}
+                    </button>
+                    <br>
+                    <br>
                     <button class="button button-block button-linkedin" ng-click="loadLivingConditions()">
                         Living Conditions
                     </button>
                     <br>
                     <br>
-                    <button class="button button-block button-linkedin" ng-click="appNavigator.pushPage('household.html')">
+                    <button class="button button-block button-linkedin" ng-click="appNavigator.pushPage('indigent/household.html')">
                          Household Members
                     </button>
 
                     <br>
                     <br>
-                    <button class="button button-block button-linkedin" ng-click="appNavigator.pushPage('applicationSign.html')">
+                    <button class="button button-block button-linkedin" ng-click="appNavigator.pushPage('indigent/applicationSign.html')">
                          Signatures
                     </button>
-                    <br>
-                    <br>
+
+
 
                 </p>
 
@@ -62,14 +74,14 @@
                             Application Type <span class="label label-default">{{assignment.indigentApplicationDetails.indigentApplicationHeader.applicantKind}}</span>
                         </div>
                     </ons-list-item>
-                    
+
                      <ons-list-item>
                         <div class="app-open-desc">
                             <ons-icon icon="ion-android-person"></ons-icon>
                             Indigent Application Type <span class="label label-default">{{assignment.indigentApplicationDetails.indigentApplicationHeader.applicationType}}</span>
                         </div>
                     </ons-list-item>
-                    
+
                     <ons-list-item>
                         <div class="app-open-desc">
                             <ons-icon icon="ion-android-calendar"></ons-icon>
@@ -85,13 +97,13 @@
                     <ons-list-item>
                         <div class="app-open-desc">
 
-                            ID Number <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.personDetail.idNo}}</span>
+                            ID Number <span class="label label-default">{{assignment.indigentApplicationDetails.originalApplicantDetail.personDetail.idNo}}</span>
                         </div>
                     </ons-list-item>
                     <ons-list-item>
                         <div class="app-open-desc">
 
-                            Passport Number <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.personDetail.passportNo}}</span>
+                            Passport Number <span class="label label-default">{{assignment.indigentApplicationDetails.originalApplicantDetail.personDetail.passportNo}}</span>
                         </div>
                     </ons-list-item>
 
@@ -99,51 +111,56 @@
                     <ons-list-item>
                         <div class="app-open-desc">
 
-                            Title <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.personDetail.title}}</span>
+                            Title <span class="label label-default">{{assignment.indigentApplicationDetails.originalApplicantDetail.personDetail.title}}</span>
                         </div>
                     </ons-list-item>
-                    
+
                     <ons-list-item>
                         <div class="app-open-desc">
 
-                            Initials <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.personDetail.initials}}</span>
+                            Initials <span class="label label-default">{{assignment.indigentApplicationDetails.originalApplicantDetail.personDetail.initials}}</span>
                         </div>
                     </ons-list-item>
-                    
+
                     <ons-list-item>
                         <div class="app-open-desc">
 
-                            First Name <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.personDetail.firstNames}}</span>
+                            First Name <span class="label label-default">{{assignment.indigentApplicationDetails.originalApplicantDetail.personDetail.firstNames}}</span>
                         </div>
                     </ons-list-item>
-                    
+
                     <ons-list-item>
                         <div class="app-open-desc">
 
-                            Last Name <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.personDetail.surname}}</span>
+                            Last Name <span class="label label-default">{{assignment.indigentApplicationDetails.originalApplicantDetail.personDetail.surname}}</span>
                         </div>
                     </ons-list-item>
-                    
+
                     <ons-list-item>
                         <div class="app-open-desc">
 
-                            Gender <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.personDetail.gender}}</span>
+                            Gender <span class="label label-default">{{assignment.indigentApplicationDetails.originalApplicantDetail.personDetail.gender}}</span>
                         </div>
                     </ons-list-item>
-                    
+
                     <ons-list-item>
                         <div class="app-open-desc">
 
-                            Date of Birth <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.personDetail.birthDate}}</span>
+                            Date of Birth <span class="label label-default">{{assignment.indigentApplicationDetails.originalApplicantDetail.personDetail.birthDate}}</span>
                         </div>
                     </ons-list-item>
-                    
+
                     <ons-list-item>
                         <div class="app-open-desc">
 
-                            Marital Status <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.personDetail.maritalStatus}}</span>
+                            Marital Status <span class="label label-default">{{assignment.indigentApplicationDetails.householdDetail.originalApplicantDetail.maritalStatus}}</span>
                         </div>
                     </ons-list-item>
+
+
+                    <button class="button button-block button-linkedin" ng-click="saveApplicationDetails()">
+                         Save
+                </button>
 
 
                 </ons-list>

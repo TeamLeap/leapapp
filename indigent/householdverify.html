@@ -15,7 +15,7 @@
             </div>
             <div class="list__item__right">
                 <label class="switch">
-                    <input type="checkbox" class="switch__input" checked>
+                    <input type="checkbox" ng-model="householdmember.isVerified" class="switch__input" checked>
                     <div class="switch__toggle">
                         <div class="switch__handle"></div>
                     </div>
@@ -26,7 +26,7 @@
             <div class="list__item__center">
                 Comments
             </div>
-            <textarea rows="3" placeholder="Comments"></textarea>
+            <textarea class="textarea textarea--transparent" ng-model="householdmember.comments" placeholder="enter your comments" style="width: 100%; height: 100px;"></textarea>
         </li>
         <li class="list__item">
             <div class="list__item__center">
@@ -44,9 +44,9 @@
                 Initials
             </div>
             <div class="list__item__right">
-                <label class="switch">
+                
                     {{household.personDetail.initials}}
-                </label>
+               
             </div>
         </li>
         <li class="list__item">
@@ -54,9 +54,9 @@
                 Surname
             </div>
             <div class="list__item__right">
-                <label class="switch">
+                
                     {{household.personDetail.surname}}
-                </label>
+                
             </div>
         </li>
         <li class="list__item">

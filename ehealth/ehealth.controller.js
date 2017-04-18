@@ -7,6 +7,12 @@ app.controller('ehealthController', ['$http', '$scope', '$rootScope', '$sce', 'a
         var responseData = [];
         
         $scope.selectedDepartment = 'undefined', $scope.selectedDivision ='undefined', $scope.selectedMedicalType = 'undefined';
+    
+        $scope.login = function () {
+            
+            //add your code here to login
+            appNavigator.pushPage('ehealth/main.html');
+        }
 
         $scope.initEHealthInfo = function () {
 

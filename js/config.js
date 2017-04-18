@@ -22,13 +22,16 @@ app.constant('appConfig', {
   emmemployeeEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMPerson/resources/person/',
   emmpurchaseorderEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMTransactionalEvents/resources/fleet/',    
   emmtransactionaleventsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMTransactionalEvents/resources/transactionalEvents/',
-  emmIdigentEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMReporting/resources/indigentMonthlyReports',
+  //emmIdigentEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMReporting/resources/indigentMonthlyReports',
   emmHRinfoEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMHR/resources/getEmployeesPerDept/',
   emmEhealthinfoEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMEHealth/resources/getMedAssetAmount',
   emmcemetryEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMCemetery/resources/personDetails/',
   emmreviewsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMLeapNotification/resources/getReviewListing/',
   notificationapiEndPoint : 'https://onesignal.com/api/v1/notifications',
-  emmwaterpotablepointsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMMobility/resources/waterLongLati'
+  emmwaterpotablepointsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMMobility/resources/waterLongLati',
+  emmindigentEndPoint : 'https://munipoiapp.herokuapp.com/',
+  emmsaveIndigentMobiAppDetailEndPoint : 'http://196.15.242.146:5555/rest/EMMIndigentUI/restServices/saveIndigentMobiAppDetail/',
+  emmindigentupdatetaskEndPoint : 'http://196.15.242.146:5555/rest/EMMShared/resources/updateFieldWorkerTaskStatus/'
   
 })
 .value('curSymbol', {

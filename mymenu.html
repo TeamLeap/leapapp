@@ -1,38 +1,26 @@
 
-<ons-page ng-controller="logCallsController" ng-init="init()">
+<ons-page ng-controller="myMenuController">
     <ons-toolbar>
         <div class="left"> 
       <ons-back-button>Back</ons-back-button>
     </div>
-        <div class="center">My Menu</div>
+        <div class="center"></div>
     </ons-toolbar>
     <div class="app-page">
 
-         <!-- settings with icons -->
-        <!--<div class="settings-header">Profile</div>
+         <!-- settings with icons 
+        <div class="settings-header">My EMM</div>-->
         <ons-list modifier="inset" class="settings-list">
-           <!-- 
-            <ons-list-item modifier="chevron" ng-click="appNavigator.pushPage('logcall.html');">
-                <ons-icon icon="fa-comment" size="20px"></ons-icon>
-                Log a call
-                
-            </ons-list-item>
-
-            <ons-list-item modifier="chevron">
-                <ons-icon icon="fa fa-comments" size="20px"></ons-icon>
-                My Logged Calls ({{numOfCalls < 0 ? 0 : numOfCalls}})
-            </ons-list-item>
--->
-        <!--
-            <ons-list-item modifier="chevron" ng-click="appNavigator.pushPage('userprofile.html');">
+        
+            <ons-list-item modifier="chevron" ng-click="appNavigator.pushPage('dashboard.html');">
                 <ons-icon icon="fa-user" size="20px"></ons-icon>
-                My Profile
+                My EMM
             </ons-list-item>
             
             </ons-list>
-    </div>-->
+    </div>
     
-    <div class="settings-header">My Admin</div>
+    <div class="settings-header">Other Options</div>
         <ons-list modifier="inset" class="settings-list">
             
            <!-- <ons-list-item modifier="chevron" ng-click="appNavigator.pushPage('vehicles.html');">
@@ -48,12 +36,12 @@
             <ons-list-item modifier="chevron" ng-click="appNavigator.pushPage('hr/hrinformation.html');">
                 <ons-icon icon="ion-ios-people" size="20px"></ons-icon>
                 Human Resource
-            </ons-list-item>-->
+            </ons-list-item>
 
             <ons-list-item modifier="chevron" ng-click="appNavigator.pushPage('ehealth/ehealth.html');">
                 <ons-icon icon="ion-medkit" size="20px"></ons-icon>
                 E-Health
-            </ons-list-item>
+            </ons-list-item>-->
             
             <ons-list-item modifier="chevron" ng-click="appNavigator.pushPage('cemetery/cemetery.html');">
                 <ons-icon icon="fa fa-plus" size="20px"></ons-icon>

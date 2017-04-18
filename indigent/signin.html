@@ -1,0 +1,20 @@
+<ons-page ng-controller="indigentController" ng-init="init()">
+    <ons-toolbar>
+        <div class="center">Indigent - Sign In</div>
+         <div class="right">
+            <ons-toolbar-button ng-click="appNavigator.pushPage('dashboard.html')"><i class="fa fa-bars" aria-hidden="true"></i></ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <div class="login-form">
+
+        <input type="email" class="text-input--underbar" ng-model="username" placeholder="Email" value="">
+        <input type="password" class="text-input--underbar" ng-model="password" placeholder="Password" value="">
+        <br>
+        <span>{{message}}</span>
+        <br>
+        <ons-button modifier="large" class="login-button" ng-click="login()">Log In</ons-button>
+        <br>
+    </div>
+
+</ons-page>

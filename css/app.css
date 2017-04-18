@@ -374,6 +374,13 @@
             font-size: 14px;
             opacity: 0.4;
         }
+
+.dashboard_logo {
+    
+    width: 100px;
+    height: 100px;
+}
+        
         @keyframes orbit {
             0% {
                 opacity: 1;

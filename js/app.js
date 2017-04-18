@@ -2,9 +2,16 @@
 (function () {
     'use strict';
 
-    var app = angular.module('app', ['onsen', 'angular-images-loaded', 'ngMap', 'nvd3', 'ngMessages', 'angularSoap']);
+    var app = angular.module('app', ['onsen', 'angular-images-loaded', 'ngMap', 'nvd3', 'ngMessages', 'ngCordova']);
 
     var datePicker;
+
+    var db = null;
+
+
+    // Map Markers Controller
+    var map;
+
 
     // Filter to convert HTML content to string by removing all HTML tags
     app.filter('htmlToPlaintext', function () {
@@ -13,14 +20,7 @@
         }
     });
 
-    // Filter to show Miles instead of KM
-    app.filter('showMiles', function () {
-        return function (item) {
-            return (item * 0.621).toFixed(2);
-        };
-    });
-
-    app.controller('networkController', function ($scope, $q, $rootScope,appConfig) {
+    app.controller('networkController', function ($scope, $q, $rootScope, appConfig) {
 
         document.addEventListener('deviceready', function () {
 
@@ -30,68 +30,79 @@
 
             //OAuth.initialize('cxhwciIvEZEjw2e5pVe8ucOB6H8')
 
-            navigator.geolocation.getCurrentPosition(function (position) {
-
-                $scope.userLat = position.coords.latitude;
-                $scope.userLng = position.coords.longitude;
-
-            }, function (error) {
-
-                console.log("Couldn't get the location of the user.");
-
-                ons.notification.alert({
-                    message: 'Please enable you GPS and try again.! ' + error.message,
-                    modifier: 'material'
-                });
-
-
-                console.log(error);
-
-                if (navigator.app) {
-                    navigator.app.exitApp();
-                } else if (navigator.device) {
-                    navigator.device.exitApp();
-                }
-
-            }, {
-                maximumAge: Infinity,
-                timeout: 60000,
-                enableHighAccuracy: true
+            db = window.sqlitePlugin.openDatabase({
+                name: "leap.db",
+                location: 'default'
             });
 
-            var notificationOpenedCallback = function (jsonData) {
+            db.transaction(function (transaction) {
+                transaction.executeSql('CREATE TABLE IF NOT EXISTS notifications (id integer primary key, message text, datereceived text)', [],
+                    function (tx, result) {
+                        alert("Table created successfully");
+                    },
+                    function (error) {
+                        alert("Error occurred while creating the table.");
+                    });
+            });
 
-                ons.notification.alert({
-                    message: jsonData.message,
-                    modifier: 'material'
-                });
+            //db = $cordovaSQLite.openDB({ name: "leap.db", location:'default' });
+            //$cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS notifications (id integer primary key, message text, datereceived text)");
+        });
 
-                console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-            };
+        navigator.geolocation.getCurrentPosition(function (position) {
 
+            $scope.userLat = position.coords.latitude;
+            $scope.userLng = position.coords.longitude;
 
-            /*window.plugins.OneSignal.init("a17d1266-3037-4f13-8c29-e2203d0f3458", {
-                    googleProjectNumber: "1030098960429"
-                },
-                notificationOpenedCallback);*/
+        }, function (error) {
 
-            window.plugins.OneSignal
-                .startInit("a17d1266-3037-4f13-8c29-e2203d0f3458", "1030098960429")
-                .handleNotificationOpened(notificationOpenedCallback)
-                .endInit();
+            console.log("Couldn't get the location of the user.");
 
-            /* window.plugins.OneSignal.getIds(function (ids) {
-                 window.localStorage.setItem("pushToken", ids.pushToken);
-                 window.localStorage.setItem("userId", ids.userId);
-
-                 console.log('pushToken is: ' + window.localStorage.getItem("pushToken"));
-             });*/
+            ons.notification.alert({
+                message: 'Please enable you GPS and try again.! ' + error.message,
+                modifier: 'material'
+            });
 
 
-            // Show an alert box if a notification comes in when the user is in your app.
-            //window.plugins.OneSignal.enableInAppAlertNotification(true);
+            console.log(error);
 
-        }, false);
+            if (navigator.app) {
+                navigator.app.exitApp();
+            } else if (navigator.device) {
+                navigator.device.exitApp();
+            }
+
+        }, {
+            maximumAge: Infinity,
+            timeout: 60000,
+            enableHighAccuracy: true
+        });
+
+        /*window.plugins.OneSignal.startInit("a17d1266-3037-4f13-8c29-e2203d0f3458", "1030098960429")
+            .handleNotificationOpened(notificationOpenedCallback)
+            .endInit();*/
+
+        var notificationOpenedCallback = function (jsonData) {
+
+            ons.notification.alert({
+                message: jsonData.message,
+                modifier: 'material'
+            });
+
+            console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+        };
+
+        //TODO:DO NOT REMOVE
+        /* window.plugins.OneSignal.getIds(function (ids) {
+             window.localStorage.setItem("pushToken", ids.pushToken);
+             window.localStorage.setItem("userId", ids.userId);
+
+             console.log('pushToken is: ' + window.localStorage.getItem("pushToken"));
+         });*/
+
+
+        // Show an alert box if a notification comes in when the user is in your app.
+        //window.plugins.OneSignal.enableInAppAlertNotification(true);
 
         // Check if is Offline
         document.addEventListener("offline", function () {
@@ -109,9 +120,8 @@
 
         document.addEventListener("online", function () {
             // If you remove the "setTimeout('offlineMessage.hide()', 8000);" you must remove the comment for the line above      
-             offlineMessage.hide();
+            offlineMessage.hide();
         });
-
 
         $rootScope.back = function () {
             window.history.back();
@@ -302,10 +312,6 @@
     }]);
 
 
-    // Map Markers Controller
-    var map;
-
-
     app.factory('loadingMessageService', function () {
         return {
             showMessage: function () {
@@ -316,7 +322,82 @@
         };
     });
 
-    app.controller('branchesController', function ($http, $scope, $filter, $rootScope, $compile, $sce, loadingMessageService, appConfig) {
+    app.factory('notificationService', function () {
+        return {
+            insertNotification: function (message, datereceived) {
+                /* var query = "INSERT INTO notifications (message, datereceived) VALUES (?,?)";
+                 var insertedId = -1;
+                 $cordovaSQLite.execute(db, query, [message, datereceived]).then(function (res) {
+                     insertedId = res.insertId;
+                     console.log("INSERT ID -> " + res.insertId);
+                 }, function (err) {
+                     console.error(err);
+                 });
+
+                 return insertedId;*/
+                
+                db = window.sqlitePlugin.openDatabase({
+                name: "leap.db",
+                location: 'default'
+            });
+
+            db.transaction(function (transaction) {
+                transaction.executeSql('CREATE TABLE IF NOT EXISTS notifications (id integer primary key, message text, datereceived text)', [],
+                    function (tx, result) {
+                        alert("Table created successfully");
+                    },
+                    function (error) {
+                        alert("Error occurred while creating the table.");
+                    });
+            });
+
+                db.transaction(function (transaction) {
+                    var executeQuery = "INSERT INTO notifications (message, datereceived) VALUES (?,?)";
+                    transaction.executeSql(executeQuery, [message, datereceived], function (tx, res) {
+                            alert('Inserted');
+                            insertedId = res.insertId;
+                            console.log("INSERT ID -> " + res.insertId);
+                        },
+                        function (error) {
+                            alert('Error occurred');
+                        });
+                });
+            },
+
+            selectAllNotification: function () {
+                /* var notificationList = [];
+                 var query = "SELECT message, datereceived FROM notifications ORDER BY id DESC";
+                 $cordovaSQLite.execute(db, query).then(function (res) {
+                     if (res.rows.length > 0) {
+                         notificationList = res.rows;
+                         //console.log("SELECTED -> " + res.rows.item(0).message + " " + res.rows.item(0).datereceived);
+                     } else {
+                         console.log("No notifications found");
+                     }
+                 }, function (err) {
+                     console.error(err);
+                 });*/
+                
+                var notificationList = [];
+                db.transaction(function (transaction) {
+                    transaction.executeSql('SELECT message, datereceived FROM notifications ORDER BY id DESC', [], function (tx, res) {
+                        notificationList = res.rows.length;
+                    }, null);
+                });
+                
+                return notificationList;
+
+            }
+
+        };
+    });
+    
+    app.controller('myMenuController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
+
+
+    }]);
+
+    app.controller('branchesController', function ($http, $scope, $filter, $rootScope, $compile, $sce, loadingMessageService, appConfig, notificationService) {
 
         $scope.getAll = true;
         $scope.locationsType = 'map';
@@ -366,12 +447,12 @@
         $scope.checkIfLoggedIn = function (value, locationType) {
             $scope.isLoggedIn = true; //window.localStorage.getObject("loggedIn");
 
+            //notificationService.insertNotification("Testing message", "01 March 2017");
+
             if (!$scope.isLoggedIn) {
                 appNavigator.pushPage('signinsocial.html');
 
             }
-
-
         }
 
         $scope.applyView = function () {
@@ -471,6 +552,9 @@
             window.localStorage.removeItem("rootsLastPage");
             $rootScope.didYouKnowMessage = loadingMessageService.showMessage();
             modal.show();
+
+            var id = notificationService.insertNotification("Testing Message", "01 March 2017");
+            console.log("Id is " + id);
 
             navigator.geolocation.getCurrentPosition(function (position) {
 
@@ -1265,10 +1349,8 @@
             });
 
         };
-    }]);
+}]);
 
-
-   
     app.controller('employeeController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
 
         $scope.employee = {}
@@ -1539,7 +1621,7 @@
         };
 
 
-    }]);
+}]);
 
     app.controller('purchaseOrderController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
 
@@ -2432,7 +2514,7 @@
 
     }]);
 
-    app.controller('loginController', ['$scope', '$rootScope', '$sce', '$http', function ($scope, $rootScope, $sce, $http) {
+    app.controller('loginController', ['$scope', '$rootScope', '$sce', '$http','appConfig', function ($scope, $rootScope, $sce, $http, appConfig) {
 
         $scope.init = function () {
 
@@ -2458,6 +2540,8 @@
         }
 
         $scope.login = function () {
+            
+            $scope.message = "Please wait...";
 
             if (typeof $scope.username === 'undefined' && typeof $scope.password === 'undefined') {
 
@@ -2489,6 +2573,8 @@
                             message: response[0].Description,
                             modifier: 'material'
                         });
+                        
+                        $scope.message = response[0].Description;
                     }
 
                 }).error(function (error) {
@@ -2496,6 +2582,8 @@
                         message: 'Oops!!! Problem logging in.!',
                         modifier: 'material'
                     });
+                    
+                    $scope.message = 'Oops!!! Problem logging in.!';
                 });
             }
 
@@ -2758,8 +2846,6 @@
 
     }]);
 
-
-
     app.controller('cemetryController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
 
         $scope.cemetryList = [];
@@ -2821,14 +2907,6 @@
 
 
     }]);
-
-
-
-
-
-
-
-
 
     app.controller('statsController', ['$scope', '$rootScope', '$sce', '$http', 'appConfig', function ($scope, $rootScope, $sce, $http, appConfig) {
 
