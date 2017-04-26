@@ -1,0 +1,96 @@
+<ons-page ng-controller="TrafficFinesController" ng-init="showTrafficFinesDetails()">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">{{TrafficFinesList[0].FineDetails[0].OwnerIdNumber}}</div>
+    </ons-toolbar>
+
+    <ons-scroller style="height: 100%; width: 100%">
+        <div class="app-page">
+            <div class="app-page-photo">
+                
+                
+                
+              
+
+
+                <ons-list modifier="inset" style="margin-top: 10px" class="scrollme" ng-scrollbar is-bar-shown="true">
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                          {{getFines[0].FineDetails[0].OwnerIdNumber}}
+                        </div>
+                    </ons-list-item>
+                    
+                     <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                            Contempt Of Court Amount: <span class="label label-default">{{getFines[0].FineDetails[0].ContemptOfCourtAmount}}</span>
+                        </div>
+                    </ons-list-item>
+                     <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                            Payment Not Allowed Reason: <span class="label label-default">{{getFines[0].FineDetails[0].PaymentNotAllowedReason}}</span>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                            Payment Allowed: <span class="label label-default">{{getFines[0].FineDetails[0].PaymentAllowed}}</span>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                           Notice Number <span class="label label-default">{{getFines[0].FineDetails[0].NoticeNumber}}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                           Warrant Of Arrest Pending: <span class="label label-default">{{getFines[0].FineDetails[0].WarrantOfArrestPending}}</span>
+                        </div>
+                    </ons-list-item> 
+                    
+                    
+                     <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                           Warrant Arrest Number: <span class="label label-default">{{getFines[0].FineDetails[0].WarrantArrestNumber}}</span>
+                        </div>
+                    </ons-list-item> 
+                    
+                    
+                      <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                           Court Code: <span class="label label-default">{{getFines[0].FineDetails[0].CourtCode}}</span>
+                        </div>
+                    </ons-list-item> 
+                    
+                      <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                           Court Date: <span class="label label-default">{{getFines[0].FineDetails[0].CourtDate}}</span>
+                        </div>
+                    </ons-list-item> 
+                    
+                    
+                    <ons-list-item>
+                        <div class="app-open-desc">
+                            <ons-icon icon="ion-android-clock"></ons-icon>
+                           Case Number: <span class="label label-default">{{getFines[0].FineDetails[0].CaseNumber}}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                </ons-list>
+                
+            </div>
+        </div>
+    </ons-scroller>
+
+
+</ons-page>

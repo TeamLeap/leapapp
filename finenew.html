@@ -1,0 +1,66 @@
+
+   
+      <ons-page ng-controller="TrafficFinesController">
+        <ons-toolbar>
+          <div class="center">
+          Check your Traffic Fines
+          </div>
+          <div class="right">
+            <ons-toolbar-button>
+              <ons-icon icon="ion-plus"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+        </ons-toolbar>
+
+        <div class="navigation-bar">
+          <div class="navigation-bar__center">
+
+            <input type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;"ng-model="IDNumber" ng-click="getTrafficFines()" placeholder="Search">
+
+          </div>
+        </div>
+
+        <ons-list class="TrafficFinesList">
+        
+            
+          <ons-list-header class="person-list-header"> {{TrafficFinesList[0].FineDetails[0].OffenceDescription}}</ons-list-header>
+          <ons-list-item class="list-location-container" modifier="TrafficFinesList" ng-repeat="TrafficFines in TrafficFinesList">
+              
+              
+               <ons-row class="app-map">
+                <ons-col>
+                        <map center="[{{TrafficFinesList[0].FineDetails[0].OffenceLocation}}]">
+                            <marker position="[{{TrafficFinesList[0].FineDetails[0].OffenceLocation}}]" title="Incidents Position" animation="Animation.BOUNCE" visible="true"></marker>
+                        </map>
+                    </ons-col>
+                    </ons-row>
+              
+              
+              
+            <ons-row>
+              <ons-col width="40px">
+             
+              </ons-col>
+              <ons-col class="person-name"><i class="ion-ios-barcode-outline"></i> ID N0: {{TrafficFinesList[0].FineDetails[0].OwnerIdNumber}}
+                  
+                  
+                  <div class="name"><i class="ion-cash"></i> Amount Due:{{TrafficFinesList[0].FineDetails[0].TotalAmountDue}}</div>
+ 
+                   <div class="desc"><i class="ion-model-s"></i> Reg No:{{TrafficFinesList[0].FineDetails[0].VehicleRegNumber}}</div>
+                  
+              </ons-col>
+                  <ons-col class="person-name"><i class="ion-android-calendar"></i> Offince Date:{{TrafficFinesList[0].FineDetails[0].OffenceDateTime}}
+                    
+              </ons-col>
+                 
+            </ons-row>
+              
+          </ons-list-item>
+            
+        </ons-list>
+          
+      </ons-page>
+
+
+
+   

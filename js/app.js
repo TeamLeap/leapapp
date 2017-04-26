@@ -1086,6 +1086,187 @@
         });
 
     });
+    
+    
+    
+    
+     app.controller('TrafficFinesController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService','$window', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService,$window) {
+
+        $scope.TrafficFinesList = [];
+        
+        
+        $scope.isShowing = false;
+
+        $scope.getTrafficFines = function () {
+
+            $scope.API = appConfig.emmtrafficfinesEndPoint;
+
+            if (typeof $scope.IDNumber === 'undefined') {
+
+                ons.notification.alert({
+                    message: 'This input form not complete!',
+                    modifier: 'material'
+                });
+
+
+            } else {
+
+                $scope.isFetching = true;
+                $rootScope.didYouKnowMessage = loadingMessageService.showMessage();
+                modal.show();
+                
+                if (typeof $scope.IDNumber === 'undefined')
+                    $scope.IDNumber = '';
+                //else if(typeof $scope.lastname === 'undefined')
+                  //  $scope.lastname = '';
+                //else
+                  //  $scope.idno = '';
+                
+                
+                
+                
+                $scope.API = $scope.API + '{"serviceProperties":{"systemCode":"EMM001","key":"IJS001"},"serviceRequest":{"searchCriteria": [ { "name": "IDNumber", "value": "' + $scope.IDNumber + '"  } ],"searchType":"all","transactionalEventsType":"getTrafficFines"}}';
+                console.log($scope.API);
+
+                $http.get($scope.API).success(function (data) {
+
+                    $scope.TrafficFinesList = [];
+                    
+                   
+                    if (typeof data.results === 'undefined')
+                        $scope.TrafficFinesList = [data];
+                    else
+                        $scope.TrafficFinesList = data.FineDetails[0];
+                    
+                    console.log("Traffic Fine List b4 LocalStorage: ",$scope.TrafficFinesList);
+                     $window.localStorage.setItem("trafficFinesList",JSON.stringify($scope.TrafficFinesList));
+
+                    
+                      console.log("Traffic Fine List after local: ",$window.localStorage.getItem("trafficFinesList"));
+                    
+                    $scope.isFetching = false;
+                    modal.hide();
+
+                }).error(function (data, status, headers, config) {
+
+                    $scope.isFetching = false;
+                    modal.hide();
+
+                    ons.notification.alert({
+                        message: JSON.stringify('Something went wrong'),
+                        modifier: 'material'
+                    });
+
+                });
+
+            }
+        };
+        
+        
+        
+    
+        
+        
+         $scope.loadFinesDetails = function (index, TrafficFinesList) {
+
+            appNavigator.pushPage('trafficfinesdetails.html', {
+                 IDNumber: TrafficFinesList.IDNumber
+            });
+
+        };
+        
+        
+        
+         $scope.showTrafficFinesDetails = function () {
+
+            $rootScope.didYouKnowMessage = loadingMessageService.showMessage();
+            modal.show();
+             
+                 
+           var IDNumber = appNavigator.getCurrentPage().options.IDNumber;
+
+            $scope.API = appConfig.emmtrafficfinesEndPoint;
+
+          $scope.TrafficFinesList = window.localStorage.getItem("trafficFinesList");
+
+            console.log("Traffic Fine List: ",JSON.parse(window.localStorage.getItem("trafficFinesList")));
+             
+             
+               $scope.getFines = JSON.parse(window.localStorage.getItem("trafficFinesList"));
+             
+        console.log("GET FINES: ",$scope.getFines[0].FineDetails[0].OffenceLocation);
+             
+    console.log("GET FINES 2: ",JSON.parse(window.localStorage.getItem("trafficFinesList"))[0].FineDetails[0].OffenceLocation);
+             
+           
+             
+             
+               $scope.data = [
+            {
+      	"key": "Series 1",
+          "values": [{"x" : $scope.getFines[0].FineDetails[0].TotalAmountDue, "y" : $scope.getFines[0].FineDetails[0].OffenceDateTime}
+  ]
+      },
+
+        ];
+   
+//     //console.log($scope.data[0].values[0].TotalAmountDue);
+             
+             
+             // changing data set 
+             
+            
+             // $scope.data = [$scope.getFines[0].FineDetails[0].TotalAmountDue, $scope.getFines[0].FineDetails[0].OffenceDateTime];
+       
+             console.log($scope.data);
+             
+           //  var barChartData = $scope.data;
+             
+             
+             //graph
+         
+         
+         nv.addGraph(function() {
+        var chart = nv.models.cumulativeLineChart()
+    .x(function(d) { return d[0] })
+    //adjusting, 100% is 1.00, not 100 as it is in the data
+    .y(function(d) { return d[1] / 100 })
+    .color(d3.scale.category10().range())
+    .useInteractiveGuideline(true)
+    ;
+
+  chart.xAxis
+    .tickFormat(function(d) {
+      return d3.time.format('%x')(new Date(d))
+    });
+
+  chart.yAxis.tickFormat(d3.format(',.1%'));
+
+  d3.select('#chart svg')
+    .datum( $scope.data)
+    .transition().duration(500)
+    .call(chart)
+    ;
+
+  nv.utils.windowResize(chart.update);
+
+  return chart;
+});
+         
+        
+         
+      }   
+         
+         
+         
+        
+    }]);
+    
+    
+    
+    
+    
+    
 
     app.controller('notificationsController', ['$http', '$scope', '$rootScope', '$sce', 'appConfig', 'loadingMessageService', function ($http, $scope, $rootScope, $sce, appConfig, loadingMessageService) {
 

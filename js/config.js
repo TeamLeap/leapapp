@@ -28,6 +28,7 @@ app.constant('appConfig', {
   emmcemetryEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMCemetery/resources/personDetails/',
   emmreviewsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMLeapNotification/resources/getReviewListing/',
   notificationapiEndPoint : 'https://onesignal.com/api/v1/notifications',
+  emmtrafficfinesEndPoint : 'http://wmqa.ekurhuleni.gov.za:5555/rest/EMMTransactionalEvents/resources/transactionalEvents/',
   emmwaterpotablepointsEndPoint : 'http://wmdev.ekurhuleni.gov.za:5555/rest/EMMMobility/resources/waterLongLati'
   
 })
