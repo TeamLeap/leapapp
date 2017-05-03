@@ -1199,13 +1199,16 @@
     console.log("GET FINES 2: ",JSON.parse(window.localStorage.getItem("trafficFinesList"))[0].FineDetails[0].OffenceLocation);
              
            
+             // data for graph
              
-             
-               $scope.data = [
+         $scope.data = [
             {
-      	"key": "Series 1",
-          "values": [{"x" : $scope.getFines[0].FineDetails[0].TotalAmountDue, "y" : $scope.getFines[0].FineDetails[0].OffenceDateTime}
-  ]
+      	"key": "Fines",
+          "values": [
+            {x: $scope.getFines[0].FineDetails[0].OffenceDateTime, y: $scope.getFines[0].FineDetails[0].TotalAmountDue}
+          
+        ]
+
       },
 
         ];
@@ -1225,32 +1228,34 @@
              
              //graph
          
+          
+      nv.addGraph(function() {
+    var chart = nv.models.lineChart()
+    
+    ;
+
+    chart.xAxis
+        .axisLabel("Date");
          
-         nv.addGraph(function() {
-        var chart = nv.models.cumulativeLineChart()
-    .x(function(d) { return d[0] })
-    //adjusting, 100% is 1.00, not 100 as it is in the data
-    .y(function(d) { return d[1] / 100 })
-    .color(d3.scale.category10().range())
-    .useInteractiveGuideline(true)
-    ;
+       
 
-  chart.xAxis
-    .tickFormat(function(d) {
-      return d3.time.format('%x')(new Date(d))
-    });
+    chart.yAxis
+        .axisLabel("Amount")
+        .tickFormat(d3.format("d"))
+    
+       
 
-  chart.yAxis.tickFormat(d3.format(',.1%'));
+    d3.select("svg")
+        .datum( $scope.data)
+        .transition().duration(500).call(chart);
 
-  d3.select('#chart svg')
-    .datum( $scope.data)
-    .transition().duration(500)
-    .call(chart)
-    ;
+    nv.utils.windowResize(
+            function() {
+                chart.update();
+            }
+        );
 
-  nv.utils.windowResize(chart.update);
-
-  return chart;
+    return chart;
 });
          
         
